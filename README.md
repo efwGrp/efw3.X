@@ -2,12 +2,7 @@
 <a href="help/日本語/step_by_step.md">環境構築</a><br>
 <a href="help/日本語/file_list.md">ファイル一覧</a><br>
 <a href="help/日本語/api_list.md">API一覧</a><br>
-<pre>
-<b>方式</b>
+<h3>Correlation Diagram</h3>
 <img src="./help/veslayers.png"><br>
-<b>機能</b>
+<h3>Function Diagram</h3>
 <img src="./help/framework.png"><br>
-<b>制限</b>
-・JDK1.7 あるいは JDK1.8。
-・JQuery1 あるいは JQuery2。
-</pre>
