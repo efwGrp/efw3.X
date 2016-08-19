@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<sql id="previous">
+SELECT 個人コード FROM 個人情報
+<if exists="user_id">WHERE 個人コード &lt; :user_id</if>
+order by 個人コード desc OFFSET 0 LIMIT 1
+	</sql>
+	<sql id="next"> 
+<!-- これはコメント -->
+/**
+*コメント
+**/
+SELECT 個人コード 	//コメント　
+ FROM 個人情報 	--コメント
+<if exists="user_id">WHERE 個人コード >:user_id</if>
+order by 個人コード asc OFFSET 0 LIMIT 1 
+	</sql>
+	<sql id="seek">
+SELECT 個人情報.個人コード,
+個人情報.個人カナ氏名, 
+個人情報.個人漢字氏名, 
+個人情報.性別,
+個人情報.生年元号, 
+個人情報.生年月日, 
+個人情報.郵便番号, 
+個人情報.住所, 
+個人情報."自宅TEL", 
+個人情報."連絡先TEL", 
+個人情報.保険記号, 
+個人情報.保険番号, 
+個人情報.保険区分,
+個人情報.保険事務所, 
+個人情報.その他コード１, 
+個人情報.その他コード2, 
+個人情報.その他コード3, 
+個人情報."備考(※)"
+FROM 個人情報 where 個人コード = :user_id 
+	</sql>
+</sqls>

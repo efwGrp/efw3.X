@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<sql id="list">
+SELECT 
+検査項目番号, 
+b.項目名称,
+a.データタイプ,
+a.数値結果,
+a.文字結果,
+判定区分
+FROM 受診結果 a, 検査項目情報 b
+WHERE a.検査項目番号=b.項目コード and
+受診者コード = :user_id  and 
+受診日 = :visit_date  
+order by 検査項目番号
+	</sql>
+</sqls>

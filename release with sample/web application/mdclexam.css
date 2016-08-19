@@ -1,0 +1,45 @@
+
+*{
+	font-family: "ＭＳ Ｐゴシック";
+	font-size:12.6px;
+}
+table.data{
+	width: 100%;
+	border-collapse: collapse;
+	table-layout:fixed;
+}
+table.data tr{
+	height:20px;
+}
+table.data th{
+	padding: 2px;
+	text-align: left;
+	vertical-align: top;
+	background-color: #EFEFEF;
+	border: 1px solid silver;
+	font-weight:normal;
+}
+table.data td{
+	padding: 2px;
+	border: 1px solid silver;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	background-color:white;
+}
+table.list td{
+	border-top:none;
+}
+
+div.mytitle{
+	font-weight:bold;
+	height:20px;
+	margin-top:5px;
+	margin-bottom:5px;
+	padding-top:2px;
+	padding-left:2px;
+}
+#fielddialog td{
+	background-color:transparent!important;
+}
+

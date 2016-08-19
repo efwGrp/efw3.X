@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<sql id="seek">
+SELECT 
+受診者コード, 
+受診日, 
+受診コース, 
+コース番号1,
+コース番号2,
+コース番号3,
+コース番号4,
+コース番号5,
+コース番号6,
+コース番号7,
+コース番号8,
+コース番号9,
+コース番号10
+FROM オプション受診歴 AS a
+WHERE 受診者コード = :user_id  
+AND 受診日= :visit_date  
+	</sql>
+</sqls>

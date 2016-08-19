@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqls>
+	<sql id="list">
+SELECT 
+受診者コード, 
+受診日, 
+"印字・表示順番", 
+指示コメントの表題, 
+"指示コメント(※)", 
+コース番号
+FROM 指示指導情報
+WHERE 受診者コード = :user_id  
+AND 受診日= :visit_date  
+ORDER BY 受診者コード, 受診日, コース番号, 印字・表示順番
+	</sql>
+</sqls>

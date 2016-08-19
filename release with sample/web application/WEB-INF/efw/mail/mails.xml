@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mails>
+	<mail id="testmail">
+		<to>:to</to>
+		<cc></cc>
+		<bcc></bcc>
+		<subject>これはテストメール:nowdate</subject>
+		<body>
+:username さま
+お疲れ様です。テストメールを送信します。
+		</body>
+	</mail>
+</mails>
