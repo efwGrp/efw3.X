@@ -32,6 +32,7 @@ statistics_show.fire=function(params){
 		"secondMinForShow":["secondMin","###,##0.0"],
 	})
 	.seek("eventId","!like","statistics_%")
+	.seek("eventId","!eq","global")
 	.getArray();
 	//<button>Stop</button><button>Start</button><button>Reload</button>
 	return (new Result())

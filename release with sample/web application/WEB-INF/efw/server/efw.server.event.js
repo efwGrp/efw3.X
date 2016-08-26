@@ -41,11 +41,10 @@ EfwServerEvent.prototype.loadAll = function() {
  * The function to load a event.<br>
  * If the debug mode,load event every time.<br>
  * If the release mode, load event only the first time.<br>
- * If the event is diabled,throw error EventIsDisable.
  * 
  * @param {String}
  *            eventId: required<br>
- * @returns {Event}
+ * @returns {EventInfo}
  */
 EfwServerEvent.prototype.load = function(eventId) {
 	var eventInfo;
@@ -102,9 +101,7 @@ EfwServerEvent.prototype.load = function(eventId) {
 	} finally {
 		Event_lock.unlock();
 	}
-	if (!eventInfo.enable)
-		throw EfwServerMessages.prototype.EventIsDisable;
-	return eventInfo.event;
+	return eventInfo;
 };
 /**
  * The function to reload a event.
@@ -146,8 +143,7 @@ EfwServerEvent.prototype.stop = function(eventId) {
  * @param {Date}
  *            endTime: required<br>
  */
-EfwServerEvent.prototype.updateStatistics = function(eventId, flag, beginTime,
-		endTime) {
+EfwServerEvent.prototype.updateStatistics = function(eventId, flag, beginTime,endTime) {
 	Event_lock.lock();
 	try {
 		var eventInfo = EfwServerEvent.prototype._events[eventId];
@@ -178,35 +174,36 @@ EfwServerEvent.prototype.updateStatistics = function(eventId, flag, beginTime,
  */
 EfwServerEvent.prototype.getStatistics = function() {
 	Event_lock.lock();
+	var ret = [];
 	try {
-		var ret = [];
 		for ( var eventId in EfwServerEvent.prototype._events) {
-			if (eventId=="debug") continue;// debug function is skipped
-			var eventInfo = EfwServerEvent.prototype._events[eventId];
-			var statistics = {
-				"eventId" : eventId,
-				"enable" : eventInfo.enable,
-				"eventName" : eventInfo.event.name,
-				"errorCount" : eventInfo["error"].count,
-				"errorSum" : eventInfo["error"].sum,
-				"errorAvg" : eventInfo["error"].avg,
-				"errorMax" : eventInfo["error"].max,
-				"errorMin" : eventInfo["error"].min,
-				"firstCount" : eventInfo["first"].count,
-				"firstSum" : eventInfo["first"].sum,
-				"firstAvg" : eventInfo["first"].avg,
-				"firstMax" : eventInfo["first"].max,
-				"firstMin" : eventInfo["first"].min,
-				"secondCount" : eventInfo["second"].count,
-				"secondSum" : eventInfo["second"].sum,
-				"secondAvg" : eventInfo["second"].avg,
-				"secondMax" : eventInfo["second"].max,
-				"secondMin" : eventInfo["second"].min,
-			};
-			ret.push(statistics);
+			if (eventId!="debug"){// debug function is skipped
+				var eventInfo = EfwServerEvent.prototype._events[eventId];
+				var statistics = {
+					"eventId" : eventId,
+					"enable" : eventInfo.enable,
+					"eventName" : eventInfo.event.name,
+					"errorCount" : eventInfo["error"].count,
+					"errorSum" : eventInfo["error"].sum,
+					"errorAvg" : eventInfo["error"].avg,
+					"errorMax" : eventInfo["error"].max,
+					"errorMin" : eventInfo["error"].min,
+					"firstCount" : eventInfo["first"].count,
+					"firstSum" : eventInfo["first"].sum,
+					"firstAvg" : eventInfo["first"].avg,
+					"firstMax" : eventInfo["first"].max,
+					"firstMin" : eventInfo["first"].min,
+					"secondCount" : eventInfo["second"].count,
+					"secondSum" : eventInfo["second"].sum,
+					"secondAvg" : eventInfo["second"].avg,
+					"secondMax" : eventInfo["second"].max,
+					"secondMin" : eventInfo["second"].min,
+				};
+				ret.push(statistics);
+			}
 		}
-		return ret;
 	} finally {
 		Event_lock.unlock();
 	}
+	return ret;
 };

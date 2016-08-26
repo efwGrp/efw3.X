@@ -214,10 +214,9 @@ public final class efwServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setCharacterEncoding(RESPONSE_CHAR_SET);
-        String otherError="{\"error\":{\"errorType\":\"OtherErrorException\",\"canNotContinue\":true"+
-        		(systemErrorUrl.equals("")?"":",\"nextUrl\":\""+systemErrorUrl+"\"")
-        		+"}}";
-        String eventDisableError="{\"error\":{\"errorType\":\"EventDisableException\"}}";
+        String otherError="{\"_array\":[],\"_object\":{\"error\":{\"clientMessageId\":\"OtherErrorException\"}"+
+        		(systemErrorUrl.equals("")?"":",\"navigate\":{\"url\":\""+systemErrorUrl+"\"}")
+        		+",\"fail\":true}}";
 		//--------------------------------------------------------------------
         //if init is failed, return the info instead of throw exception
 		if (!efwServlet.initSuccessFlag){
@@ -241,12 +240,8 @@ public final class efwServlet extends HttpServlet {
 			response.getWriter().print(ScriptManager.doPost(request.getParameter("data")));
 			LogManager.CommDebug("efwServlet.doPost");
 		} catch (Exception e) {
-			if(e.getMessage().indexOf("EventIsDisable")>-1){
-				response.getWriter().print(eventDisableError);
-			}else{
-				LogManager.ErrorDebug(e.getMessage());
-				response.getWriter().print(otherError);
-			}
+			LogManager.ErrorDebug(e.getMessage());
+			response.getWriter().print(otherError);
 		}finally{
 			efwServlet.request.remove();
 		}

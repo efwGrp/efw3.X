@@ -1,7 +1,7 @@
-var mdclexam_inputcheck={};
-mdclexam_inputcheck.name="入力チェック";
-mdclexam_inputcheck.outOfLogin=true;
-mdclexam_inputcheck.paramsFormat={
+var sample_inputcheck={};
+sample_inputcheck.name="入力チェック";
+sample_inputcheck.outOfLogin=true;
+sample_inputcheck.paramsFormat={
 	"#txt_testtext":"required:true;display-name:テスト文字;max-length:5",
 	"#txt_testnumber":"format:#,##0.00;required:true;display-name:テスト数字;min:-10.00;max:1,000.00",
 	"#txt_testdate":
@@ -15,4 +15,6 @@ mdclexam_inputcheck.paramsFormat={
 			;
 		},
 };
-mdclexam_inputcheck.fire=function(params){};
+sample_inputcheck.fire=function(params){
+	return (new Result()).alert("入力は正しいです。");
+};

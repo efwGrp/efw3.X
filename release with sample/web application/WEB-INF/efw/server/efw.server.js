@@ -12,15 +12,11 @@ function EfwServer() {
  *            event object defined in your program.
  * @param requestParams:
  *            params from client.
- * @returns {null | Alert}<br>
+ * @returns {null | Result}<br>
  */
 EfwServer.prototype.check = function(event, requestParams) {
-	function _createMessage(msg, pattern, value) { // create message
-		var regex = new RegExp(pattern, "g");
-		return msg.replace(regex, value);
-	}
 	function _check(pms, fts, parentkey) { // required,format,display-name,max-length,min,max,
-		var ret = [];
+		var result = new Result();
 		if (parentkey != null && parentkey != "")
 			parentkey += " ";// in order for the space, parentkey+" "+sonkey"
 		for ( var key in fts) { // check requestParams by every format define
@@ -33,14 +29,14 @@ EfwServer.prototype.check = function(event, requestParams) {
 				if (param != null) {
 					// loop it to validate items in the array
 					for (var i = 0; i < paramdef.length; i++) {
-						ret = ret.concat(_check(param[i], paramdef[0],
+						result = result.concat(_check(param[i], paramdef[0],
 								parentkey + key + ":eq(" + i + ")"));
 					}
 				}
 			} else if (typeof paramdef === "object") {
 				// if format define is object check it
 				if (param != null) { // validate attributes in the object
-					ret = ret.concat(_check(param, paramdef, parentkey + key));
+					result = result.concat(_check(param, paramdef, parentkey + key));
 				}
 			} else if (typeof paramdef == "string") {
 				// if paramdef is string ,it means validators
@@ -73,12 +69,10 @@ EfwServer.prototype.check = function(event, requestParams) {
 				if ((param == null || param == "") && required == "true") {
 					// if data is not inputed check required
 					var message = EfwServerMessages.prototype.IsRequiredMessage;
-					message = _createMessage(message, "{display-name}",
-							displayName);
-					ret.push({
-						errorMessage : message,
-						element : errorElementKey
-					});
+					result.alert(message,{"display-name":displayName})
+					.highlight(errorElementKey)
+					.focus(errorElementKey)
+					.fail();
 					continue;
 				} else if (param != null && param != "" && format != null
 						&& format != "") {
@@ -106,12 +100,10 @@ EfwServer.prototype.check = function(event, requestParams) {
 						}
 					} catch (e) {
 						var message = requriedMessage;
-						message = _createMessage(message, "{display-name}",
-								displayName);
-						ret.push({
-							errorMessage : message,
-							element : errorElementKey
-						});
+						result.alert(message,{"display-name":displayName})
+						.highlight(errorElementKey)
+						.focus(errorElementKey)
+						.fail();
 						continue;
 					}
 				} else if (param != null && param != "") {
@@ -122,14 +114,10 @@ EfwServer.prototype.check = function(event, requestParams) {
 					// check max length
 					if (maxLengthv != null && param.length > maxLengthv) {
 						var message = EfwServerMessages.prototype.MaxLengthOverMessage;
-						message = _createMessage(message, "{display-name}",
-								displayName);
-						message = _createMessage(message, "{max-length}",
-								maxLength);
-						ret.push({
-							errorMessage : message,
-							element : errorElementKey
-						});
+						result.alert(message,{"display-name":displayName,"max-length":maxLength})
+						.highlight(errorElementKey)
+						.focus(errorElementKey)
+						.fail();
 						continue;
 					}
 					if (accept != null) { // check file ext
@@ -144,12 +132,10 @@ EfwServer.prototype.check = function(event, requestParams) {
 						}
 						if (!isAccepted) {
 							var message = EfwServerMessages.prototype.NotAcceptMessage;
-							message = _createMessage(message, "{display-name}",
-									displayName);
-							ret.push({
-								errorMessage : message,
-								element : errorElementKey
-							});
+							result.alert(message,{"display-name":displayName})
+							.highlight(errorElementKey)
+							.focus(errorElementKey)
+							.fail();
 							continue;
 						}
 					}
@@ -177,49 +163,37 @@ EfwServer.prototype.check = function(event, requestParams) {
 							message = EfwServerMessages.prototype.MaxOverMessage;
 					}
 					if (message != null) {
-						message = _createMessage(message, "{display-name}",
-								displayName);
-						message = _createMessage(message, "{min}", min);
-						message = _createMessage(message, "{max}", max);
-						if (value.toFixed)
-							message = _createMessage(message, "{data-type}",
-									EfwServerMessages.prototype.NumberType);
-						else if (value.getTime)
-							message = _createMessage(message, "{data-type}",
-									EfwServerMessages.prototype.DateType);
-						else
-							message = _createMessage(message, "{data-type}",
-									EfwServerMessages.prototype.StringType);
-						ret.push({
-							errorMessage : message,
-							element : errorElementKey
-						});
+						var dataType="";
+						if (value.toFixed){
+							dataType=EfwServerMessages.prototype.NumberType;
+						}else if (value.getTime){
+							dataType=EfwServerMessages.prototype.DateType;
+						}else{
+							dataType=EfwServerMessages.prototype.StringType;
+						}
+						result.alert(message,{
+							"display-name":displayName,
+							"min":min,
+							"max":max,
+							"data-type":dataType,
+						})
+						.highlight(errorElementKey)
+						.focus(errorElementKey)
+						.fail();
 						continue;
 					}
 				}
 			}
 		}
-		return ret;
+		return result;
 	}
 
 	// clone the paramsFormat, if function exists, it will be run.
 	var paramsFormat = JSON.clone(event.paramsFormat);
-	var validateError = _check(requestParams, paramsFormat, "");// check params
-	if (validateError.length > 0) { // if error, ceate error message
-		// remove upload files from temp
-		Packages.efw.file.FileManager.removeUploadFiles();
-		var errmsg = "";
-		var elements = "";
-		for (var i = 0; i < validateError.length; i++) {
-			errmsg += validateError[i].errorMessage + "\n";
-			if (i > 0) {
-				elements += ",";
-			}
-			elements += validateError[i].element;
-		}
-		var fcsto = validateError[0].element;
-		return (new Alert(errmsg)).focusTo(fcsto).highlight(elements);
-	} else {
+	var result= _check(requestParams, paramsFormat, "");
+	if (result._object.alert){
+		return result;
+	}else{
 		return null;
 	}
 };
@@ -230,7 +204,7 @@ EfwServer.prototype.check = function(event, requestParams) {
  *            event object defined in your program.
  * @param requestParams:
  *            params from client.
- * @returns {null | Result | Alert | Download | Event}
+ * @returns {null | Result | Event}
  */
 EfwServer.prototype.fire = function(event, requestParams) {
 	var needlogincheck = EfwServerProperties.prototype
@@ -239,19 +213,16 @@ EfwServer.prototype.fire = function(event, requestParams) {
 	if (needlogincheck && !event.outOfLogin) { // the login check
 		var vl = EfwServerSession.prototype.get(loginkey);
 		if (vl == null || vl == "") {
-			var ret = new Alert(
-					EfwServerMessages.prototype.SessionTimeoutException);
-			var loginUrl = EfwServerProperties.prototype.get("efw.login.url",
-					"");
-			if (loginUrl != "")
-				ret = ret.nevigateTo(loginUrl);
-			return ret;
+			var result=(new Result())
+			.alert(EfwServerMessages.prototype.SessionTimeoutException);
+			var loginUrl = EfwServerProperties.prototype.get("efw.login.url","");
+			if (loginUrl != "")result.navigate(loginUrl);
+			return result;
 		}
 	}
 	EfwServerDb.prototype.open(); // open database
-
 	try {
-		result = event.fire(requestParams);
+		var result = event.fire(requestParams);
 		if (result != null && result["_object"] != null
 				&& result["_object"]["download"] != null) {// save download
 			// info to session

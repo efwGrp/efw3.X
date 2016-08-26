@@ -46,9 +46,8 @@
         refresh();
     }
 	function refresh(){
-		efw.client.fire({eventId:"statistics_show",
-			manualParams:{"sortItem":sortItem,"sortAction":sortAction},
-			success:function(data){
+		Efw("statistics_show",{"sortItem":sortItem,"sortAction":sortAction},
+			function(values,actions){
 				$("#tbl_statistics input").button();
 				var chardata=[];
 				var head_data=["eventName"];
@@ -61,7 +60,7 @@
 					head_data_show.push(head_data[i].replace("event","Event ").replace("error","E ").replace("second","S "));
 				};
 				chardata.push(head_data_show);
-				var sourceArray=data[0]["withdata"];
+				var sourceArray=values[0]["withdata"];
 				for(var i=0;i<sourceArray.length;i++){
 					var s=sourceArray[i];
 					var d=[];
@@ -74,8 +73,8 @@
 		        chart.draw(google.visualization.arrayToDataTable(chardata), options);
 				if(refresh_handle!=null)window.clearTimeout(refresh_handle);
 				refresh_handle=window.setTimeout(refresh, 5000);
-			},
-		});
+			}
+		);
 	}
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
@@ -83,25 +82,13 @@
 	//Operation
 	//-------------------------------------------------------------------------
 	function stopEvent(eventId){
-		efw.client.fire({
-			eventId:"statistics_stop",
-			"manualParams":{"eventId":eventId},
-			success:refresh,
-		});
+		Efw("statistics_stop",{"eventId":eventId},refresh);
 	}
 	function startEvent(eventId){
-		efw.client.fire({
-			eventId:"statistics_start",
-			"manualParams":{"eventId":eventId},
-			success:refresh,
-		});
+		Efw("statistics_start",{"eventId":eventId},refresh);
 	}
 	function reloadEvent(eventId){
-		efw.client.fire({
-			eventId:"statistics_reload",
-			"manualParams":{"eventId":eventId},
-			success:refresh,
-		});
+		Efw("statistics_reload",{"eventId":eventId},refresh);
 	}
 	
   	</script>

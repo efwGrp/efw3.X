@@ -1,15 +1,15 @@
-var mdclexam_upload={};
-mdclexam_upload.name="ファイルアップロード";
-mdclexam_upload.outOfLogin=true;
-mdclexam_upload.paramsFormat={
+var sample_upload={};
+sample_upload.name="ファイルアップロード";
+sample_upload.outOfLogin=true;
+sample_upload.paramsFormat={
 	"#txt_file1":"required:true;display-name:ファイル１;accept:xls;",
 	"#txt_file2":"display-name:ファイル２;accept:XLS,xlsx;",
 };
-mdclexam_upload.fire=function(params){
+sample_upload.fire=function(params){
 	efw.server.file.saveUploadFiles("");
 	
 	return (new Result)
 		.runat("body")
 		.withdata({"#txt_file1":"","#txt_file2":"",})
-		.concat(mdclexam_showfiles.fire(params));
+		.concat(new Event("sample_showfiles",params));
 };

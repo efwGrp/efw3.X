@@ -1,6 +1,6 @@
 @echo off
 set WEBHOME=..\..\..
-set PROPERTIES=.\mdclexam_brmstest.properties
+set PROPERTIES=.\sample_brmstest.properties
 set LIB=%WEBHOME%\WEB-INF\lib
 set CLASSPATH=%WEBHOME%\WEB-INF\classes
 set CLASSPATH=%CLASSPATH%;%LIB%\efw-3.0.000.jar
@@ -16,5 +16,5 @@ set CLASSPATH=%CLASSPATH%;%LIB%/innorulesj.jar
 set CLASSPATH=%CLASSPATH%;%LIB%/innoutils.jar
 set CLASSPATH=%CLASSPATH%;%LIB%/log4j-1.2.16.jar
 
-java -Dinnoexpert.home=%WEBHOME%\WEB-INF\confb efw.efwBatch "{\"eventId\":\"mdclexam_brmstest\",\"params\":{\"#txt_param1\":\"a\",\"#txt_param2\":\"b\",}}"
+java -Dinnoexpert.home=%WEBHOME%\WEB-INF\confb efw.efwBatch "{\"eventId\":\"sample_brmstest\",\"params\":{\"#txt_param1\":\"a\",\"#txt_param2\":\"b\",}}"
 pause

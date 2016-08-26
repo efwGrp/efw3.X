@@ -7,11 +7,11 @@ var EfwClientMessages = function() {
 };
 EfwClientMessages.prototype = {
 	OtherErrorException : "予想外エラーが発生しました。",
-	CanNotContinueMessage : "継続処理はできません。",
-	ParamsFormatErrorException : "イベントのパラメーター定義は正しくありません。",
-	ShowValuesErrorException : "描画用のデータは正しくありません。",
-	SuccessCallbackErrorException : "成功時コールバックは正しくありません。",
-	ReturnIsNotArrayErrorException : "サーバー処理の戻り値は配列ではありません。",
-	EventDisableException : "該当イベントは一時無効に設定されました。",
+	CommunicationErrorException : "通信エラーが発生しました。\n\neventId={eventId}",
+	RuntimeErrorException : "実行時エラーが発生しました。\n\neventId={eventId}\nmessage={message}",
+	ParamsFormatErrorException : "イベントのパラメーター定義は正しくありません。\n\neventId={eventId}",
+	ResultValuesErrorException : "描画用のデータは正しくありません。\n\neventId={eventId}",
+	ResultActionsErrorException : "動作用のデータは正しくありません。\n\neventId={eventId}",
+	SuccessCallbackErrorException : "成功時コールバックは正しくありません。\n\neventId={eventId}",
 };
 

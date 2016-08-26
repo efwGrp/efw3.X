@@ -7,8 +7,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 /**
  * The Efw class
+ * Efw(eventId)<br>
+ * Efw(eventId,manualParams)<br>
+ * Efw(eventId,success)<br>
+ * Efw(eventId,manualParams,success)<br>
+ * <br>
+ * success=function(values,actions){}
  */
-var Efw = function() {
+var Efw = function(eventId,manualParams,success) {
+	if(eventId!=undefined){
+		var eventParams={"eventId":eventId};
+		if(typeof manualParams =="function" && success==null) {
+			eventParams.success=manualParams;
+		}else{
+			eventParams.manualParams=manualParams;
+			eventParams.success=success;
+		}
+		efw.client.fire(eventParams);
+	}
 };
 Efw.prototype.client=new EfwClient();
 EfwClient.prototype.format = new EfwClientFormat();

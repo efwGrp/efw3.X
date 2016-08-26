@@ -1,8 +1,8 @@
-var mdclexam_showfiles={};
-mdclexam_showfiles.name="ファイル表示";
-mdclexam_showfiles.outOfLogin=true;
-mdclexam_showfiles.paramsFormat={};
-mdclexam_showfiles.fire=function(params){
+var sample_showfiles={};
+sample_showfiles.name="ファイル表示";
+sample_showfiles.outOfLogin=true;
+sample_showfiles.paramsFormat={};
+sample_showfiles.fire=function(params){
 	var data1=efw.server.file.listFiles("");//storageフォルダのファイルを全部リストする
 	var data2=efw.server.file.listFolders("");//storageフォルダのファイルを全部リストする
 	var data=(new Record(data1.concat(data2)))

@@ -115,7 +115,7 @@ efwClientInputBehavior.prototype.DoFormatFocus = function() {
 	}
 	if (this.selectionStart) {
 		this.selectionStart = this.selectionEnd = this.value.length;
-	} else {
+	} else if(this.createTextRange) {
 		this.createTextRange().select();
 	}
 };

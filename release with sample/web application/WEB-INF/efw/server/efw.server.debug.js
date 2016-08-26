@@ -119,22 +119,6 @@ Select.prototype.debug = function(label) {
 	java.lang.System.out.println("records:"+JSON.stringify(this._array));
 	return this;
 };
-Alert.prototype.debug = function(label) {
-	if (!label)
-		label = "";
-	java.lang.System.out.println("-----" + label + "-----");
-	java.lang.System.out.println("This is an instance of Alert class.");
-	java.lang.System.out.println("object:"+JSON.stringify(this._object));
-	return this;
-};
-Download.prototype.debug = function(label) {
-	if (!label)
-		label = "";
-	java.lang.System.out.println("-----" + label + "-----");
-	java.lang.System.out.println("This is an instance of Download class.");
-	java.lang.System.out.println("object:"+JSON.stringify(this._object));
-	return this;
-};
 Event.prototype.debug = function(label) {
 	if (!label)
 		label = "";
@@ -142,7 +126,8 @@ Event.prototype.debug = function(label) {
 	java.lang.System.out.println("This is an instance of Event class.");
 	java.lang.System.out.println("eventId:"+this.eventId);
 	java.lang.System.out.println("params:"+JSON.stringify(this.params));
-	java.lang.System.out.println("result:"+JSON.stringify(this._array));
+	java.lang.System.out.println("result values:"+JSON.stringify(this._array));
+	java.lang.System.out.println("result actions:"+JSON.stringify(this._object));
 	return this;
 };
 Result.prototype.debug = function(label) {
@@ -150,6 +135,7 @@ Result.prototype.debug = function(label) {
 		label = "";
 	java.lang.System.out.println("-----" + label + "-----");
 	java.lang.System.out.println("This is an instance of Result class.");
-	java.lang.System.out.println("result:"+JSON.stringify(this._array));
+	java.lang.System.out.println("result values:"+JSON.stringify(this._array));
+	java.lang.System.out.println("result actions:"+JSON.stringify(this._object));
 	return this;
 };

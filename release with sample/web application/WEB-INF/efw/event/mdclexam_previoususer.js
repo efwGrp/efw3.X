@@ -17,6 +17,6 @@ mdclexam_previoususer.fire=function(params){
 			.withdata(rsUserinfo)
 			.concat(new Event("mdclexam_seekuser",rsUserinfo));
 	}else{
-		return new Alert("前のユーザはありません。");
+		return (new Result()).alert("前のユーザはありません。");
 	}
 };

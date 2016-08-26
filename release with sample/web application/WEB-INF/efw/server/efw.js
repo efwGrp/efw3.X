@@ -95,8 +95,6 @@ load(_serverfolder + "/efw.server.operating.rule.js");
 load(_serverfolder + "/efw.server.operating.mail.js");
 load(_serverfolder + "/efw.server.return.result.js");
 load(_serverfolder + "/efw.server.return.event.js");
-load(_serverfolder + "/efw.server.return.alert.js");
-load(_serverfolder + "/efw.server.return.download.js");
 load(_serverfolder + "/efw.server.debug.js");
 /**
  * Add all classes in server package
@@ -131,7 +129,7 @@ efw.server.event.loadAll();
  * Run global event.
  */
 if (efw.server.event.load("global") != null)
-	efw.server.fire(efw.server.event.load("global"));
+	efw.server.fire(efw.server.event.load("global").event);
 // /////////////////////////////////////////////////////////////////////////////
 /**
  * The ajax service function<br>
@@ -145,39 +143,48 @@ function doPost(req) {
 	var reqJson = JSON.parse(req); // parse request string to json object
 	var eventId = reqJson.eventId; // get eventId from json object
 	var params = reqJson.params; // get params from json object
-	var event = efw.server.event.load(eventId); // to load or get a event
-	var beginTime = new Date(); // the begin time of event calling
-	if (params == null) {
-		var ret = JSON.stringify(JSON.clone(event.paramsFormat));
-		var endTime = new Date(); // the end time of event first calling
-		EfwServerEvent.prototype.updateStatistics(eventId, "first", beginTime,
-				endTime);
-		return ret;
-	} else {
-		var ret = EfwServer.prototype.check(event, params);
-		var fireFlag = "error"; // the second calling is error
-		try {
-			if (ret == null)
-				ret = EfwServer.prototype.fire(event, params);
-			fireFlag = "second"; // the second calling is success
-		} finally {
-			var endTime = new Date(); // the end time of event second calling
-			EfwServerEvent.prototype.updateStatistics(eventId, fireFlag,
-					beginTime, endTime);
+	try{
+		var eventInfo = efw.server.event.load(eventId); // to load or get a event
+		if(eventInfo.enable==false){
+			var message=EfwServerMessages.prototype.EventDisableMessage;
+			return JSON.stringify(
+					(new Result())
+					.alert(message,{"eventId":eventId})
+					.fail());
 		}
-		// if it is null, return blank array to client as a success
-		if (ret == null) {
-			return "[]";
+		var event=eventInfo.event;
+		var beginTime = new Date(); // the begin time of event calling
+		if (params == null) {
+			var ret = JSON.stringify(JSON.clone(event.paramsFormat));
+			var endTime = new Date(); // the end time of event first calling
+			EfwServerEvent.prototype.updateStatistics(eventId, "first", beginTime,
+					endTime);
+			return ret;
 		} else {
-			if (ret["_array"] != null) { // if it is array, take array data
-				ret = ret["_array"];
-
-			} else if (ret["_object"] != null) {
-				// if it is object, take object data
-				ret = ret["_object"];
+			var ret = EfwServer.prototype.check(event, params);
+			var fireFlag = "error"; // the second calling is error
+			try {
+				if (ret == null)
+					ret = EfwServer.prototype.fire(event, params);
+				fireFlag = "second"; // the second calling is success
+			} finally {
+				var endTime = new Date(); // the end time of event second calling
+				EfwServerEvent.prototype.updateStatistics(eventId, fireFlag,
+						beginTime, endTime);
 			}
+			// if it is null, return blank array to client as a success
+			if (ret == null) ret=new Result();
 			// change data to string and return it to client
 			return JSON.stringify(ret);
 		}
+	}catch(e){
+		var result=(new Result())
+		.error("RuntimeErrorException", {"eventId":eventId,"message":e.message})
+		.fail();
+		var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","");
+		if (systemErrorUrl!=""){
+			result.navigate(systemErrorUrl);
+		}
+		return JSON.stringify(result);
 	}
 };

@@ -43,28 +43,24 @@ EfwClient.prototype.fire = function(eventParams) {
 				"eventId" : eventId
 			})
 		},
-
-		success : function(data) {
-			EfwClient.prototype._consoleLog("First calling result", data);
-			// if it is success,the data must be a json object.
-			if (data.error) {// if it is error from efw server side
-				EfwClient.prototype._returnAlert(data.error, eventId);
-				if (data.error.canNotContinue == undefined
-						|| data.error.canNotContinue == false) {
-					EfwClient.prototype._removeLoading();
-				}
-			} else {// if no error, run the second fire
-				EfwClient.prototype._fire2nd(eventId, data, manualParams,
+		success : function(result) {
+			EfwClient.prototype._consoleLog("First calling result", result);
+			// if it is success,the result must be a json object.
+			if (result._object){
+				EfwClient.prototype._showActions(result._object);
+				if(result._object.error==null)EfwClient.prototype._removeLoading();
+			} else {// if no error, run the second fire, in this case , result is paramsFormat
+				EfwClient.prototype._fire2nd(eventId, result, manualParams,
 						successCallback, servletUrl, uploadUrl);
 			}
 		},
 		error : function(errorResponse, errorType, errorMessage) {
-			var e = {};
-			e.errorResponse = errorResponse;
-			e.errorType = errorType;
-			e.errorMessage = errorMessage;
-			EfwClient.prototype._consoleLog("First calling error", e);
-			EfwClient.prototype._returnAlert(e, eventId);
+			EfwClient.prototype._consoleLog("First calling error", {
+				"errorResponse":errorResponse,
+				"errorType":errorType,
+				"errorMessage":errorMessage,
+			});
+			EfwClient.prototype._showActions({"error":{"clientMessageId":"CommunicationErrorException","params":{"eventId":eventId}}});
 		}
 	});
 };
@@ -121,142 +117,65 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams,
 		// the first calling return data is paramsformat,use it to get params
 		var params = EfwClient.prototype._pickupParams(paramsFormat, null,
 				manualParams);
+		EfwClient.prototype._consoleLog("Second calling parameters", params);
 	} catch (e) {
 		EfwClient.prototype._consoleLog("Params format error", e);
 		// the params can not be pickup, it is program error.
-		EfwClient.prototype._returnAlert({
-			errorType : "ParamsFormatErrorException",
-			canNotContinue : true
-		}, eventId);
+		EfwClient.prototype._showActions({"error":{"clientMessageId":"ParamsFormatErrorException","params":{"eventId":eventId}}});
 		return;
 	}
-	EfwClient.prototype._consoleLog("Second calling parameters", params);
 	// the second calling
 	// ---------------------------------------------------------------------
 	var callSecondAjax = function() {
-		$
-				.ajax({
-					url : servletUrl,
-					type : "POST",// post method
-					cache : false,// don't use cache
-					async : true,// don't use async
-					dataType : "json",// send or get data by json type
-					// first calling only send groupid and eventid
-					data : {
-						"data" : JSON.stringify({
-							"eventId" : eventId,
-							"params" : params
-						})
-					},
-					success : function(data) {
-						EfwClient.prototype._consoleLog(
-								"Second calling result", data);
-						if ($.type(data) == "array") {
-							try {
-								EfwClient.prototype._showValues(data);
-							} catch (e) {
-								EfwClient.prototype._consoleLog(
-										"Second calling error", e);
-								EfwClient.prototype._returnAlert({
-									errorType : "ShowValuesErrorException",
-									canNotContinue : true
-								}, eventId);
-								return;
-							}
-							try {
-								if (successCallback)
-									successCallback(data);
-								EfwClient.prototype._removeLoading();
-							} catch (msg) {
-								var e = {};
-								e.errorType = "success function";
-								e.errorMessage = msg;
-								EfwClient.prototype._consoleLog(
-										"Success function error", e);
-								EfwClient.prototype
-										._returnAlert(
-												{
-													errorType : "SuccessCallbackErrorException",
-													canNotContinue : true
-												}, eventId);
-							}
-						} else {
-							if (data.download) {// about filename encode, efw
-								// has not do anything .
-								var downloadUrl = "downloadServlet";
-								window.location = downloadUrl;
-								var downloadHandle = null;
-								downloadHandle = window
-										.setInterval(
-												function() {
-													if (Cookies
-															.get("efw_Downloaded")) {
-														window
-																.clearInterval(downloadHandle);
-														Cookies
-																.remove(
-																		"efw_Downloaded",
-																		{
-																			path : "/"
-																		});
-														try {
-															if (successCallback)
-																successCallback(data);
-															EfwClient.prototype
-																	._removeLoading();
-														} catch (msg) {
-															var e = {};
-															e.errorType = "success function";
-															e.errorMessage = msg;
-															EfwClient.prototype
-																	._consoleLog(
-																			"Success function error",
-																			e);
-															EfwClient.prototype
-																	._returnAlert(
-																			{
-																				errorType : "SuccessCallbackErrorException",
-																				canNotContinue : true
-																			},
-																			eventId);
-														}
-													}
-												}, 1000);
-							} else if (data.error) {// if error is returned
-								EfwClient.prototype._returnAlert(data.error,
-										eventId);
-								if (data.error.canNotContinue == undefined
-										|| data.error.canNotContinue == false) {
-									EfwClient.prototype._removeLoading();
-								}
-							} else if (data.alert) {// if alert is returned
-								EfwClient.prototype._returnAlert(data.alert);
-								EfwClient.prototype._removeLoading();
-							} else {
-								var e = {};
-								e.errorType = "data type";
-								e.errorMessage = "The second calling return is not an array.";
-								EfwClient.prototype._consoleLog(
-										"Second calling error", e);
-								EfwClient.prototype
-										._returnAlert(
-												{
-													errorType : "ReturnIsNotArrayErrorException",
-													canNotContinue : true
-												}, eventId);
-							}
-						}
-					},
-					error : function(errorResponse, errorType, errorMessage) {
-						var e = {};
-						e.errorResponse = errorResponse;
-						e.errorType = errorType;
-						e.errorMessage = errorMessage;
-						EfwClient.prototype._consoleLog("Second calling error",
-								e);
-						EfwClient.prototype._returnAlert(e, eventId);
-					}
+		$.ajax({
+			url : servletUrl,
+			type : "POST",// post method
+			cache : false,// don't use cache
+			async : true,// don't use async
+			dataType : "json",// send or get data by json type
+			// first calling only send groupid and eventid
+			data : {
+				"data" : JSON.stringify({
+					"eventId" : eventId,
+					"params" : params
+				})
+			},
+			success : function(result) {
+				EfwClient.prototype._consoleLog(
+						"Second calling result", result);
+				//show values
+				try {
+					EfwClient.prototype._showValues(result._array);
+				} catch (e) {
+					EfwClient.prototype._consoleLog(
+							"Result values error", e);
+					EfwClient.prototype._showActions({"error":{"clientMessageId":"ResultValuesErrorException","params":{"eventId":eventId}}});
+					return;
+				}
+				//show actions
+				try {
+					EfwClient.prototype._showActions(result._object);
+					if(result._object.error==null)EfwClient.prototype._removeLoading();
+				} catch (e) {
+					EfwClient.prototype._consoleLog(
+							"Result actions error", e);
+					EfwClient.prototype._showActions({"error":{"clientMessageId":"ResultActionsErrorException","params":{"eventId":eventId}}});
+					return;
+				}					
+				//call back
+				if (successCallback&&result._object.fail==null&&result._object.error==null){
+					EfwClient.prototype._doSuccessCallback(eventId,result,successCallback);
+				}
+			},
+			error : function(errorResponse, errorType, errorMessage) {
+				EfwClient.prototype._consoleLog("Second calling error", {
+					"errorResponse":errorResponse,
+					"errorType":errorType,
+					"errorMessage":errorMessage,
 				});
+				EfwClient.prototype._showActions({"error":{"clientMessageId":"CommunicationErrorException","params":{"eventId":eventId}}});
+			}
+		});
 	};
 	// upload files
 	// ---------------------------------------------------------------------
@@ -275,12 +194,12 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams,
 				callSecondAjax();
 			},
 			error : function(errorResponse, errorType, errorMessage) {
-				var e = {};
-				e.errorResponse = errorResponse;
-				e.errorType = errorType;
-				e.errorMessage = errorMessage;
-				EfwClient.prototype._consoleLog("Second calling error", e);
-				EfwClient.prototype._returnAlert(e, eventId);
+				EfwClient.prototype._consoleLog("Uploading error", {
+					"errorResponse":errorResponse,
+					"errorType":errorType,
+					"errorMessage":errorMessage,
+				});
+				EfwClient.prototype._showActions({"error":{"clientMessageId":"CommunicationErrorException","params":{"eventId":eventId}}});
 			}
 		});
 		EfwClient.prototype._pickupParams_uploadformdata = null;// reset it for
@@ -366,18 +285,10 @@ EfwClient.prototype._pickupParams = function(paramsFormat, context,
 					}
 				}
 				if (!isMatched) {
-					var e = {};
-					e.errorType = "not matched";
-					e.errorMessage = "'" + key
-							+ "' is not matched to any element.";
-					throw e;
+					throw "'" + key + "' is not matched to any element.";
 				}
 			} else {
-				var e = {};
-				e.errorType = "not matched";
-				e.errorMessage = "'" + key
-						+ "' can not be matched to multiple elements.";
-				throw e;
+				throw "'" + key + "' can not be matched to multiple elements.";
 			}
 		} else if ($.type(format) == "array") {
 			if ($.type(format[0]) == "object") {
@@ -389,21 +300,13 @@ EfwClient.prototype._pickupParams = function(paramsFormat, context,
 						});
 				vl = ary;
 			} else {
-				var e = {};
-				e.errorType = "not matched";
-				e.errorMessage = "'" + key
-						+ "' in params format should be an object.";
-				throw e;
+				throw "'" + key + "' in params format should be an object.";
 			}
 		} else if ($.type(format) == "object") {
 			vl = EfwClient.prototype._pickupParams(format, element,
 					manualParams);
 		} else {
-			var e = {};
-			e.errorType = "not matched";
-			e.errorMessage = "'" + key
-					+ "' in params format can not be a simple data.";
-			throw e;
+			throw "'" + key + "' in params format can not be a simple data.";
 		}
 		data[key] = vl;
 	}
@@ -411,14 +314,15 @@ EfwClient.prototype._pickupParams = function(paramsFormat, context,
 };
 /**
  * The internal function to show values to web.
- * @param eventResult
+ * @param values
  */
-EfwClient.prototype._showValues = function(eventResult) {
+EfwClient.prototype._showValues = function(values) {
+	if ((values instanceof Array) ==false) throw "The return values must be an array.";
 	// return value to html
 	// ---------------------------------------------------------------------
-	// ret.data is array of running data sample
-	for (var running_idx = 0; running_idx < eventResult.length; running_idx++) {
-		var running = eventResult[running_idx];
+	// values is array of running data sample
+	for (var running_idx = 0; running_idx < values.length; running_idx++) {
+		var running = values[running_idx];
 		// "runat" must match only one html object.
 		var attr_runat = running["runat"];
 		if (attr_runat == null || attr_runat == "")
@@ -436,18 +340,15 @@ EfwClient.prototype._showValues = function(eventResult) {
 		// if appendmask is nothing the withdata must be object
 		// -----------------------------------------------------------------
 		if (attr_appendmask == "" || attr_appendmask == null) {
-			// if return data is nothing, then do nothing
+			// if withdata is nothing, then do nothing
 			if (withdata == null) {
-				continue;
-				// if return data is not object, then error
+				//continue;
+				// if withdata is not object, then error
 			} else if ($.type(withdata) != "object") {
-				var e = {};
-				e.errorType = "not matched";
-				e.errorMessage = "If without appendmask,the withdata for [runat="
+				throw "If without appendmask,the withdata for [runat="
 						+ attr_runat + "] should be an object.";
-				throw e;
 			} else {
-				// try to set the data in withdata by the key.
+				// try to show the data in withdata by the key.
 				for ( var withdata_key in withdata) {
 					var data = withdata[withdata_key];
 					if (data == null)
@@ -455,122 +356,206 @@ EfwClient.prototype._showValues = function(eventResult) {
 					if ($.type(data) != "string" && $.type(data) != "number"
 							&& $.type(data) != "date"
 							&& $.type(data) != "boolean") {
-						var e = {};
-						e.errorType = "not matched";
-						e.errorMessage = "The data " + data
+						throw "The data " + data
 								+ " in withdata of [runat=" + attr_runat
 								+ "] should be a simple type.";
-						throw e;
 					}
 					// you can only set data to the html range of runat
 					// you can not set data both in and out of runat
-					$(withdata_key, $(runat))
-							.each(
-									function() {
-										if ( // set data to value
-										(this.tagName == "INPUT" && this.type == "text")
-												|| (this.tagName == "INPUT" && this.type == "password")
-												|| (this.tagName == "INPUT" && this.type == "button")
-												|| (this.tagName == "INPUT" && this.type == "hidden")
-												|| (this.tagName == "INPUT" && this.type == "file")
-												|| (this.tagName == "TEXTAREA")) {
-											$(this).val(data);
-										} else if (// set data with checked
-										// attribute
-										(this.tagName == "INPUT" && this.type == "checkbox")
-												|| (this.tagName == "INPUT" && this.type == "radio")) {
-											if (withdata[withdata_key] == $(
-													this).val()) {
-												$(this).prop("checked", true);
-											} else {
-												$(this).prop("checked", false);
-											}
-										} else if (this.tagName == "SELECT") {// set
-											// data
-											// with
-											// selected
-											// attribute
-											var dataAry = ("" + data)
-													.split(",");
-											$("option", $(this)).removeAttr(
-													"selected");
-											for (var dataAry_idx = 0; dataAry_idx < dataAry.length; dataAry_idx++) {
-												$("option", $(this))
-														.each(
-																function() {
-																	if (this.value == dataAry[dataAry_idx]) {
-																		this.selected = true;
-																	}
-																});
-											}
-										} else {// set data to text
-											$(this).text(data);
-										}
-									});
+					$(withdata_key, $(runat)).each(function() {
+						if ( // set data to value
+						(this.tagName == "INPUT" && this.type == "text")
+								|| (this.tagName == "INPUT" && this.type == "password")
+								|| (this.tagName == "INPUT" && this.type == "button")
+								|| (this.tagName == "INPUT" && this.type == "hidden")
+								|| (this.tagName == "INPUT" && this.type == "file")
+								|| (this.tagName == "TEXTAREA")) {
+							$(this).val(data);
+						} else if (// set data with checked
+						// attribute
+						(this.tagName == "INPUT" && this.type == "checkbox")
+								|| (this.tagName == "INPUT" && this.type == "radio")) {
+							if (withdata[withdata_key] == $(
+									this).val()) {
+								$(this).prop("checked", true);
+							} else {
+								$(this).prop("checked", false);
+							}
+						} else if (this.tagName == "SELECT") {// set
+							// data
+							// with
+							// selected
+							// attribute
+							var dataAry = ("" + data)
+									.split(",");
+							$("option", $(this)).removeAttr(
+									"selected");
+							for (var dataAry_idx = 0; dataAry_idx < dataAry.length; dataAry_idx++) {
+								$("option", $(this))
+										.each(
+												function() {
+													if (this.value == dataAry[dataAry_idx]) {
+														this.selected = true;
+													}
+												});
+							}
+						} else {// set data to text
+							$(this).text(data);
+						}
+					});
 				}
 			}
 			// -----------------------------------------------------------------
 		} else {
 			if ($.type(attr_appendmask) != "string") {
-				var e = {};
-				e.errorType = "not matched";
-				e.errorMessage = "Appendmask should be a string.";
-				throw e;
+				throw "Appendmask should be a string.";
 			}
 			// if return data is nothing, then do nothing
 			if (withdata == null) {
-				continue;
+				//continue;
 				// if return data is not array, then error
 			} else if ($.type(withdata) != "array") {
-				var e = {};
-				e.errorType = "not matched";
-				e.errorMessage = "If with appendmask,the withdata for [runat="
+				throw "If with appendmask,the withdata for [runat="
 						+ attr_runat + "] should be an array of object.";
-				throw e;
 			} else {
-				$(runat)
-						.each(
-								function() {
-									for (var withdata_idx = 0; withdata_idx < withdata.length; withdata_idx++) {
-										var dataRow = withdata[withdata_idx];
-										if ($.type(dataRow) != "object") {
-											var e = {};
-											e.errorType = "not matched";
-											e.errorMessage = "The withdata for [runat="
-													+ attr_runat
-													+ "] should be an array of object.";
-											throw e;
-										}
-										var temp_appendmask = attr_appendmask;
-										for ( var dataRow_key in dataRow) {
-											var data = dataRow[dataRow_key];
-											if (data == null) {
-												data = "";
-											} else {
-												data = "" + data;
-											}// if data isnull then change it
-											// to blank
-											temp_appendmask = temp_appendmask
-													.split(
-															"{{" + dataRow_key
-																	+ "}}")
-													.join(data);
-											data = data.replace(/&/g, '&amp;')
-													.replace(/>/g, '&gt;')
-													.replace(/</g, '&lt;')
-													.replace(/"/g, '&quot;')
-													.replace(/'/g, '&#39;');
-											temp_appendmask = temp_appendmask
-													.split(
-															"{" + dataRow_key
-																	+ "}")
-													.join(data);
-										}
-										$(this).append(temp_appendmask);
-									}
-								});
+				$(runat).each(function() {
+					for (var withdata_idx = 0; withdata_idx < withdata.length; withdata_idx++) {
+						var dataRow = withdata[withdata_idx];
+						if ($.type(dataRow) != "object") {
+							throw "The withdata for [runat="
+									+ attr_runat
+									+ "] should be an array of object.";
+						}
+						var temp_appendmask = attr_appendmask;
+						for ( var dataRow_key in dataRow) {
+							var data = dataRow[dataRow_key];
+							if (data == null) {
+								data = "";
+							} else {
+								data = "" + data;
+							}// if data isnull then change it
+							// to blank
+							temp_appendmask = temp_appendmask
+									.split(
+											"{{" + dataRow_key
+													+ "}}")
+									.join(data);
+							data = data.replace(/&/g, '&amp;')
+									.replace(/>/g, '&gt;')
+									.replace(/</g, '&lt;')
+									.replace(/"/g, '&quot;')
+									.replace(/'/g, '&#39;');
+							temp_appendmask = temp_appendmask
+									.split(
+											"{" + dataRow_key
+													+ "}")
+									.join(data);
+						}
+						$(this).append(temp_appendmask);
+					}
+				});
 			}
 		}
+	}
+};
+/**
+ * The internal function to show actions to web.
+ * @param actions
+ */
+var EfwClient_showActions_Downloaded=true;//true if download is over
+var EfwClient_showActions_Download_Handle=null;//keep the handle of interval
+var EfwClient_showActions_Alerted=true;//true if alert is closed
+var EfwClient_showActions_Navigate_Handle=null;//keep the handle of interval
+EfwClient.prototype._showActions = function(actions) {
+	if ((actions instanceof Array)) throw "The return actions must be an object.";
+	//-------------------------------------------------------------------------
+	if (actions.error){
+		var message=EfwClientMessages.prototype[actions.error.clientMessageId];
+		if (message==null)throw "No client message is defined for [error="+actions.error.clientMessageId+"].";
+		var params=actions.error.params;
+		if (params){
+			for(var key in params){
+				message=message.replace(new RegExp("{"+key+"}", "g"), params[key]);
+			}
+		}
+		EfwClient_showActions_Alerted=false;
+		EfwClient.prototype.alert(message, function(){EfwClient_showActions_Alerted=true;});
+		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
+			if(EfwClient_showActions_Alerted){
+				window.clearInterval(EfwClient_showActions_Navigate_Handle);
+				if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
+			}
+		}, 100);
+		return;
+	}
+	if (actions.show)$(actions.show).show();
+	if (actions.hide)$(actions.hide).hide();
+	if (actions.enable)$(actions.enable).prop("disabled",false);
+	if (actions.disable)$(actions.disable).prop("disabled",true);
+	if (actions.highlight)$(actions.highlight).addClass("efw_input_error");;
+	//-------------------------------------------------------------------------
+	if (actions.download){
+		EfwClient_showActions_Downloaded=false;
+		window.location = "downloadServlet";
+		EfwClient_showActions_Download_Handle = window.setInterval(function(){
+			if (Cookies.get("efw_Downloaded")) {
+				Cookies.remove("efw_Downloaded",{path : "/"});
+				window.clearInterval(EfwClient_showActions_Download_Handle);
+				EfwClient_showActions_Downloaded=true;
+			}
+		}, 1000);
+	}else{
+		EfwClient_showActions_Downloaded=true;
+	}
+	//-------------------------------------------------------------------------
+	if (actions.alert){
+		EfwClient_showActions_Alerted=false;
+		EfwClient.prototype.alert(actions.alert.join("\n"), function(){EfwClient_showActions_Alerted=true;});
+	}else{
+		EfwClient_showActions_Alerted=true;
+	}
+	if(EfwClient_showActions_Alerted&&EfwClient_showActions_Downloaded){
+		if (actions.focus)$(actions.focus).focus();
+		if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
+	}else{
+		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
+			if(EfwClient_showActions_Alerted&&EfwClient_showActions_Downloaded){
+				window.clearInterval(EfwClient_showActions_Navigate_Handle);
+				if (actions.focus)$(actions.focus).focus();
+				if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
+			}
+		}, 100);
+	}
+	
+};
+/**
+ * The internal function to do success callback.
+ * @param eventId
+ * @param result
+ * @param successCallback
+ */
+var EfwClient_doSuccessCallback_handle=null;
+EfwClient.prototype._doSuccessCallback = function(eventId,result,successCallback) {
+	var func=function(){
+		try {
+			successCallback(result._array,result._object);
+			EfwClient.prototype._removeLoading();
+		}catch (e) {
+			EfwClient.prototype._consoleLog(
+					"Success callback error", e);
+			EfwClient.prototype._showActions({"error":"SuccessCallbackErrorException"});
+		}
+	};
+	if(EfwClient_showActions_Downloaded&&EfwClient_showActions_Alerted){
+		func();
+	}else{
+		EfwClient_doSuccessCallback_handle=window.setInterval(
+			function(){
+				if(EfwClient_showActions_Downloaded&&EfwClient_showActions_Alerted){
+					window.clearInterval(EfwClient_doSuccessCallback_handle);
+					func();
+				}
+			}, 100);
 	}
 };
 /**
@@ -599,53 +584,24 @@ EfwClient.prototype._consoleLog = function(msg, data) {
 };
 /**
  * The internal function to display loading mask.
+ * waitting 100ms before mask the screen.
  */
+var EfwClient_displayLoading_handle=null;
 EfwClient.prototype._displayLoading = function() {
-	var $ = top.$;
-	$("#loading").remove();
-	$("body").append(
-			"<div id='loading' class='ui-widget-overlay ui-front'></div>");
-},
+	EfwClient_displayLoading_handle=window.setTimeout(function(){
+		var $ = top.$;
+		$("#loading").remove();
+		$("body").append(
+				"<div id='loading' class='ui-widget-overlay ui-front'></div>");
+	}, 100);
+};
 /**
  * The internal function to remove loading mask.
  */
 EfwClient.prototype._removeLoading = function() {
+	if(EfwClient_displayLoading_handle)window.clearTimeout(EfwClient_displayLoading_handle);
 	var $ = top.$;
 	$("#loading").remove();
-},
-/**
- * The internal function to show return error as Alert.
- * @param error
- * @param eventId
- */
-EfwClient.prototype._returnAlert = function(error, eventId) {
-	var msg = EfwClient.prototype.messages[error.errorType];
-	if (msg == null) {
-		if (error.errorMessage) {
-			msg = error.errorMessage;
-		} else if (error.message) {// it is for alert object
-			msg = error.message;
-		} else {
-			msg = EfwClient.prototype.messages.OtherErrorException;
-		}
-	}
-	if (error.canNotContinue)
-		msg += "\n" + EfwClient.prototype.messages.CanNotContinueMessage;
-	if (eventId)
-		msg += "\n" + "eventId=" + eventId;
-	// show error elements first
-	if (error.elements)
-		$("" + error.elements).addClass("efw_input_error");
-	// then error
-	this.alert(msg, function() {
-		// focus or next page at last.
-		if (error.focusTo)
-			try {
-				$(error.focusTo).focus();
-			} catch (e) {
-			}
-		;
-		if (error.nextUrl)
-			window.top.location = error.nextUrl;
-	});
 };
+
+
