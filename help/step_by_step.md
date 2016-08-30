@@ -1,4 +1,4 @@
-<H1>Step By Step to Build a Running Environment</H1>
+<H1>Step by Step to Build a Running Environment</H1>
 
 <h2>Prerequisites</h2>
 <table>
