@@ -1,10 +1,10 @@
 <H1>API</H1>
 
 <h2>Client</h2>
-<li>About Efw Tag</li>
+<li>Efw Tag</li>
 <li>Efw Function</li>
-<li>About "data-format" Attribute</li>
-<li>About "data-shortcut" Attribute</li>
+<li>data-format Attribute</li>
+<li>data-shortcut Attribute</li>
 
 <h2>Server Event</h2>
 <li>About Event Programming</li>
