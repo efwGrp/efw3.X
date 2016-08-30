@@ -2,7 +2,7 @@
 
 <h2>Client</h2>
 <li><a href="api_efw_tag.md">Efw Tag</a></li>
-<li>Efw Function</li>
+<li><a href="api_efw_function.md">Efw Function</a></li>
 <li>data-format Attribute</li>
 <li>data-shortcut Attribute</li>
 
