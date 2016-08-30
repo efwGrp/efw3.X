@@ -11,7 +11,7 @@ Create a file named as "helloworld.jsp" in your web application folder with the 
 &lt;head&gt;
 	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
 	&lt;title&gt;Hello World&lt;/title&gt;
-	<font color=red>&lt;efw:Client/&gt;</font>
+	<b>&lt;efw:Client/&gt;</b>
 &lt;/head&gt;
 &lt;body&gt;
 	&lt;input type=text id=&quot;txtMessage&quot;&gt;
