@@ -20,12 +20,31 @@ Create a file with the next codes, and name it as "helloworld.jsp" in your web a
 &lt;/body&gt;
 </pre>
 
-You will see the next image, if you call it from a web browser by the url http://localhost:8080/efw/ .<br>
+You will see the next image, if you call it from a web browser by the url http://localhost:8080/efw/helloworld.jsp .<br>
 <img src="hello_world_jsp1.png"><br>
 
 you will see an error, if you click the "Send" button before you complete the next step.<br>
 <img src="hello_world_jsp2.png"><br>
 
 <h2>Server Event</h2>
+Create a file with the next codes, and name it as "helloWorld_sendMessage.js" in the server event folder "efw/WEB-INF/efw/event/".
+<pre>
+var helloWorld_sendMessage={};
+helloWorld_sendMessage.outOfLogin = true;
+helloWorld_sendMessage.paramsFormat={
+		&quot;#txtMessage&quot;:&quot;required:true;display-name:the input message&quot;
+};
+helloWorld_sendMessage.fire=function(params){
+	return (new Result())
+		.runat(&quot;body&quot;)
+		.withdata({&quot;#txtMessage&quot;:&quot;&quot;})
+		.runat(&quot;fieldset&quot;)
+		.append(&quot;&lt;span&gt;{message}&lt;br&gt;&lt;/span&gt;&quot;)
+		.withdata([{&quot;message&quot;:params[&quot;#txtMessage&quot;]}]);
+};
+</pre>
+The entering in the input messsage will be moved into the messsages, after you click the "Send" button.<br>
+<img src="hello_world_event1.png"><br>
 
-
+You will see an alert and a hightlight, if you click the "Send" button without entering.<br>
+<img src="hello_world_event2.png"><br>
