@@ -20,8 +20,12 @@ Create a file with the next codes, and name it as "helloworld.jsp" in your web a
 &lt;/body&gt;
 </pre>
 
-you will see the next image, if you call it from a web browser.<br>
-<img src="hello_world_jsp1.png">
+You will see the next image, if you call it from a web browser.<br>
+<img src="hello_world_jsp1.png"><br>
+
+you will see an error, if you click the "Send" button before you complete the next step.<br>
+<img src="hello_world_jsp2.png"><br>
+
 <h2>Server Event</h2>
 
 
