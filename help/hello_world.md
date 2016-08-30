@@ -11,7 +11,7 @@ Create a file named as "helloworld.jsp" in your web application folder with the 
 &lt;head&gt;
 	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
 	&lt;title&gt;Hello World&lt;/title&gt;
-	&lt;efw:Client/&gt;
+	<font color=red>&lt;efw:Client/&gt;</font>
 &lt;/head&gt;
 &lt;body&gt;
 	&lt;input type=text id=&quot;txtMessage&quot;&gt;
@@ -20,7 +20,7 @@ Create a file named as "helloworld.jsp" in your web application folder with the 
 &lt;/body&gt;
 </pre>
 
-It is the next image, if you call helloworld.jsp from a web browser.<br>
+you will see the next image, if you call it from a web browser.<br>
 <img src="hello_world_jsp1.png">
 <h2>Server Event</h2>
 
