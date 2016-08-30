@@ -1,7 +1,7 @@
 <H1>API</H1>
 
 <h2>Client</h2>
-<li>Efw Tag</li>
+<li><a href="api_efw_tag.md">Efw Tag</a></li>
 <li>Efw Function</li>
 <li>data-format Attribute</li>
 <li>data-shortcut Attribute</li>
