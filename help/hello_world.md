@@ -3,7 +3,7 @@
 Efw is easy to start web programming if you know Javascript & JQuery.
 
 <h2>JSP</h2>
-Create a file named as "helloworld.jsp" in your web application folder with the next codes.
+Create a file with the next codes, and name it as "helloworld.jsp" in your web application folder.
 <pre>
 &lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
 <b>&lt;%@ taglib prefix=&quot;efw&quot; uri=&quot;efw&quot; %&gt;</b>
@@ -15,7 +15,7 @@ Create a file named as "helloworld.jsp" in your web application folder with the 
 &lt;/head&gt;
 &lt;body&gt;
 	&lt;input type=text id=&quot;txtMessage&quot;&gt;
-	&lt;input type=button value=&quot;Send&quot; <b>onclick="Efw('helloWorld_sendMessage')"&gt;</b>
+	&lt;input type=button value=&quot;Send&quot; <b>onclick="Efw('helloWorld_sendMessage')"</b>&gt;
 	&lt;fieldset&gt;&lt;legend&gt;Messages&lt;/legend&gt;&lt;/fieldset&gt;
 &lt;/body&gt;
 </pre>
