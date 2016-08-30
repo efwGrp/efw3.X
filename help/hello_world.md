@@ -1,6 +1,6 @@
 <H1>Hello World</H1>
 
-Efw is easy to start web programming if you know Javascript & JQuery.
+With Efw,it is easily to start web programming if you know Javascript & JQuery.
 
 <h2>JSP</h2>
 Create a file with the next codes, and name it as "helloworld.jsp" in your web application folder "efw".
