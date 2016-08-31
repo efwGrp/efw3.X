@@ -10,7 +10,7 @@
 <li>About Event Programming</li>
 <h3>Operating</h3>
 <li><a href="api_select.md">Select Class</a></li>
-<li>Change Class</li>
+<li><a href="api_change.md">Change Class</a></li>
 <li>Master Class</li>
 <li>Rule Class</li>
 <li>Record Class</li>
