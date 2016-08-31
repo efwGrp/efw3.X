@@ -5,9 +5,9 @@ It inherited functions from the <a href="api_record.md">Record</a> class, so you
 The first calling to a master means to load it into the memory, and the second calling means to get records from memory.
 <h2>Sample for Event</h2>
 <pre>
-	var array1 = (new Master("user"))
+	var record1 = (new Master("user"))
 				.sort("years","asc");
-	var array2 = new Master("user",true);
+	var record2 = new Master("user",true);
 </pre>
 
 <h2>API</h2>
@@ -20,7 +20,7 @@ The first calling to a master means to load it into the memory, and the second c
 
 <table>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td>masterId</td><td>string</td><td>The name of a master table.</td></tr>
-<tr><td>reload</td><td>boolean</td><td>The flag to load the master again event it has been loaded.</td></tr>
+<tr><td>masterId</td><td>String</td><td>The name of a master table.</td></tr>
+<tr><td>reload</td><td>Boolean</td><td>The flag to load the master again event it has been loaded.</td></tr>
 </table>
 

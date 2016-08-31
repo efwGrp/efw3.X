@@ -5,9 +5,9 @@ It inherited functions from the <a href="api_record.md">Record</a> class, so you
 
 <h2>Sample for Event</h2>
 <pre>
-	var array1=(new Select("helloWorld","selectUser",{"country":"China"}))
+	var record1=(new Select("helloWorld","selectUser",{"country":"China"}))
 						.sort("years","asc");
-	var array2=new Select("select * from table_user where country='China' order years asc");
+	var record2=new Select("select * from table_user where country='China' order years asc");
 </pre>
 
 <h2>API</h2>
@@ -22,13 +22,13 @@ It inherited functions from the <a href="api_record.md">Record</a> class, so you
 
 <table>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td>groupId</td><td>string</td><td>The name of a SQL xml file.</td></tr>
-<tr><td>sqlId</td><td>string</td><td>The id of a sql tag in a SQL xml file.</td></tr>
-<tr><td>params</td><td>JSON object</td>
+<tr><td>groupId</td><td>String</td><td>The name of a SQL xml file.</td></tr>
+<tr><td>sqlId</td><td>String</td><td>The id of a sql tag in a SQL xml file.</td></tr>
+<tr><td>params</td><td>JSON Object</td>
 <td>To send values which is requried by the SQL defined in the SQL xml file. 
 <pre>{"param1":value1,"param2":value2,...}</pre>
 </td></tr>
-<tr><td>jdbcResourceName</td><td>string</td><td>To execute SQL in another database recource, but not the default. </td></tr>
-<tr><td>sql</td><td>string</td><td>To execute a pure SQL string.</td></tr>
+<tr><td>jdbcResourceName</td><td>String</td><td>To execute SQL in another database recource, but not the default. </td></tr>
+<tr><td>sql</td><td>String</td><td>To execute a pure SQL string.</td></tr>
 </table>
 

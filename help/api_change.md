@@ -20,13 +20,13 @@ You can get the count of modefied records.
 
 <table>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td>groupId</td><td>string</td><td>The name of a SQL xml file.</td></tr>
-<tr><td>sqlId</td><td>string</td><td>The id of a sql tag in a SQL xml file.</td></tr>
-<tr><td>params</td><td>JSON object</td>
+<tr><td>groupId</td><td>String</td><td>The name of a SQL xml file.</td></tr>
+<tr><td>sqlId</td><td>String</td><td>The id of a sql tag in a SQL xml file.</td></tr>
+<tr><td>params</td><td>JSON Object</td>
 <td>To send values which is requried by the SQL defined in the SQL xml file. 
 <pre>{"param1":value1,"param2":value2,...}</pre>
 </td></tr>
-<tr><td>jdbcResourceName</td><td>string</td><td>To execute SQL in another database recource, but not the default. </td></tr>
-<tr><td>sql</td><td>string</td><td>To execute a pure SQL string.</td></tr>
+<tr><td>jdbcResourceName</td><td>String</td><td>To execute SQL in another database recource, but not the default. </td></tr>
+<tr><td>sql</td><td>String</td><td>To execute a pure SQL string.</td></tr>
 </table>
 

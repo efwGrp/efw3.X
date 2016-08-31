@@ -24,8 +24,8 @@ The only thing you must to do is sending the event id.
 
 <table>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
-<tr><td>eventId</td><td>string</td><td>The name of a event file.</td></tr>
-<tr><td>manualParams</td><td>JSON object</td><td>To send some values which can not be defined by JQuery selectors. <pre>{"mode":"edit"}</td></tr>
-<tr><td>success</td><td>function</td><td>To run something when AJAX succeeds. <pre>function(values,actions){alert("SUCCESS");}</pre></td></tr>
-<tr><td>sever</td><td>string</td><td>The url of cors connections to another web server application constructed by Efw. <pre>http://127.0.0.1:8080/efw</pre></td></tr>
+<tr><td>eventId</td><td>String</td><td>The name of a event file.</td></tr>
+<tr><td>manualParams</td><td>JSON Object</td><td>To send some values which can not be defined by JQuery selectors. <pre>{"mode":"edit"}</td></tr>
+<tr><td>success</td><td>Function</td><td>To run something when AJAX succeeds. <pre>function(values,actions){alert("SUCCESS");}</pre></td></tr>
+<tr><td>sever</td><td>String</td><td>The url of cors connections to another web server application constructed by Efw. <pre>http://127.0.0.1:8080/efw</pre></td></tr>
 </table>
