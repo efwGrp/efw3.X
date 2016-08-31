@@ -14,9 +14,9 @@
 <li><a href="api_master.md">Master Class</a></li>
 <li><a href="api_rule.md">Rule Class</a></li>
 <li><a href="api_record.md">Record Class</a></li>
-<li>Mail Class</li>
+<li><a href="api_mail.md">Mail Class</a></li>
 
-<h3>Result</h3>
+<h3>Returning</h3>
 <li>Result Class</li>
 <li>Event Class</li>
 
