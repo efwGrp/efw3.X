@@ -6,13 +6,13 @@
 <li><a href="api_data_format.md">data-format Attribute</a></li>
 <li><a href="api_data_shortcut.md">sata-shortcut Attribute</a></li>
 
-<h2>Server Event</h2>
+<h2>Event</h2>
 <li>About Event Programming</li>
 <h3>Operating</h3>
-<li>Select Class</li>
+<li><a href="api_select.md">Select Class</a></li>
+<li>Change Class</li>
 <li>Master Class</li>
 <li>Rule Class</li>
-<li>Change Class</li>
 <li>Record Class</li>
 <li>Mail Class</li>
 
