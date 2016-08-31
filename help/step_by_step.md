@@ -77,7 +77,7 @@
 <tr>
 	<td>Start Up</td>
 	<td>1. Start up Tomcat.<br>
-		2. Open the login page. <br>http://localhost:8080/efw/login.jsp </td><td></td>
+		2. Open the login page. http://localhost:8080/efw/login.jsp </td><td></td>
 </tr>
 </table>
 
