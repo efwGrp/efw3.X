@@ -6,7 +6,7 @@ The only thing you must to do is sending the event id.
 
 <h2>JSP</h2>
 <pre>
-	&lt;input type=button value=&quot;Send&quot; onclick="<b>Efw('helloWorld_sendMessage')</b>"&gt;
+	&lt;input type=&quot;button&quot; value=&quot;Send&quot; onclick="<b>Efw('helloWorld_sendMessage')</b>"&gt;
 </pre>
 <h2>API</h2>
 
@@ -27,5 +27,5 @@ The only thing you must to do is sending the event id.
 <tr><td>eventId</td><td>string</td><td>The name of the server event file.</td></tr>
 <tr><td>manualParams</td><td>JSON object</td><td>To send params which can not be defined by JQuery selectors. <pre>{"mode":"edit"}</td></tr>
 <tr><td>success</td><td>function</td><td>To run something when AJAX succeeds. <pre>function(values,actions){alert("SUCCESS");}</pre></td></tr>
-<tr><td>sever</td><td>string</td><td>The cors url of another web server application constructed by Efw. <pre>http://127.0.0.1:8080/efw</pre></td></tr>
+<tr><td>sever</td><td>string</td><td>The url of cors connections to another web server application constructed by Efw. <pre>http://127.0.0.1:8080/efw</pre></td></tr>
 </table>
