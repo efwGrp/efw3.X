@@ -13,7 +13,7 @@
 <li><a href="api_change.md">Change Class</a></li>
 <li><a href="api_master.md">Master Class</a></li>
 <li><a href="api_rule.md">Rule Class</a></li>
-<li>Record Class</li>
+<li><a href="api_record.md">Record Class</a></li>
 <li>Mail Class</li>
 
 <h3>Result</h3>
