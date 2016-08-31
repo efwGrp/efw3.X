@@ -1,7 +1,7 @@
 <H1>data-format Attribute</H1>
 
-"data-format" is established as one of HTML5 custom attributes to control behaviors of input elements at client.
-Efw framework will add focus and blur behaviors to input elements by data-format attributes when page-loading.
+"data-format" is established as one of HTML5 custom attributes to control behaviors of input elements at client. 
+Efw framework will add focus and blur behaviors to input elements by data-format attributes when page-loading. 
 
 <h2>JSP</h2>
 <pre>
