@@ -23,9 +23,9 @@ The Record class is established as one of operating classes to operate an array.
 <tr><td>.seek( field , action , value )</td><td>Record</td></tr>
 <tr><td>.sort( field , action )</td><td>Record</td></tr>
 <tr><td>.map( mapping )</td><td>Record</td></tr>
-<tr><td>.getSingle()</td><td>Object</td></tr>
-<tr><td>.getArray()</td><td>Array</td></tr>
-<tr><td>.getValue()</td><td> String | Number | Date | Boolean </td></tr>
+<tr><td>.getSingle( )</td><td>Object</td></tr>
+<tr><td>.getArray( )</td><td>Array</td></tr>
+<tr><td>.getValue( )</td><td> String | Number | Date | Boolean </td></tr>
 
 </table>
 
