@@ -2,7 +2,7 @@
 
 The Change class is established as one of operating classes to execute UPDATE or DELETE SQL.
 You can get the count of modefied records.
-<h2>Event</h2>
+<h2>Sample for Event</h2>
 <pre>
 	new Change("helloWorld","DeleteUser",{"country":"China"});
 	var count=(new Change("delete * from table_user where country='China'")).count;

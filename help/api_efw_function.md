@@ -4,7 +4,7 @@ The Efw function is established to call server events from JSP in AJAX.
 It is not necessary to send params or receive results when calling server events.
 The only thing you must to do is sending the event id.
 
-<h2>JSP</h2>
+<h2>Sample for JSP</h2>
 <pre>
 	&lt;input type=&quot;button&quot; value=&quot;Send&quot; onclick="<b>Efw('helloWorld_sendMessage')</b>"&gt;
 </pre>

@@ -3,7 +3,7 @@
 The Master class is established as one of operating classes to store the data from a master table into the memory.
 It inherited functions from the <a href="api_record.md">Record</a> class, so you can operate records of the master.
 The first calling to a master means to load it into the memory, and the second calling means to get records from memory.
-<h2>Event</h2>
+<h2>Sample for Event</h2>
 <pre>
 	var array1 = (new Master("user"))
 				.sort("years","asc");

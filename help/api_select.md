@@ -3,7 +3,7 @@
 The Select class is established as one of operating classes to execute SELECT SQL.
 It inherited functions from the <a href="api_record.md">Record</a> class, so you can operate result records of the SELECT SQL.
 
-<h2>Event</h2>
+<h2>Sample for Event</h2>
 <pre>
 	var array1=(new Select("helloWorld","selectUser",{"country":"China"}))
 						.sort("years","asc");
