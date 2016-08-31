@@ -11,7 +11,7 @@
 <h3>Operating</h3>
 <li><a href="api_select.md">Select Class</a></li>
 <li><a href="api_change.md">Change Class</a></li>
-<li>Master Class</li>
+<li><a href="api_master.md">Master Class</a></li>
 <li>Rule Class</li>
 <li>Record Class</li>
 <li>Mail Class</li>
