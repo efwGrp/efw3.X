@@ -1,7 +1,7 @@
 <H1>Change Class</H1>
 
 The Change class is established as one of operating classes to execute UPDATE or DELETE SQL.
-You can get the count of records updated or deleted.
+You can get the count of modefied records.
 <h2>Event</h2>
 <pre>
 	new Change("helloWorld","DeleteUser",{"country":"China"});
