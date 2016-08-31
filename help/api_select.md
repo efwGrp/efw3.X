@@ -7,7 +7,7 @@ It inherited functions from the <a href="api_record.md">Record</a> class, so you
 <pre>
 	var array1=(new Select("helloWorld","selectUser",{"country":"China"}))
 						.sort("years","asc");
-	var array2=(new Select("select * from table_user where country='China' order years asc"));
+	var array2=new Select("select * from table_user where country='China' order years asc");
 </pre>
 
 <h2>API</h2>
