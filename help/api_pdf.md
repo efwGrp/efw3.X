@@ -6,8 +6,8 @@ and you can merge several pdfs in a folder.
 <h2>Sample for Event</h2>
 <pre>
 	(new Pdf())
-	.create("report.jsp?page=1","pdffolder/page1.pdf");
-	.create("report.jsp?page=2","pdffolder/page2.pdf");
+	.create("report.jsp?page=1","pdffolder/page1.pdf")
+	.create("report.jsp?page=2","pdffolder/page2.pdf")
 	.merge("pdffolder","report.pdf");
 </pre>
 
