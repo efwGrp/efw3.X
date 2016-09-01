@@ -15,10 +15,16 @@
 <li><a href="api_rule.md">Rule Class</a></li>
 <li><a href="api_record.md">Record Class</a></li>
 <li><a href="api_mail.md">Mail Class</a></li>
+<li><a href="api_pdf.md">Pdf Class</a></li>
+
 
 <h3>Returning</h3>
 <li>Result Class</li>
 <li>Event Class</li>
+
+
+<h3>Debugging</h3>
+
 
 <h2>SQL</h2>
 <li>About SQL xml</li>
