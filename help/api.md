@@ -17,9 +17,8 @@
 <li><a href="api_mail.md">Mail Class</a></li>
 <li><a href="api_pdf.md">Pdf Class</a></li>
 
-
 <h3>Returning</h3>
-<li>Result Class</li>
+<li><a href="api_result.md">Result Class</a></li>
 <li>Event Class</li>
 
 
