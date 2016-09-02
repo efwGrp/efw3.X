@@ -36,9 +36,10 @@ The Result class is established as one of returning classes to send values or ac
 <tr><td>.alert ( message , params )</td><td>OK</td></tr>
 <tr><td>.highlight ( selector )</td>	<td>OK</td></tr>
 <tr><td>.focus ( selector )</td>		<td>NG</td></tr>
-<tr><td>.fail (  )</td>					<td>OK. It will stop success callback running.</td></tr>
 <tr><td>.error ( clientMessageId )</td><td>NG</td></tr>
 <tr><td>.error ( clientMessageId , params )</td><td>NG</td></tr>
+<tr><td>.confirm ( message , buttons , params )</td><td>NG</td></tr>
+<tr><td>.confirm ( message , buttons )</td><td>NG</td></tr>
 </table>
 
 <table>
@@ -55,4 +56,5 @@ To send values to functions.
 <tr><td>path</td><td>String</td><td>The relative path of a file or a folder to the storage folder.</td></tr>
 <tr><td>message</td><td>String</td><td>A string with params. <pre>"Hello Mr. {familyName} !"</pre></td></tr>
 <tr><td>clientMessageId</td><td>String</td><td>The message id defined in client.messages.js .</td></tr>
+<tr><td>buttons</td><td>String</td><td>To define buttons in the confirm box and the client script for click events. <pre>{"YES":"alert('Yes world!')", "NO","alert('No world!')"}</pre></td></tr>
 </table>
