@@ -13,12 +13,13 @@ Its return is an instance of the <a href="api_record.md">Record</a> class.
 <h2>API</h2>
 
 <table>
-<tr><th>Calling</th></tr>
-<tr><td>db . select ( groupId , sqlId , params )</td></tr>
+<tr><th>Calling</th><th>Returning</th></tr>
+<tr><td>db . select ( groupId , sqlId , params )</td><td rowspan=4>Record</td></tr>
 <tr><td>db . select ( groupId , sqlId , params , jdbcResourceName )</td></tr>
 <tr><td>db . select ( sql )</td></tr>
 <tr><td>db . select ( sql , jdbcResourceName )</td></tr>
 </table>
+
 
 <table>
 <tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
