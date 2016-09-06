@@ -12,8 +12,8 @@ Its return is an instance of the <a href="api_record.md">Record</a> class.
 
 <table>
 <tr><th>Calling</th><th>Returning</th></tr>
-<tr><td>new Rule ( ruleId , params  )</td><td rowspan=2><a href="record.md">Record</a></td></tr>
-<tr><td>new Rule ( ruleId , params , ruleDate )</td></tr>
+<tr><td>brms . rule ( ruleId , params  )</td><td rowspan=2><a href="record.md">Record</a></td></tr>
+<tr><td>brms . rule ( ruleId , params , ruleDate )</td></tr>
 </table>
 
 <table>
