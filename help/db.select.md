@@ -22,7 +22,7 @@ Its return is an instance of the <a href="record.md">Record</a> class.
 
 
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>groupId</td><td>String</td><td>The name of a SQL xml file.</td></tr>
 <tr><td>sqlId</td><td>String</td><td>The id of a sql tag in a SQL xml file.</td></tr>
 <tr><td>params</td><td>JSON Object</td>

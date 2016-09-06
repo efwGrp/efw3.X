@@ -1,7 +1,7 @@
 <H1>Record Class</H1>
 
 The Record class is established as one of operating classes to operate an array.
-<h2>Sample for Event</h2>
+<h2>Sample</h2>
 <pre>
 	var source=[
 		{"name":"Wang","country":"China","years":20},
@@ -30,7 +30,7 @@ The Record class is established as one of operating classes to operate an array.
 </table>
 
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>array</td><td>Array</td><td>The array of JSON objects. </td></tr>
 <tr><td>field</td><td>String</td><td>The name of an attribute to JSON objects in the array.</td></tr>
 <tr><td>action</td><td>String</td>

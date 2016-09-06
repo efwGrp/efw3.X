@@ -17,7 +17,7 @@ Its return is an instance of the <a href="api_record.md">Record</a> class.
 </table>
 
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>ruleId</td><td>String</td><td>The name of a rule stored in BRMS.</td></tr>
 <tr><td>params</td><td>JSON Object</td>
 <td>To send values which is requried by the rule. 
