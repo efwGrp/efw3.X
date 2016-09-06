@@ -1,21 +1,23 @@
-<H1>Change Class</H1>
+<H1>db.select</H1>
 
-The Change class is established as one of operating classes to execute UPDATE or DELETE SQL.
-You can get the count of modefied records.
-<h2>Sample for Event</h2>
+The select function is established to execute SELECT SQL.
+Its return is an instance of the <a href="api_record.md">Record</a> class.
+
+<h2>Sample</h2>
 <pre>
-	new Change("helloWorld","DeleteUser",{"country":"China"});
-	var count=(new Change("delete * from table_user where country='China'")).count;
+	var record1=db.select("helloWorld","selectUser",{"country":"China"})
+						.sort("years","asc");
+	var record2=db.select("select * from table_user where country='China' order years asc");
 </pre>
 
 <h2>API</h2>
 
 <table>
 <tr><th>Calling</th></tr>
-<tr><td>new Change ( groupId , sqlId , params )</td></tr>
-<tr><td>new Change ( groupId , sqlId , params , jdbcResourceName )</td></tr>
-<tr><td>new Change ( sql )</td></tr>
-<tr><td>new Change ( sql , jdbcResourceName )</td></tr>
+<tr><td>db . select ( groupId , sqlId , params )</td></tr>
+<tr><td>db . select ( groupId , sqlId , params , jdbcResourceName )</td></tr>
+<tr><td>db . select ( sql )</td></tr>
+<tr><td>db . select ( sql , jdbcResourceName )</td></tr>
 </table>
 
 <table>
