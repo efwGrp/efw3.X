@@ -4,7 +4,7 @@ The rule function is established to execute rules in the BRMS of <a href="https:
 Its return is an instance of the <a href="api_record.md">Record</a> class.
 <h2>Sample</h2>
 <pre>
-	var record = (new Rule("ChineseFavorites",{"lessThan":30}))
+	var record = brms.rule("ChineseFavorites",{"lessThan":30})
 				.sort("years","asc");
 </pre>
 
