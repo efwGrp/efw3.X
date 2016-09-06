@@ -1,7 +1,7 @@
 <H1>db.select</H1>
 
 The select function is established to execute SELECT SQL.
-Its return is an instance of the <a href="api_record.md">Record</a> class.
+Its return is an instance of the <a href="record.md">Record</a> class.
 
 <h2>Sample</h2>
 <pre>
@@ -14,7 +14,7 @@ Its return is an instance of the <a href="api_record.md">Record</a> class.
 
 <table>
 <tr><th>Calling</th><th>Returning</th></tr>
-<tr><td>db . select ( groupId , sqlId , params )</td><td rowspan=4>Record</td></tr>
+<tr><td>db . select ( groupId , sqlId , params )</td><td rowspan=4><a href="record.md">Record</a></td></tr>
 <tr><td>db . select ( groupId , sqlId , params , jdbcResourceName )</td></tr>
 <tr><td>db . select ( sql )</td></tr>
 <tr><td>db . select ( sql , jdbcResourceName )</td></tr>
