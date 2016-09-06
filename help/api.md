@@ -28,10 +28,10 @@
 <tr><td>pdf</td><td><a href="pdf.create.md">create</a></td></tr>
 <tr><td>	</td><td><a href="pdf.merge.md">merge</a></td></tr>
 <tr><td>properties</td><td><a href="properties.get.md">get</a></td></tr>
-<tr><td>	</td><td></td><td><a href="properties.getInt.md">getInt</a></td></tr>
-<tr><td>	</td><td></td><td><a href="properties.getBoolean.md">getBoolean</a></td></tr>
+<tr><td>	</td><td><a href="properties.getInt.md">getInt</a></td></tr>
+<tr><td>	</td><td><a href="properties.getBoolean.md">getBoolean</a></td></tr>
 <tr><td>session</td><td><a href="session.get.md">get</a></td></tr>
-<tr><td>	</td><td></td><td><a href="session.set.md">set</a></td></tr>
+<tr><td>	</td><td><a href="session.set.md">set</a></td></tr>
 <tr><td>[any]</td><td><a href="any.debug.md">debug</a></td></tr>
 </table>
 
