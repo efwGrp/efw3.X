@@ -18,7 +18,7 @@ The Record class is established as one of operating classes to operate an array.
 <h2>API</h2>
 
 <table>
-<tr><th>Calling</th><th>Return</th></tr>
+<tr><th>Calling</th><th>Returning</th></tr>
 <tr><td>new Record ( array )</td><td>Record</td></tr>
 <tr><td>.seek( field , action , value )</td><td>Record</td></tr>
 <tr><td>.sort( field , action )</td><td>Record</td></tr>

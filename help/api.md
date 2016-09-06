@@ -11,49 +11,29 @@
 <li>About Debugging</li>
 
 <h3>Global Varieties</h3>
-<pre>
-event
-	.fire
-db
-	.<a href="db.select.md">select</a>
-	.change
-	.master
-brms
-	.rule
-mail
-	.send
-pdf
-	.create
-	.merge
-format
-	.formatDate
-	.formatNumber
-	.parseDate
-	.parseNumber
-properties
-	.get
-	.getInt
-	.getBoolean
-session
-	.get
-	.set
-messages
-	...
-file
-	...
-[Any]
-	.debug
-
-<li><a href="api_select.md">Select Class</a></li>
-
-
-<li><a href="api_select.md">Select Class</a></li>
-<li><a href="api_change.md">Change Class</a></li>
-<li><a href="api_master.md">Master Class</a></li>
-<li><a href="api_rule.md">Rule Class</a></li>
-<li><a href="api_record.md">Record Class</a></li>
-<li><a href="api_mail.md">Mail Class</a></li>
-<li><a href="api_pdf.md">Pdf Class</a></li>
+<table>
+<tr><th>Variety</th><th>Function</th><th>Description</th></tr>
+<tr><td>event</td><td>fire</td><td></td></tr>
+<tr><td>db</td><td><a href="db.select.md">select</a></td><td></td></tr>
+<tr><td></td><td>change</td><td></td></tr>
+<tr><td></td><td>master</td><td></td></tr>
+<tr><td>brms</td><td>rule</td><td></td></tr>
+<tr><td>mail</td><td>send</td><td></td></tr>
+<tr><td>pdf</td><td>create</td><td></td></tr>
+<tr><td>format</td><td>merge</td><td></td></tr>
+<tr><td></td><td>formatDate</td><td></td></tr>
+<tr><td></td><td>formatNumber</td><td></td></tr>
+<tr><td></td><td>parseDate</td><td></td></tr>
+<tr><td></td><td>parseNumber</td><td></td></tr>
+<tr><td>properties</td><td>get</td><td></td></tr>
+<tr><td></td><td></td><td>getInt</td></tr>
+<tr><td></td><td></td><td>getBoolean</td></tr>
+<tr><td>session</td><td>get</td><td></td></tr>
+<tr><td></td><td></td>set<td></td></tr>
+<tr><td>messages</td><td>...</td><td></td></tr>
+<tr><td>file</td><td>...</td><td></td></tr>
+<tr><td>[Any]</td><td>debug</td><td></td></tr>
+</table>
 
 <h3>Returning</h3>
 <li><a href="api_result.md">Result Class</a></li>
