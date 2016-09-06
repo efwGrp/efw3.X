@@ -1,8 +1,8 @@
-<H1>Rule Class</H1>
+<H1>brms.rule</H1>
 
-The Rule class is established as one of operating classes to execute rules in the BRMS of <a href="https://www.escco.co.jp/innorules/">innorules</a>.
-It inherited functions from the <a href="api_record.md">Record</a> class, so you can operate results records from the rule calling.
-<h2>Sample for Event</h2>
+The rule function is established to execute rules in the BRMS of <a href="https://www.escco.co.jp/innorules/">innorules</a>.
+Its return is an instance of the <a href="api_record.md">Record</a> class.
+<h2>Sample</h2>
 <pre>
 	var record = (new Rule("ChineseFavorites",{"lessThan":30}))
 				.sort("years","asc");
@@ -11,8 +11,8 @@ It inherited functions from the <a href="api_record.md">Record</a> class, so you
 <h2>API</h2>
 
 <table>
-<tr><th>Calling</th></tr>
-<tr><td>new Rule ( ruleId , params  )</td></tr>
+<tr><th>Calling</th><th>Returning</th></tr>
+<tr><td>new Rule ( ruleId , params  )</td><td rowspan=2><a href="record.md">Record</a></td></tr>
 <tr><td>new Rule ( ruleId , params , ruleDate )</td></tr>
 </table>
 
