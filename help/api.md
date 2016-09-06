@@ -10,9 +10,9 @@
 <li>About Event Programming</li>
 <li>About Debugging</li>
 
-<h3>Global Varieties</h3>
+<h3>Global</h3>
 <table>
-<tr><th>Variety</th><th>Function</th></tr>
+<tr><th>Varieties</th><th>Functions</th></tr>
 <tr><td>brms</td><td><a href="brms.rule.md">rule</a></td></tr>
 <tr><td>event</td><td><a href="event.fire.md">fire</a></td></tr>
 <tr><td>db	</td><td><a href="db.change.md">change</a></td></tr>
@@ -25,14 +25,14 @@
 <tr><td>	</td><td><a href="format.parseNumber.md">parseNumber</a></td></tr>
 <tr><td>mail</td><td><a href="mail.send.md">send</a></td></tr>
 <tr><td>messages</td><td>...</td></tr>
-<tr><td>pdf</td><td>create</td></tr>
-<tr><td>	</td><td>merge</td></tr>
-<tr><td>properties</td><td>get</td></tr>
-<tr><td>	</td><td></td><td>getInt</td></tr>
-<tr><td>	</td><td></td><td>getBoolean</td></tr>
-<tr><td>session</td><td>get</td></tr>
-<tr><td>	</td><td></td><td>set</td></tr>
-<tr><td>[Any]</td><td>debug</td></tr>
+<tr><td>pdf</td><td><a href="pdf.create.md">create</a></td></tr>
+<tr><td>	</td><td><a href="pdf.merge.md">merge</a></td></tr>
+<tr><td>properties</td><td><a href="properties.get.md">get</a></td></tr>
+<tr><td>	</td><td></td><td><a href="properties.getInt.md">getInt</a></td></tr>
+<tr><td>	</td><td></td><td><a href="properties.getBoolean.md">getBoolean</a></td></tr>
+<tr><td>session</td><td><a href="session.get.md">get</a></td></tr>
+<tr><td>	</td><td></td><td><a href="session.set.md">set</a></td></tr>
+<tr><td>[any]</td><td><a href="any.debug.md">debug</a></td></tr>
 </table>
 
 <h3>Returning</h3>
