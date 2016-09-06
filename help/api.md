@@ -8,7 +8,6 @@
 
 <h2>Event JS</h2>
 <li>About Event Programming</li>
-<li>About Debugging</li>
 
 <h3>Global</h3>
 <table>
@@ -34,9 +33,9 @@
 <tr><td>	</td><td><a href="session.set.md">set</a></td></tr>
 <tr><td>[any]</td><td><a href="any.debug.md">debug</a></td></tr>
 </table>
-
-<h3>Returning</h3>
-<li><a href="api_result.md">Result Class</a></li>
+<h4>Classes</h4>
+<li><a href="record.md">Record Class</a></li>
+<li><a href="Result.md">Result Class</a></li>
 
 
 <h2>SQL XML</h2>
