@@ -2,7 +2,7 @@
 <a href="help/step_by_step.md">Step by Step</a><br>
 <a href="help/hello_world.md">Quick Start</a><br>
 <a href="help/api.md">API</a><br>
-<a href="help/reverse_lookup.md">Reverse Lookup</a><br>
+<a href="help/how_to.md">How to</a><br>
 
 <h3>Correlation Diagram</h3>
 <img src="./help/veslayers.png"><br>
