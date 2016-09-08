@@ -33,7 +33,7 @@
 </table>
 <h4>Classes</h4>
 <li><a href="record.md">Record Class</a></li>
-<li><a href="Result.md">Result Class</a></li>
+<li><a href="result.md">Result Class</a></li>
 
 
 <h2>SQL XML</h2>
