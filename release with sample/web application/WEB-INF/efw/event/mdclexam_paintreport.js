@@ -5,5 +5,5 @@ mdclexam_paintreport.paramsFormat={};
 mdclexam_paintreport.fire=function(params){
 	return (new Result())
 	.runat("body")
-	.withdata({"#txt_createtime":efw.server.format.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss")});
+	.withdata({"#txt_createtime":(new Date()).format("yyyy-MM-dd HH:mm:ss")});
 };

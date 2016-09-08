@@ -6,7 +6,7 @@ sample_brmstest.paramsFormat={
 		"#txt_param2":null,
 };
 sample_brmstest.fire=function(params){
-	var data=(new Rule("brmstest",{
+	var data=(brms.rule("brmstest",{
 			"param1":params["#txt_param1"],
 			"param2":params["#txt_param2"],
 		}))

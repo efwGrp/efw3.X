@@ -4,6 +4,6 @@ sample_url2pdf.outOfLogin=true;
 sample_url2pdf.paramsFormat={};
 sample_url2pdf.fire=function(params){
 	//you can send some data by url
-	efw.server.pdf.url2Pdf("report.jsp",efw.server.format.formatDate(new Date(), "GyMMddHHmmss")+".pdf");
-	return new Event("sample_showfiles",params);
+	pdf.create("report.jsp",(new Date()).format("GyMMddHHmmss")+".pdf");
+	return event.fire("sample_showfiles",params);
 };

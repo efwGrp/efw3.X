@@ -4,7 +4,7 @@ sample_clear.outOfLogin=true;
 sample_clear.paramsFormat={};
 sample_clear.fire=function(params){
 	return (new Result())
-	.runat("body")
+	.runat()
 	.withdata({"#txt_uid":"","#txt_pwd":""})
 	;
 };

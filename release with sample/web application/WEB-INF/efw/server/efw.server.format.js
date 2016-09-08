@@ -79,3 +79,49 @@ EfwServerFormat.prototype.parseDate = function(value, formatter) {
 			.getTime());
 	return dt;
 };
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * The function to format the Number self to String. 
+ * @param {String}
+ *            formatter: required<br>
+ * @returns {String}
+ */
+Number.prototype.format=function(formatter){
+	return EfwServerFormat.prototype.formatNumber(this,formatter);
+};
+/**
+ * The function to parse the value to Number.
+ * @param {String} value: required<br>
+ * @param {String} formatter: required<br>
+ * @returns {Number}
+ */
+Number.parse=function(value,formatter){
+	if(formatter==null){
+		return new Number(value);
+	}else{
+		return EfwServerFormat.prototype.parseNumber(value, formatter); 
+	}
+};
+/**
+ * The function to format the Date self to String. 
+ * @param {String}
+ *            formatter: required<br>
+ * @returns {String}
+ */
+Date.prototype.format=function(formatter){
+	return EfwServerFormat.prototype.formatDate(this,formatter);
+};
+/**
+ * The function to parse the value to Date.
+ * @param {String} value: required<br>
+ * @param {String} formatter: required<br>
+ * @returns {Date}
+ */
+Date.parse=function(value,formatter){
+	if(formatter==null){
+		return (new Date(value)).getTime();
+	}else{
+		return EfwServerFormat.prototype.parseDate(value, formatter); 
+	}
+};
+

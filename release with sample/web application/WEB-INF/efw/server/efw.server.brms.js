@@ -8,6 +8,27 @@ function EfwServerBRMS() {
 /**
  * The function to execute rule.
  * 
+ * @param {String}
+ *            ruleCode: required<br>
+ * @param {Object}
+ *            params: required<br>
+ *            {param1:value1,param2:value2,...}<br>
+ * @param {Date}
+ *            ruleDate: optional<br>
+ * @returns {Record}
+ */
+EfwServerBRMS.prototype.rule = function(ruleCode, params, ruleDate) {
+	var values = EfwServerBRMS.prototype._executeQuery({
+		"ruleCode" : ruleCode,
+		"params" : params,
+		"ruleDate" : ruleDate,
+	});
+	return new Record(values);
+};
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * The function to execute rule.
+ * 
  * @param executionParams
  *            <br> {<br>
  *            ruleCode:String, //required<br>
@@ -15,7 +36,7 @@ function EfwServerBRMS() {
  *            ruleDate:Date //optional<br> }<br>
  * @returns {Array}
  */
-EfwServerBRMS.prototype.executeQuery = function(executionParams) {
+EfwServerBRMS.prototype._executeQuery = function(executionParams) {
 	var ruleCode = executionParams.ruleCode;
 	var ruleDate;
 	var aryParam = executionParams.params;

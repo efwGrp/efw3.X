@@ -75,7 +75,7 @@
 <input type="button" id="btnF2" style="width:150px" value="F2 アップロード" 
 	data-shortcut="F2" onclick="Efw('sample_upload')">
 <input type="button" id="btnF3" style="width:150px" value="F3 ダウンロード" 
-	data-shortcut="F3" onclick="Efw('sample_download',function(){Efw('sample_showfiles')})">
+	data-shortcut="F3" onclick="Efw('sample_download')">
 <br>
 <br>
 

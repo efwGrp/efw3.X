@@ -6,18 +6,22 @@
 function EfwServerPdf() {
 };
 /**
- * The function to change a relative url to pdf file in the relative path.
- * @param {String} url: the relative url to the application base url.
- * @param {String} pdfPath: the relative path to the storage path.
+ * The function to create a pdf from a relative url to the web application,<br> 
+ * and save it as the relative path to the storage folder.
+ * @param {String} url: required<br>
+ * @param {String} savePath: required<br>
+ * @returns {EfwServerPdf}
  */
-EfwServerPdf.prototype.url2Pdf = function(url, pdfPath) {
-	Packages.efw.pdf.PdfManager.url2Pdf(url, pdfPath);
+EfwServerPdf.prototype.create = function(url, savePath) {
+	Packages.efw.pdf.PdfManager.url2Pdf(url, savePath);
 };
 /**
- * The function to merge all pdfs in a folder to one pdf.
- * @param {String} sourcePdfFolder: the relative folder path to the storage path.
- * @param {String} targetPdfPath: the relative file path to the storage path.
+ * The function to merge all pdfs in a relative folder to the storage folder,<br> 
+ * and save it as the relative path to the storage folder.
+ * @param {String} folder: required<br>
+ * @param {String} savePath: required<br>
+ * @returns {EfwServerPdf}
  */
-EfwServerPdf.prototype.merge = function(sourcePdfFolder, targetPdfPath) {
-	Packages.efw.pdf.PdfManager.merge(sourcePdfFolder, targetPdfPath);
+EfwServerPdf.prototype.merge = function(folder, savePath) {
+	Packages.efw.pdf.PdfManager.merge(folder, savePath);
 };

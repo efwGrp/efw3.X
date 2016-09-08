@@ -11,82 +11,35 @@
 	
 	<script>
 		//=====================================================================
-		function seekUserInfo(){
-			efw.client.fire({
-				eventId:"mdclexam_seekuser",
-				success:function(){
-					$("#visitlist tr:eq(0) td").css("background-color","lightcyan");
-				}
-			});
-		}
-		//=====================================================================
-		function nextUserInfo(){
-			efw.client.fire({
-				eventId:"mdclexam_nextuser",
-				success:function(){
-					$("#visitlist tr:eq(0) td").css("background-color","lightcyan");
-				}
-			});
-		}
-		//=====================================================================
-		function previousUserInfo(){
-			efw.client.fire({
-				eventId:"mdclexam_previoususer",
-				success:function(){
-					$("#visitlist tr:eq(0) td").css("background-color","lightcyan");
-				}
-			});
-		}
-		//=====================================================================
 		function selectVisit(row){
 			var vstdt=$("td:eq(0)",row).html();
 			$("#visitlist td").css("background-color","");
 			$("td",row).css("background-color","lightcyan");
-			efw.client.fire({
-				eventId:"mdclexam_seekvisit",
-				manualParams:{visitdate:vstdt}
-			});
+			Efw("mdclexam_seekvisit",{visitdate:vstdt});
 		}
 		//=====================================================================
 		function showFieldDialog(fieldidx){
 			$("#subdata1 td").css("background-color","");
 			$("#field_"+fieldidx+" td").css("background-color","lightcyan");
-			efw.client.fire({
-				eventId:"mdclexam_showfielddef",
-				manualParams:{fieldindex:fieldidx},
-				success:function(){$("#fielddialog").show();}
-			});
-		}
-		//=====================================================================
-		function refreshMemory(){
-			efw.client.fire({
-				eventId:"mdclexam_refreshmemory",
-				success:function(){efw.client.alert("メモリ常駐マスタをリロードしました。");}
-			});
-		}
-		function changeDB(){
-			efw.client.fire({
-				eventId:"mdclexam_changedb",
-				success:function(){efw.client.alert("項目名のDB内容を更新しました。");}
-			});
+			Efw("mdclexam_showfielddef",{fieldindex:fieldidx});
 		}
 		//=====================================================================
 		$(function(){
 			$("#the_seek")
 			.button()
-			.click(function(event){seekUserInfo()});
+			.click(function(event){Efw("mdclexam_seekuser");});
 			$("#the_pre")
 			.button()
-			.click(function(event){previousUserInfo()});
+			.click(function(event){Efw("mdclexam_previoususer");});
 			$("#the_next")
 			.button()
-			.click(function(event){nextUserInfo()});
+			.click(function(event){Efw("mdclexam_nextuser");});
 			$("#btn_memory")
 			.button()
-			.click(function(event){refreshMemory()});
+			.click(function(event){Efw("mdclexam_refreshmemory");});
 			$("#btn_changeDB")
 			.button()
-			.click(function(event){changeDB()});
+			.click(function(event){Efw("mdclexam_changedb");});
 			
 			$("#tabs")
 			.tabs();

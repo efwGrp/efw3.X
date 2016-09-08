@@ -10,6 +10,7 @@ mdclexam_changedb.fire=function(params){
 	}else{
 		nm="変更"+nm;
 	}
-	//new Change("update 検査項目情報 set 項目名称 ='"+nm+"' where 項目コード ='"+cd+"' ");
-	new Change("mdclexam_fielddef","update",{"cd":cd,"nm":nm,});
+	//db.change("update 検査項目情報 set 項目名称 ='"+nm+"' where 項目コード ='"+cd+"' ");
+	db.change("mdclexam_fielddef","update",{"cd":cd,"nm":nm,});
+	return (new Result()).alert("項目名のDB内容を更新しました。");
 };

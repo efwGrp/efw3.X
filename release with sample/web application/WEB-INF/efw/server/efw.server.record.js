@@ -8,15 +8,15 @@
  */
 function Record(array) {
 	if (array == null) {
-		this._array = [];
+		this.values = [];
 	} else {
-		this._array = array;
+		this.values = array;
 	}
 };
 /**
  * The internal variable for keeping records.
  */
-Record.prototype._array = null;
+Record.prototype.values = null;
 /**
  * Seek in records.<br>
  * The action is one of the options: [ eq | gt | lt | like | !eq | !gt | !lt |
@@ -52,8 +52,8 @@ Record.prototype.seek = function(field, action, value) {
 		if (likeLast)
 			value = value.substring(0, value.length - 1);
 	}
-	for (var i = 0; i < this._array.length; i++) {
-		var rd = this._array[i];
+	for (var i = 0; i < this.values.length; i++) {
+		var rd = this.values[i];
 		switch (action) {
 		case "eq":
 			if (rd[field] == value)
@@ -97,7 +97,7 @@ Record.prototype.seek = function(field, action, value) {
 		}
 		}
 	}
-	this._array = ret;
+	this.values = ret;
 	return this;
 };
 /**
@@ -116,7 +116,7 @@ Record.prototype.sort = function(field, action) {
 	if (action != "asc" && action != "desc" && action != "ASC"
 			&& action != "DESC")
 		return this;
-	var ret = this._array.sort(function(a, b) {
+	var ret = this.values.sort(function(a, b) {
 		if (action == "desc" || action == "DESC") {
 			if (a[field] < b[field])
 				return 1;
@@ -129,7 +129,7 @@ Record.prototype.sort = function(field, action) {
 				return 1;
 		}
 	});
-	this._array = ret;
+	this.values = ret;
 	return this;
 };
 /**
@@ -145,8 +145,8 @@ Record.prototype.map = function(mapping) {
 		return this;
 
 	var array = [];
-	for (var i = 0; i < this._array.length; i++) {
-		var rsdata = this._array[i];
+	for (var i = 0; i < this.values.length; i++) {
+		var rsdata = this.values[i];
 
 		var itemfix = null;
 		var item = {};
@@ -177,7 +177,7 @@ Record.prototype.map = function(mapping) {
 		}
 		array.push(item);
 	}
-	this._array = array;
+	this.values = array;
 	return this;
 };
 /**
@@ -186,11 +186,11 @@ Record.prototype.map = function(mapping) {
  * @returns {Object}
  */
 Record.prototype.getSingle = function() {
-	if (this._array == null)
+	if (this.values == null)
 		return null;
-	if (this._array.length == 0)
+	if (this.values.length == 0)
 		return null;
-	return JSON.clone(this._array[0]);
+	return JSON.clone(this.values[0]);
 };
 /**
  * The function to get the array data from records.
@@ -198,7 +198,7 @@ Record.prototype.getSingle = function() {
  * @returns {Array}
  */
 Record.prototype.getArray = function() {
-	return JSON.clone(this._array);
+	return JSON.clone(this.values);
 };
 /**
  * The function to get a field value from the first data of records.
@@ -208,10 +208,10 @@ Record.prototype.getArray = function() {
  * @returns {String | Number | Date | Boolean}
  */
 Record.prototype.getValue = function(field) {
-	if (this._array == null)
+	if (this.values == null)
 		return null;
-	if (this._array.length == 0)
+	if (this.values.length == 0)
 		return null;
-	var rd = this._array[0];
+	var rd = this.values[0];
 	return rd[field];
 };

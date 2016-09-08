@@ -5,7 +5,7 @@ mdclexam_seekvisit.fire=function(params){
 	var visitdate=params["visitdate"];
 	//受診情報
 	//-------------------------------------------------------------------------
-	var rsVisitinfo=(new Select("mdclexam_visit","select",{"user_id":params["#the_id"],"visit_date":visitdate}))
+	var rsVisitinfo=(db.select("mdclexam_visit","select",{"user_id":params["#the_id"],"visit_date":visitdate}))
 		.map({
 			"td:eq(0)":["受診日","yyyy/MM/dd"],
 			"td:eq(1)":"コース名",
@@ -46,7 +46,7 @@ mdclexam_seekvisit.fire=function(params){
 	
 	//受診結果
 	//-------------------------------------------------------------------------
-	var rsSubdata1 = (new Select("mdclexam_field","list",{"user_id":params["#the_id"],"visit_date":visitdate}))
+	var rsSubdata1 = (db.select("mdclexam_field","list",{"user_id":params["#the_id"],"visit_date":visitdate}))
 		.map({
 			"td1":"検査項目番号",
 			"td2":"項目名称",
@@ -66,11 +66,11 @@ mdclexam_seekvisit.fire=function(params){
 	//-------------------------------------------------------------------------
 	//コース名を取得する、内部関数
 	function getCouseName(cd){
-		return (new Master("オプションコース情報"))
+		return (db.master("オプションコース情報"))
 		.seek("コース番号","eq",cd)
 		.getValue("オプションコース名");
 	}
-	var rsOptioninfo = (new Select("mdclexam_option","seek",{"user_id":params["#the_id"],"visit_date":visitdate}))
+	var rsOptioninfo = (db.select("mdclexam_option","seek",{"user_id":params["#the_id"],"visit_date":visitdate}))
 		.map({
 			"td:eq(0)":function(rs){return getCouseName(rs["コース番号1"]);},
 			"td:eq(1)":function(rs){return getCouseName(rs["コース番号2"]);},
@@ -87,7 +87,7 @@ mdclexam_seekvisit.fire=function(params){
 
 	//指示指導情報
 	//-------------------------------------------------------------------------
-	var rsInstructionlist = (new Select("mdclexam_instruction","list",{"user_id":params["#the_id"],"visit_date":visitdate}))
+	var rsInstructionlist = (db.select("mdclexam_instruction","list",{"user_id":params["#the_id"],"visit_date":visitdate}))
 		.map({
 			"td1":"印字・表示順番",
 			"td2":"指示コメントの表題",

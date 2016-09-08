@@ -6,10 +6,10 @@ sample_upload.paramsFormat={
 	"#txt_file2":"display-name:ファイル２;accept:XLS,xlsx;",
 };
 sample_upload.fire=function(params){
-	efw.server.file.saveUploadFiles("");
+	file.saveUploadFiles("");
 	
 	return (new Result)
 		.runat("body")
 		.withdata({"#txt_file1":"","#txt_file2":"",})
-		.concat(new Event("sample_showfiles",params));
+		.concat(event.fire("sample_showfiles",params));
 };

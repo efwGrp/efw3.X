@@ -9,55 +9,28 @@ var EfwServerProperties = function() {
  * The function to get String value from efw.properties file.
  * 
  * @param {String}
- *            key
+ *            key: required<br>
  * @param {String}
- *            defaultValue
- * @returns {String}
+ *            defaultValue: optional<br>
+ * @returns {any}
  */
 EfwServerProperties.prototype.get = function(key, defaultValue) {
 	var dv;
-	if (defaultValue == undefined) {
+	if (defaultValue == null) {
 		dv = null;
 	} else {
 		dv = defaultValue + "";
 	}
-	return "" + Packages.efw.properties.PropertiesManager.getProperty(key, dv);
-};
-/**
- * The function to get Boolean value from efw.properties file.
- * 
- * @param {String}
- *            key
- * @param {Boolean}
- *            defaultValue
- * @returns {Boolean}
- */
-EfwServerProperties.prototype.getBoolean = function(key, defaultValue) {
-	var dv;
-	if (defaultValue == undefined) {
-		dv = false;
-	} else {
-		dv = defaultValue && true;
+	var value=""+Packages.efw.properties.PropertiesManager.getProperty(key, dv);
+	if(defaultValue==null){
+		return value;
+	}else if(typeof defaultValue=="string"){
+		return value;
+	}else if(typeof defaultValue=="number"){
+		return 0+new Number(value);
+	}else if(typeof defaultValue=="boolean"){
+		return true && java.lang.Boolean.parseBoolean(value);
+	}else{
+		return value;
 	}
-	return true && Packages.efw.properties.PropertiesManager
-			.getBooleanProperty(key, dv);
-};
-/**
- * The function to get Number value from efw.properties file.
- * 
- * @param {String}
- *            key
- * @param {Number}
- *            defaultValue
- * @returns {Number}
- */
-EfwServerProperties.prototype.getInt = function(key, defaultValue) {
-	var dv;
-	if (defaultValue == undefined) {
-		dv = 0;
-	} else {
-		dv = defaultValue + 0;
-	}
-	return 0 + Packages.efw.properties.PropertiesManager
-			.getIntProperty(key, dv);
 };

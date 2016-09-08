@@ -8,5 +8,6 @@ sample_download.fire=function(params){
 	if (ary_fl.length==1){param=ary_fl[0];}else{param=ary_fl;}
 	return (new Result())
 		.attach(param)
-		.deleteAfterDownload();
+		.deleteAfterDownload()
+		.eval("Efw('sample_showfiles')");
 };

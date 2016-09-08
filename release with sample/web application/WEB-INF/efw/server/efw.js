@@ -87,49 +87,37 @@ load(_serverfolder + "/efw.server.file.js");
 load(_serverfolder + "/efw.server.brms.js");
 load(_serverfolder + "/efw.server.pdf.js");
 load(_serverfolder + "/efw.server.mail.js");
-load(_serverfolder + "/efw.server.operating.record.js");
-load(_serverfolder + "/efw.server.operating.master.js");
-load(_serverfolder + "/efw.server.operating.select.js");
-load(_serverfolder + "/efw.server.operating.change.js");
-load(_serverfolder + "/efw.server.operating.rule.js");
-load(_serverfolder + "/efw.server.operating.mail.js");
-load(_serverfolder + "/efw.server.return.result.js");
-load(_serverfolder + "/efw.server.return.event.js");
+load(_serverfolder + "/efw.server.record.js");
+load(_serverfolder + "/efw.server.result.js");
 load(_serverfolder + "/efw.server.debug.js");
+
 /**
- * Add all classes in server package
+ * create instances.
  */
-EfwServer.prototype.brms = new EfwServerBRMS();
-EfwServer.prototype.db = new EfwServerDb();
-EfwServer.prototype.event = new EfwServerEvent();
-EfwServer.prototype.file = new EfwServerFile();
-EfwServer.prototype.format = new EfwServerFormat();
-EfwServer.prototype.mail = new EfwServerMail();
-EfwServer.prototype.messages = new EfwServerMessages();
-EfwServer.prototype.pdf = new EfwServerPdf();
-EfwServer.prototype.properties = new EfwServerProperties();
-EfwServer.prototype.session = new EfwServerSession();
-Efw.prototype.server = new EfwServer();
+var messages = new EfwServerMessages();
+var properties = new EfwServerProperties();
+var session = new EfwServerSession();
+var db = new EfwServerDb();
+var event = new EfwServerEvent();
+var file = new EfwServerFile();
+var brms = new EfwServerBRMS();
+var mail =new EfwServerMail();
+var pdf = new EfwServerPdf();
 
 // /////////////////////////////////////////////////////////////////////////////
 // The initialization of system.
 // /////////////////////////////////////////////////////////////////////////////
-/**
- * efw is an instance of Efw.<br>
- * all using of framework base functions in your program should be started from
- * it.
- */
-var efw = new Efw();
+
 /**
  * If it is not debug mode, load all events in system at starting.<br>
  * Then you can see all events in statistics.
  */
-efw.server.event.loadAll();
+EfwServerEvent.prototype._loadAll();
 /**
  * Run global event.
  */
-if (efw.server.event.load("global") != null)
-	efw.server.fire(efw.server.event.load("global").event);
+if (EfwServerEvent.prototype._load("global") != null)
+	EfwServer.prototype.fire(EfwServerEvent.prototype._load("global").event);
 // /////////////////////////////////////////////////////////////////////////////
 /**
  * The ajax service function<br>
@@ -144,20 +132,19 @@ function doPost(req) {
 	var eventId = reqJson.eventId; // get eventId from json object
 	var params = reqJson.params; // get params from json object
 	try{
-		var eventInfo = efw.server.event.load(eventId); // to load or get a event
+		var eventInfo = EfwServerEvent.prototype._load(eventId); // to load or get a event
 		if(eventInfo.enable==false){
 			var message=EfwServerMessages.prototype.EventDisableMessage;
 			return JSON.stringify(
 					(new Result())
-					.alert(message,{"eventId":eventId})
-					.fail());
+					.alert(message,{"eventId":eventId}));
 		}
 		var event=eventInfo.event;
 		var beginTime = new Date(); // the begin time of event calling
 		if (params == null) {
 			var ret = JSON.stringify(JSON.clone(event.paramsFormat));
 			var endTime = new Date(); // the end time of event first calling
-			EfwServerEvent.prototype.updateStatistics(eventId, "first", beginTime,
+			EfwServerEvent.prototype._updateStatistics(eventId, "first", beginTime,
 					endTime);
 			return ret;
 		} else {
@@ -169,7 +156,7 @@ function doPost(req) {
 				fireFlag = "second"; // the second calling is success
 			} finally {
 				var endTime = new Date(); // the end time of event second calling
-				EfwServerEvent.prototype.updateStatistics(eventId, fireFlag,
+				EfwServerEvent.prototype._updateStatistics(eventId, fireFlag,
 						beginTime, endTime);
 			}
 			// if it is null, return blank array to client as a success
@@ -179,8 +166,7 @@ function doPost(req) {
 		}
 	}catch(e){
 		var result=(new Result())
-		.error("RuntimeErrorException", {"eventId":eventId,"message":e.message})
-		.fail();
+		.error("RuntimeErrorException", {"eventId":eventId,"message":e.message});
 		var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","");
 		if (systemErrorUrl!=""){
 			result.navigate(systemErrorUrl);

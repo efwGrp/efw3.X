@@ -46,49 +46,51 @@
         refresh();
     }
 	function refresh(){
-		Efw("statistics_show",{"sortItem":sortItem,"sortAction":sortAction},
-			function(values,actions){
-				$("#tbl_statistics input").button();
-				var chardata=[];
-				var head_data=["eventName"];
-				$("#tbl_statistics_head input:checked").each(function(){
-					var vl=$(this).val();
-					head_data.push(vl);
-				});
-				var head_data_show=[];
-				for(var i=0;i<head_data.length;i++){
-					head_data_show.push(head_data[i].replace("event","Event ").replace("error","E ").replace("second","S "));
-				};
-				chardata.push(head_data_show);
-				var sourceArray=values[0]["withdata"];
-				for(var i=0;i<sourceArray.length;i++){
-					var s=sourceArray[i];
-					var d=[];
-					for(var j=0;j<head_data.length;j++){
-						d.push(s[head_data[j]]);
-					}
-					chardata.push(d);
-				}
-		        var options = {title: "efw Access Statistics", height:"350",};
-		        chart.draw(google.visualization.arrayToDataTable(chardata), options);
-				if(refresh_handle!=null)window.clearTimeout(refresh_handle);
-				refresh_handle=window.setTimeout(refresh, 5000);
-			}
-		);
+		Efw("statistics_show",{"sortItem":sortItem,"sortAction":sortAction});
 	}
+	function refresh_drawChart(){
+		var values=efw.result.values;
+		var actions=efw.result.actions;
+		$("#tbl_statistics input").button();
+		var chardata=[];
+		var head_data=["eventName"];
+		$("#tbl_statistics_head input:checked").each(function(){
+			var vl=$(this).val();
+			head_data.push(vl);
+		});
+		var head_data_show=[];
+		for(var i=0;i<head_data.length;i++){
+			head_data_show.push(head_data[i].replace("event","Event ").replace("error","E ").replace("second","S "));
+		};
+		chardata.push(head_data_show);
+		var sourceArray=values[0]["withdata"];
+		for(var i=0;i<sourceArray.length;i++){
+			var s=sourceArray[i];
+			var d=[];
+			for(var j=0;j<head_data.length;j++){
+				d.push(s[head_data[j]]);
+			}
+			chardata.push(d);
+		}
+        var options = {title: "efw Access Statistics", height:"350",};
+        chart.draw(google.visualization.arrayToDataTable(chardata), options);
+		if(refresh_handle!=null)window.clearTimeout(refresh_handle);
+		refresh_handle=window.setTimeout(refresh, 5000);
+	}
+	
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
 	
 	//Operation
 	//-------------------------------------------------------------------------
 	function stopEvent(eventId){
-		Efw("statistics_stop",{"eventId":eventId},refresh);
+		Efw("statistics_stop",{"eventId":eventId});
 	}
 	function startEvent(eventId){
-		Efw("statistics_start",{"eventId":eventId},refresh);
+		Efw("statistics_start",{"eventId":eventId});
 	}
 	function reloadEvent(eventId){
-		Efw("statistics_reload",{"eventId":eventId},refresh);
+		Efw("statistics_reload",{"eventId":eventId});
 	}
 	
   	</script>

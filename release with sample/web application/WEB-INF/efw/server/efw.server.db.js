@@ -3,8 +3,122 @@
  * 
  * @author Chang Kejun
  */
-function EfwServerDb() {
+function EfwServerDb() {};
+/**
+ * The class to execute insert update delete sql in database.
+ * <br>
+ * db.change(groupId,sqlId,params)<br>
+ * db.change(groupId,sqlId,params,jdbcResourceName)<br>
+ * db.change(sql)<br>
+ * db.change(sql,jdbcResourceName)<br>
+ * <br>
+ * @param {String}
+ *            groupId<br>
+ * @param {String}
+ *            sqlId<br>
+ * @param {Object}
+ *            params<br>
+ *            {param1:value1,param2:value2,...}<br>
+ * @param {String}
+ *            jdbcResourceName<br>
+ * @param {String}
+ *            sql<br>
+ * @returns {Number}
+ */
+EfwServerDb.prototype.change = function(groupId, sqlId, params, jdbcResourceName) {
+	var count=0;
+	if (params==undefined){
+		var innerSql=groupId;//first param
+		var innerJdbcResourceName=sqlId;//second param
+		count = EfwServerDb.prototype._executeUpdate({
+			"jdbcResourceName" : innerJdbcResourceName,
+			"sql" : innerSql
+		});
+	}else{
+		count = EfwServerDb.prototype._executeUpdate({
+			"jdbcResourceName" : jdbcResourceName,
+			"groupId" : groupId,
+			"sqlId" : sqlId,
+			"params" : params
+		});
+	}
+	return count;
 };
+/**
+ * The locker for master operating.
+ */
+var Master_lock = new java.util.concurrent.locks.ReentrantLock();
+EfwServerDb.prototype._masters={};
+/**
+ * The function to operate master data in memory.
+ * 
+ * @param {String}
+ *            masterId: required<br>
+ * @param {Boolean}
+ *            reload
+ * @returns {Record}
+ */
+EfwServerDb.prototype.master=function(masterId, reload) {
+	Master_lock.lock();
+	var values;
+	try {
+		if (reload == true) {
+			EfwServerDb.prototype._masters[masterId] = EfwServerDb.prototype._executeQuery({
+						"sql" : "select * from " + masterId
+					});
+		} else if (EfwServerDb.prototype._masters[masterId] == null) {
+			EfwServerDb.prototype._masters[masterId] = EfwServerDb.prototype._executeQuery({
+						"sql" : "select * from " + masterId
+					});
+		}
+		values = EfwServerDb.prototype._masters[masterId];
+	} finally {
+		Master_lock.unlock();
+	}
+	return new Record(values);
+};
+
+/**
+ * The function to execute select sql in database.<br>
+ * <br>
+ * select(groupId,sqlId,params)<br>
+ * select(groupId,sqlId,params,jdbcResourceName)<br>
+ * select(sql)<br>
+ * select(sql,jdbcResourceName)<br>
+ * <br>
+ * @param {String}
+ *            groupId<br>
+ * @param {String}
+ *            sqlId<br>
+ * @param {Object}
+ *            params<br>
+ *            {param1:value1,param2:value2,...}<br>
+ * @param {String}
+ *            jdbcResourceName<br>
+ * @param {String}
+ *            sql<br>
+ * @returns {Record}
+ */
+EfwServerDb.prototype.select =function(groupId, sqlId, params, jdbcResourceName) {
+	var values;
+	if (params==undefined){
+		var innerSql=groupId;//first param
+		var innerJdbcResourceName=sqlId;//second param
+		values = EfwServerDb.prototype._executeQuery({
+			"jdbcResourceName" : innerJdbcResourceName,
+			"sql" : innerSql
+		});
+	}else{
+		values = EfwServerDb.prototype._executeQuery({
+			"jdbcResourceName" : jdbcResourceName,
+			"groupId" : groupId,
+			"sqlId" : sqlId,
+			"params" : params
+		});
+	}
+	return new Record(values);
+};
+///////////////////////////////////////////////////////////////////////////////
 /**
  * The function to execute select sql.
  * 
@@ -17,7 +131,7 @@ function EfwServerDb() {
  *            jdbcResourceName:String,//optional<br> }<br>
  * @returns {null | Array}
  */
-EfwServerDb.prototype.executeQuery = function(executionParams) {
+EfwServerDb.prototype._executeQuery = function(executionParams) {
 	var jdbcResourceName = executionParams.jdbcResourceName;
 	if (jdbcResourceName == undefined || jdbcResourceName == null)
 		jdbcResourceName = "";
@@ -35,13 +149,16 @@ EfwServerDb.prototype.executeQuery = function(executionParams) {
 			vl = new java.sql.Date(vl.getTime());
 		params.put(key, vl);
 	}
+	var db=Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName);
+	if (db==null){
+		EfwServerDb.prototype._open(jdbcResourceName);
+		db=Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName);
+	}
 	var rs;
 	if (sqlId != null) {
-		rs = Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName)
-				.executeQuery(groupId, sqlId, params);
+		rs = db.executeQuery(groupId, sqlId, params);
 	} else if (sql != null) {
-		rs = Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName)
-				.executeQuerySql(sql);
+		rs = db.executeQuerySql(sql);
 	} else {
 		return null;
 	}
@@ -105,7 +222,7 @@ EfwServerDb.prototype.executeQuery = function(executionParams) {
  *            jdbcResourceName:String,//optional<br> }<br>
  * @returns {Number}
  */
-EfwServerDb.prototype.executeUpdate = function(executionParams) {
+EfwServerDb.prototype._executeUpdate = function(executionParams) {
 	var jdbcResourceName = executionParams.jdbcResourceName;
 	if (jdbcResourceName == undefined || jdbcResourceName == null)
 		jdbcResourceName = "";
@@ -123,19 +240,22 @@ EfwServerDb.prototype.executeUpdate = function(executionParams) {
 			vl = new java.sql.Date(vl.getTime());
 		params.put(key, vl);
 	}
+	var db=Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName);
+	if (db==null){
+		EfwServerDb.prototype._open(jdbcResourceName);
+		db=Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName);
+	}
 	if (sqlId != null)
-		return Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName)
-				.executeUpdate(groupId, sqlId, params);
+		return db.executeUpdate(groupId, sqlId, params);
 	if (sql != null)
-		return Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName)
-				.executeUpdateSql(sql);
+		return db.executeUpdateSql(sql);
 	return 0;
 };
 /**
  * The function to commit.
  * @param {String} jdbcResourceName
  */
-EfwServerDb.prototype.commit = function(jdbcResourceName) {
+EfwServerDb.prototype._commit = function(jdbcResourceName) {
 	if (jdbcResourceName == undefined || jdbcResourceName == null)
 		jdbcResourceName = "";
 	Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName).commit();
@@ -144,7 +264,7 @@ EfwServerDb.prototype.commit = function(jdbcResourceName) {
  * The function to rollback.
  * @param {String} jdbcResourceName
  */
-EfwServerDb.prototype.rollback = function(jdbcResourceName) {
+EfwServerDb.prototype._rollback = function(jdbcResourceName) {
 	if (jdbcResourceName == undefined || jdbcResourceName == null)
 		jdbcResourceName = "";
 	Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName).rollback();
@@ -153,7 +273,7 @@ EfwServerDb.prototype.rollback = function(jdbcResourceName) {
  * The function to open database.
  * @param {String} jdbcResourceName
  */
-EfwServerDb.prototype.open = function(jdbcResourceName) {
+EfwServerDb.prototype._open = function(jdbcResourceName) {
 	if (jdbcResourceName == undefined || jdbcResourceName == null)
 		jdbcResourceName = "";
 	Packages.efw.db.DatabaseManager.open(jdbcResourceName);
@@ -162,6 +282,20 @@ EfwServerDb.prototype.open = function(jdbcResourceName) {
 /**
  * The function to close all database.
  */
-EfwServerDb.prototype.closeAll = function() {
+EfwServerDb.prototype._closeAll = function() {
 	Packages.efw.db.DatabaseManager.closeAll();
+};
+
+/**
+ * The function to commit all database.
+ */
+EfwServerDb.prototype._commitAll = function() {
+	Packages.efw.db.DatabaseManager.commitAll();
+};
+
+/**
+ * The function to rollback all database.
+ */
+EfwServerDb.prototype._rollbackAll = function() {
+	Packages.efw.db.DatabaseManager.rollbackAll();
 };

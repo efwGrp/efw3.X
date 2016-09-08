@@ -11,13 +11,11 @@ var EfwClient = function() {
  * @param {Object}
  *            eventParams: required<br> {<br>
  *            eventId:String,required<br>
- *            manualParams:{},optional<br>
- *            success:Function,optional<br> }
+ *            manualParams:{},optional<br> }
  */
 EfwClient.prototype.fire = function(eventParams) {
 	var eventId = eventParams.eventId;
 	var manualParams = eventParams.manualParams;
-	var successCallback = eventParams.success;
 	EfwClient.prototype._consoleLog("First calling parameters", eventParams);
 	// define of the return object
 	// ---------------------------------------------------------------------
@@ -46,12 +44,11 @@ EfwClient.prototype.fire = function(eventParams) {
 		success : function(result) {
 			EfwClient.prototype._consoleLog("First calling result", result);
 			// if it is success,the result must be a json object.
-			if (result._object){
-				EfwClient.prototype._showActions(result._object);
-				if(result._object.error==null)EfwClient.prototype._removeLoading();
+			if (result.actions){
+				EfwClient.prototype._showActions(result.actions);
+				if(result.actions.error==null)EfwClient.prototype._removeLoading();
 			} else {// if no error, run the second fire, in this case , result is paramsFormat
-				EfwClient.prototype._fire2nd(eventId, result, manualParams,
-						successCallback, servletUrl, uploadUrl);
+				EfwClient.prototype._fire2nd(eventId, result, manualParams, servletUrl, uploadUrl);
 			}
 		},
 		error : function(errorResponse, errorType, errorMessage) {
@@ -69,10 +66,26 @@ EfwClient.prototype.fire = function(eventParams) {
  * @param {String} message: required<br>
  * @param {Function} callback: optional<br>
  */
-EfwClient.prototype.alert = function(message, callback) {
+EfwClient.prototype.alert = function(message, buttons) {
 	var $ = top.$;
 	if ($("body").dialog) {
 		$("#efw_client_alert").remove();
+		var dialogButtons={};
+		if(buttons){
+			for(var key in buttons){
+				window.eval("var EfwClientAlert_ButtonFunc=function(){"+
+						"$('#efw_client_alert').dialog('close').remove();"+
+						"EfwClient_showActions_MsgClosed=true;"+
+						buttons[key]+";"+
+						"}");
+				dialogButtons[key]=EfwClientAlert_ButtonFunc;
+			};
+		}else{
+			dialogButtons["OK"]=function(){
+				$("#efw_client_alert").dialog("close").remove();
+				EfwClient_showActions_MsgClosed=true;
+			};
+		}
 		$("body")
 				.append(
 						"<div id='efw_client_alert' style='display:none'><p></p></div>");
@@ -83,13 +96,7 @@ EfwClient.prototype.alert = function(message, callback) {
 			width : 500,
 			title : "Message",
 			closeOnEscape : false,
-			buttons : {
-				"OK" : function() {
-					$(this).dialog("close").remove();
-					if (callback)
-						callback();
-				}
-			},
+			buttons : dialogButtons,
 			open : function(event, ui) {
 				$(".ui-dialog-titlebar-close", $(this).parent()).hide();
 			}
@@ -105,12 +112,10 @@ EfwClient.prototype.alert = function(message, callback) {
  * @param eventId
  * @param paramsFormat
  * @param manualParams
- * @param successCallback
  * @param servletUrl
  * @param uploadUrl
  */
-EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams,
-		successCallback, servletUrl, uploadUrl) {
+EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams, servletUrl, uploadUrl) {
 	// auto collect params
 	// ---------------------------------------------------------------------
 	try {
@@ -141,11 +146,12 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams,
 				})
 			},
 			success : function(result) {
+				Efw.prototype.result=result;
 				EfwClient.prototype._consoleLog(
 						"Second calling result", result);
 				//show values
 				try {
-					EfwClient.prototype._showValues(result._array);
+					EfwClient.prototype._showValues(result.values);
 				} catch (e) {
 					EfwClient.prototype._consoleLog(
 							"Result values error", e);
@@ -154,18 +160,14 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams,
 				}
 				//show actions
 				try {
-					EfwClient.prototype._showActions(result._object);
-					if(result._object.error==null)EfwClient.prototype._removeLoading();
+					EfwClient.prototype._showActions(result.actions);
+					if(result.actions.error==null)EfwClient.prototype._removeLoading();
 				} catch (e) {
 					EfwClient.prototype._consoleLog(
 							"Result actions error", e);
 					EfwClient.prototype._showActions({"error":{"clientMessageId":"ResultActionsErrorException","params":{"eventId":eventId}}});
 					return;
 				}					
-				//call back
-				if (successCallback&&result._object.fail==null&&result._object.error==null){
-					EfwClient.prototype._doSuccessCallback(eventId,result,successCallback);
-				}
 			},
 			error : function(errorResponse, errorType, errorMessage) {
 				EfwClient.prototype._consoleLog("Second calling error", {
@@ -463,9 +465,12 @@ EfwClient.prototype._showValues = function(values) {
  * @param actions
  */
 var EfwClient_showActions_Downloaded=true;//true if download is over
+var EfwClient_showActions_MsgClosed=true;//true if alert is closed
+var EfwClient_showActions_Evaled=true;//true if script is run
 var EfwClient_showActions_Download_Handle=null;//keep the handle of interval
-var EfwClient_showActions_Alerted=true;//true if alert is closed
 var EfwClient_showActions_Navigate_Handle=null;//keep the handle of interval
+var EfwClient_showActions_Eval_Handle=null;//keep the handle of interval
+
 EfwClient.prototype._showActions = function(actions) {
 	if ((actions instanceof Array)) throw "The return actions must be an object.";
 	//-------------------------------------------------------------------------
@@ -478,10 +483,10 @@ EfwClient.prototype._showActions = function(actions) {
 				message=message.replace(new RegExp("{"+key+"}", "g"), params[key]);
 			}
 		}
-		EfwClient_showActions_Alerted=false;
-		EfwClient.prototype.alert(message, function(){EfwClient_showActions_Alerted=true;});
+		EfwClient_showActions_MsgClosed=false;
+		EfwClient.prototype.alert(message);
 		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
-			if(EfwClient_showActions_Alerted){
+			if(EfwClient_showActions_MsgClosed){
 				window.clearInterval(EfwClient_showActions_Navigate_Handle);
 				if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
 			}
@@ -508,55 +513,47 @@ EfwClient.prototype._showActions = function(actions) {
 		EfwClient_showActions_Downloaded=true;
 	}
 	//-------------------------------------------------------------------------
-	if (actions.alert){
-		EfwClient_showActions_Alerted=false;
-		EfwClient.prototype.alert(actions.alert.join("\n"), function(){EfwClient_showActions_Alerted=true;});
+	if (actions.confirm){
+		EfwClient_showActions_MsgClosed=false;
+		var message=actions.confirm.message;
+		if (actions.alert)message=actions.alert.join("\n")+"\n"+message;
+		EfwClient.prototype.alert(message, actions.confirm.buttons);
+	}else if (actions.alert){
+		EfwClient_showActions_MsgClosed=false;
+		EfwClient.prototype.alert(actions.alert.join("\n"));
 	}else{
-		EfwClient_showActions_Alerted=true;
+		EfwClient_showActions_MsgClosed=true;
 	}
-	if(EfwClient_showActions_Alerted&&EfwClient_showActions_Downloaded){
-		if (actions.focus)$(actions.focus).focus();
+	//-------------------------------------------------------------------------
+	if (actions.eval){
+		EfwClient_showActions_Evaled=false;
+		if(EfwClient_showActions_MsgClosed&&EfwClient_showActions_Downloaded){
+			window.eval(actions.eval.join(";"));
+			EfwClient_showActions_Evaled=true;
+		}else{
+			EfwClient_showActions_Eval_Handle=window.setInterval(function(){
+				if(EfwClient_showActions_MsgClosed&&EfwClient_showActions_Downloaded){
+					window.clearInterval(EfwClient_showActions_Eval_Handle);
+					window.eval(actions.eval.join(";"));
+					EfwClient_showActions_Evaled=true;
+				}
+			}, 100);
+		}
+	}
+	//-------------------------------------------------------------------------
+	if(EfwClient_showActions_MsgClosed&&EfwClient_showActions_Downloaded&&EfwClient_showActions_Evaled){
+		try{if (actions.focus)$(actions.focus).focus();}catch(e){}
 		if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
 	}else{
 		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
-			if(EfwClient_showActions_Alerted&&EfwClient_showActions_Downloaded){
+			if(EfwClient_showActions_MsgClosed&&EfwClient_showActions_Downloaded){
 				window.clearInterval(EfwClient_showActions_Navigate_Handle);
-				if (actions.focus)$(actions.focus).focus();
+				try{if (actions.focus)$(actions.focus).focus();}catch(e){}
 				if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
 			}
 		}, 100);
 	}
 	
-};
-/**
- * The internal function to do success callback.
- * @param eventId
- * @param result
- * @param successCallback
- */
-var EfwClient_doSuccessCallback_handle=null;
-EfwClient.prototype._doSuccessCallback = function(eventId,result,successCallback) {
-	var func=function(){
-		try {
-			successCallback(result._array,result._object);
-			EfwClient.prototype._removeLoading();
-		}catch (e) {
-			EfwClient.prototype._consoleLog(
-					"Success callback error", e);
-			EfwClient.prototype._showActions({"error":"SuccessCallbackErrorException"});
-		}
-	};
-	if(EfwClient_showActions_Downloaded&&EfwClient_showActions_Alerted){
-		func();
-	}else{
-		EfwClient_doSuccessCallback_handle=window.setInterval(
-			function(){
-				if(EfwClient_showActions_Downloaded&&EfwClient_showActions_Alerted){
-					window.clearInterval(EfwClient_doSuccessCallback_handle);
-					func();
-				}
-			}, 100);
-	}
 };
 /**
  * The internal function to show log to console.

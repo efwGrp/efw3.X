@@ -5,7 +5,7 @@ mdclexam_seekuser.fire=function(params){
 	
 	//個人情報 の取得
 	//-------------------------------------------------------------------------
-	var rsUserinfo = (new Select("mdclexam_user","seek",{"user_id":params["#the_id"]}))
+	var rsUserinfo = (db.select("mdclexam_user","seek",{"user_id":params["#the_id"]}))
 	.map({
 		"td:eq(1)":"個人カナ氏名",
 		"td:eq(2)":"個人漢字氏名",
@@ -39,7 +39,7 @@ mdclexam_seekuser.fire=function(params){
 
 	//受診情報一覧の取得
 	//-------------------------------------------------------------------------
-	var rsVisitlist= (new Select("mdclexam_visit","select",{"user_id":params["#the_id"]}))
+	var rsVisitlist= (db.select("mdclexam_visit","select",{"user_id":params["#the_id"]}))
 		.map({
 			"受診日":"受診日",
 			"td1":["受診日","yyyy/MM/dd"],
@@ -64,5 +64,6 @@ mdclexam_seekuser.fire=function(params){
 		.remove("tr")
 		.append("<tr style='cursor:pointer' onclick='selectVisit(this)'><td>{td1}</td><td>{td2}</td><td>{td3}</td></tr>")
 		.withdata(rsVisitlist)
-		.concat(new Event("mdclexam_seekvisit",{"#the_id":params["#the_id"],"visitdate":visitdate}));
+		.eval("$('#visitlist tr:eq(0) td').css('background-color','lightcyan')")
+		.concat(event.fire("mdclexam_seekvisit",{"#the_id":params["#the_id"],"visitdate":visitdate}));
 };

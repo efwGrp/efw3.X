@@ -9,26 +9,23 @@
  * The Efw class
  * Efw(eventId)<br>
  * Efw(eventId,manualParams)<br>
- * Efw(eventId,success)<br>
- * Efw(eventId,manualParams,success)<br>
- * <br>
- * success=function(values,actions){}
+ * Efw(eventId,sever)<br>
+ * Efw(eventId,manualParams,sever)<br>
  */
-var Efw = function(eventId,manualParams,success) {
+var Efw = function(eventId,manualParams,server) {
 	if(eventId!=undefined){
 		var eventParams={"eventId":eventId};
-		if(typeof manualParams =="function" && success==null) {
-			eventParams.success=manualParams;
+		if(typeof manualParams =="string") {
+				eventParams.server=manualParams;
 		}else{
 			eventParams.manualParams=manualParams;
-			eventParams.success=success;
+			eventParams.server=server;
 		}
-		efw.client.fire(eventParams);
+		EfwClient.prototype.fire(eventParams);
 	}
 };
-Efw.prototype.client=new EfwClient();
-EfwClient.prototype.format = new EfwClientFormat();
-EfwClient.prototype.messages = new EfwClientMessages();
+
+Efw.prototype.result=null;
 // /////////////////////////////////////////////////////////////////////////////
 // The initialization of system.
 // /////////////////////////////////////////////////////////////////////////////

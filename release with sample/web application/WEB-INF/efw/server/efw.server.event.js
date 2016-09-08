@@ -6,6 +6,31 @@
 var EfwServerEvent = function() {
 };
 /**
+ * The function to fire another event in an event firing.
+ * 
+ * @param {String}
+ *            eventId: required<br>
+ * @param {Object}
+ *            params: required<br>
+ *            {param1:value1,param2:value2,...}<br>
+ * @returns {Result}
+ */
+EfwServerEvent.prototype.fire = function(eventId, params) {
+	var result=new Result();
+	var beginTime = new Date();
+	var fireFlag = "error";
+	try {
+		result.concat(EfwServerEvent.prototype._load(eventId).event.fire(params));
+		fireFlag = "second";
+	} finally {
+		var endTime = new Date();
+		EfwServerEvent.prototype._updateStatistics(eventId, fireFlag, beginTime,
+				endTime);
+	}
+	return result;
+};
+///////////////////////////////////////////////////////////////////////////////
+/**
  * The locker for event operating.
  */
 var Event_lock = new java.util.concurrent.locks.ReentrantLock();
@@ -16,7 +41,7 @@ EfwServerEvent.prototype._events = {};
 /**
  * The function to load all events.
  */
-EfwServerEvent.prototype.loadAll = function() {
+EfwServerEvent.prototype._loadAll = function() {
 	var lst=Packages.efw.file.FileManager.getListByExtByAbsolutePath(_eventfolder, "js");
 	var files=[];
 	for (var i = 0; i < lst.length; i++) {
@@ -29,7 +54,7 @@ EfwServerEvent.prototype.loadAll = function() {
 		var filename = files[i];
 		try {
 			var eventId = filename.substring(0, filename.length - 3);
-			EfwServerEvent.prototype.load(eventId);
+			EfwServerEvent.prototype._load(eventId);
 		} catch (e) {
 			Packages.efw.log.LogManager.ErrorDebug("[" + filename
 					+ "] is wrong.");
@@ -46,7 +71,7 @@ EfwServerEvent.prototype.loadAll = function() {
  *            eventId: required<br>
  * @returns {EventInfo}
  */
-EfwServerEvent.prototype.load = function(eventId) {
+EfwServerEvent.prototype._load = function(eventId) {
 	var eventInfo;
 	Event_lock.lock();
 	try {
@@ -109,9 +134,9 @@ EfwServerEvent.prototype.load = function(eventId) {
  * @param {String}
  *            eventId: required<br>
  */
-EfwServerEvent.prototype.reload = function(eventId) {
+EfwServerEvent.prototype._reload = function(eventId) {
 	delete EfwServerEvent.prototype._events[eventId];
-	EfwServerEvent.prototype.load(eventId);
+	EfwServerEvent.prototype._load(eventId);
 };
 /**
  * The function to enable a event.
@@ -119,7 +144,7 @@ EfwServerEvent.prototype.reload = function(eventId) {
  * @param {String}
  *            eventId: required<br>
  */
-EfwServerEvent.prototype.start = function(eventId) {
+EfwServerEvent.prototype._start = function(eventId) {
 	EfwServerEvent.prototype._events[eventId].enable = true;
 };
 /**
@@ -128,7 +153,7 @@ EfwServerEvent.prototype.start = function(eventId) {
  * @param {String}
  *            eventId: required<br>
  */
-EfwServerEvent.prototype.stop = function(eventId) {
+EfwServerEvent.prototype._stop = function(eventId) {
 	EfwServerEvent.prototype._events[eventId].enable = false;
 };
 /**
@@ -143,7 +168,7 @@ EfwServerEvent.prototype.stop = function(eventId) {
  * @param {Date}
  *            endTime: required<br>
  */
-EfwServerEvent.prototype.updateStatistics = function(eventId, flag, beginTime,endTime) {
+EfwServerEvent.prototype._updateStatistics = function(eventId, flag, beginTime,endTime) {
 	Event_lock.lock();
 	try {
 		var eventInfo = EfwServerEvent.prototype._events[eventId];
@@ -172,7 +197,7 @@ EfwServerEvent.prototype.updateStatistics = function(eventId, flag, beginTime,en
  * 
  * @returns {Array}
  */
-EfwServerEvent.prototype.getStatistics = function() {
+EfwServerEvent.prototype._getStatistics = function() {
 	Event_lock.lock();
 	var ret = [];
 	try {

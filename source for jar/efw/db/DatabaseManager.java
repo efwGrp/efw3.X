@@ -41,13 +41,21 @@ public final class DatabaseManager {
 	private static ThreadLocal<HashMap<String,Database>> database=new ThreadLocal<HashMap<String,Database>>();
 	
     public static Database getDatabase(){
-    	return (DatabaseManager.database.get()).get(DatabaseManager.jdbcResourceName);
+    	try{
+        	return (DatabaseManager.database.get()).get(DatabaseManager.jdbcResourceName);
+    	}catch(Exception e){
+    		return null;
+    	}
     }
     public static Database getDatabase(String jdbcResourceName){
-    	if(jdbcResourceName==null||"".equals(jdbcResourceName)){
-    		return DatabaseManager.getDatabase();
+    	try{
+        	if(jdbcResourceName==null||"".equals(jdbcResourceName)){
+        		return DatabaseManager.getDatabase();
+        	}
+        	return (DatabaseManager.database.get()).get(jdbcResourceName);
+    	}catch(Exception e){
+    		return null;
     	}
-    	return (DatabaseManager.database.get()).get(jdbcResourceName);
     }
     
 	/**
@@ -153,6 +161,34 @@ public final class DatabaseManager {
 		}
 		DatabaseManager.database.remove();
         LogManager.CommDebug("DatabaseManager.closeAll");
+    }
+    /**
+     * すべてのデータベースをコミット。
+     * @throws SQLException
+     */
+    public static void commitAll() throws SQLException{
+		if(DatabaseManager.database.get()==null)
+			DatabaseManager.database.set(new HashMap<String,Database>());
+
+		HashMap<String,Database> map=DatabaseManager.database.get();
+		for(Entry<String, Database> e : map.entrySet()) {
+			Database db=e.getValue();
+			db.commit();
+		}
+        LogManager.CommDebug("DatabaseManager.commitAll");
+    }
+    
+    public static void rollbackAll() throws SQLException{
+		if(DatabaseManager.database.get()==null)
+			DatabaseManager.database.set(new HashMap<String,Database>());
+
+		HashMap<String,Database> map=DatabaseManager.database.get();
+		for(Entry<String, Database> e : map.entrySet()) {
+			Database db=e.getValue();
+			db.rollback();
+		}
+        LogManager.CommDebug("DatabaseManager.rollbackAll");
+    	
     }
 
 }

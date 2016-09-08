@@ -214,9 +214,9 @@ public final class efwServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         response.setCharacterEncoding(RESPONSE_CHAR_SET);
-        String otherError="{\"_array\":[],\"_object\":{\"error\":{\"clientMessageId\":\"OtherErrorException\"}"+
+        String otherError="{\"values\":[],\"actions\":{\"error\":{\"clientMessageId\":\"OtherErrorException\"}"+
         		(systemErrorUrl.equals("")?"":",\"navigate\":{\"url\":\""+systemErrorUrl+"\"}")
-        		+",\"fail\":true}}";
+        		+"}";
 		//--------------------------------------------------------------------
         //if init is failed, return the info instead of throw exception
 		if (!efwServlet.initSuccessFlag){

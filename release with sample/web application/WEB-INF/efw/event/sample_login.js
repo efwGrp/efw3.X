@@ -7,7 +7,7 @@ sample_login.paramsFormat={
 };
 sample_login.fire=function(params){
 	if (params["#txt_uid"]=="admin"&&params["#txt_pwd"]=="password"){
-		efw.server.session.set("USER_ID", params["#txt_uid"]);
+		session.set("USER_ID", params["#txt_uid"]);
 		return (new Result()).navigate("mdclexam.jsp");
 	}else{
 		return (new Result())

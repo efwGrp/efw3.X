@@ -6,7 +6,7 @@ mdclexam_nextuser.fire=function(params){
 	//-------------------------------------------------------------------------
 	var usercd=params["#the_id"];
 	if (usercd=="")nextusercd="0000000";
-	var rsUserinfo=(new Select("mdclexam_user","next",{"user_id":usercd}))
+	var rsUserinfo=(db.select("mdclexam_user","next",{"user_id":usercd}))
 		.map({"#the_id":"個人コード"})
 		.getSingle();
 	if (rsUserinfo){
@@ -15,7 +15,7 @@ mdclexam_nextuser.fire=function(params){
 		return (new Result())
 			.runat("#userinfo")
 			.withdata(rsUserinfo)
-			.concat(new Event("mdclexam_seekuser",rsUserinfo));
+			.concat(event.fire("mdclexam_seekuser",rsUserinfo));
 	}else{
 		return (new Result()).alert("次のユーザはありません。");
 	}

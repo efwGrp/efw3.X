@@ -71,8 +71,7 @@ EfwServer.prototype.check = function(event, requestParams) {
 					var message = EfwServerMessages.prototype.IsRequiredMessage;
 					result.alert(message,{"display-name":displayName})
 					.highlight(errorElementKey)
-					.focus(errorElementKey)
-					.fail();
+					.focus(errorElementKey);
 					continue;
 				} else if (param != null && param != "" && format != null
 						&& format != "") {
@@ -102,8 +101,7 @@ EfwServer.prototype.check = function(event, requestParams) {
 						var message = requriedMessage;
 						result.alert(message,{"display-name":displayName})
 						.highlight(errorElementKey)
-						.focus(errorElementKey)
-						.fail();
+						.focus(errorElementKey);
 						continue;
 					}
 				} else if (param != null && param != "") {
@@ -116,8 +114,7 @@ EfwServer.prototype.check = function(event, requestParams) {
 						var message = EfwServerMessages.prototype.MaxLengthOverMessage;
 						result.alert(message,{"display-name":displayName,"max-length":maxLength})
 						.highlight(errorElementKey)
-						.focus(errorElementKey)
-						.fail();
+						.focus(errorElementKey);
 						continue;
 					}
 					if (accept != null) { // check file ext
@@ -134,8 +131,7 @@ EfwServer.prototype.check = function(event, requestParams) {
 							var message = EfwServerMessages.prototype.NotAcceptMessage;
 							result.alert(message,{"display-name":displayName})
 							.highlight(errorElementKey)
-							.focus(errorElementKey)
-							.fail();
+							.focus(errorElementKey);
 							continue;
 						}
 					}
@@ -178,8 +174,7 @@ EfwServer.prototype.check = function(event, requestParams) {
 							"data-type":dataType,
 						})
 						.highlight(errorElementKey)
-						.focus(errorElementKey)
-						.fail();
+						.focus(errorElementKey);
 						continue;
 					}
 				}
@@ -191,7 +186,7 @@ EfwServer.prototype.check = function(event, requestParams) {
 	// clone the paramsFormat, if function exists, it will be run.
 	var paramsFormat = JSON.clone(event.paramsFormat);
 	var result= _check(requestParams, paramsFormat, "");
-	if (result._object.alert){
+	if (result.actions.alert){
 		return result;
 	}else{
 		return null;
@@ -208,7 +203,7 @@ EfwServer.prototype.check = function(event, requestParams) {
  */
 EfwServer.prototype.fire = function(event, requestParams) {
 	var needlogincheck = EfwServerProperties.prototype
-			.getBoolean("efw.login.check");
+			.get("efw.login.check",false);
 	var loginkey = EfwServerProperties.prototype.get("efw.login.key");
 	if (needlogincheck && !event.outOfLogin) { // the login check
 		var vl = EfwServerSession.prototype.get(loginkey);
@@ -220,13 +215,13 @@ EfwServer.prototype.fire = function(event, requestParams) {
 			return result;
 		}
 	}
-	EfwServerDb.prototype.open(); // open database
+
 	try {
 		var result = event.fire(requestParams);
-		if (result != null && result["_object"] != null
-				&& result["_object"]["download"] != null) {// save download
+		if (result != null && result["actions"] != null
+				&& result["actions"]["download"] != null) {// save download
 			// info to session
-			var download = result["_object"]["download"];
+			var download = result["actions"]["download"];
 			var tmpfile = download.file;
 			if (tmpfile == null)
 				tmpfile = "";
@@ -250,12 +245,12 @@ EfwServer.prototype.fire = function(event, requestParams) {
 			EfwServerSession.prototype.set("efw.download.saveas", tmpsaveas);
 		}
 		;
-		EfwServerDb.prototype.commit();
-		EfwServerDb.prototype.closeAll();
+		EfwServerDb.prototype._commitAll();
+		EfwServerDb.prototype._closeAll();
 		return result;
 	} catch (e) {
-		EfwServerDb.prototype.rollback();
-		EfwServerDb.prototype.closeAll();
+		EfwServerDb.prototype._rollbackAll();
+		EfwServerDb.prototype._closeAll();
 		throw e;
 	}
 };

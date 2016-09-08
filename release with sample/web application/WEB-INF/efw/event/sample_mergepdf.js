@@ -3,6 +3,6 @@ sample_mergepdf.name="PDFのマージ";
 sample_mergepdf.outOfLogin=true;
 sample_mergepdf.paramsFormat={};
 sample_mergepdf.fire=function(params){
-	efw.server.pdf.merge("","merge.pdf");
-	return new Event("sample_showfiles",params);
+	pdf.merge("","merge.pdf");
+	return event.fire("sample_showfiles",params);
 };

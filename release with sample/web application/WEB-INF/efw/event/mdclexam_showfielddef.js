@@ -5,7 +5,7 @@ mdclexam_showfielddef.fire=function(params){
 	var fieldindex=params["fieldindex"];
 	//項目定義情報
 	//-------------------------------------------------------------------------
-	var rsFielddefinfo = (new Master("検査項目情報"))
+	var rsFielddefinfo = (db.master("検査項目情報"))
 		.seek("項目コード","eq",fieldindex)
 		.map({
 			"td:eq(0)":"項目コード",//これはmapping functionのテスト
@@ -13,7 +13,7 @@ mdclexam_showfielddef.fire=function(params){
 		}).getSingle();
 	//項目定義リスト
 	//-------------------------------------------------------------------------
-	var rsFielddeflist = (new Master("判定情報"))
+	var rsFielddeflist = (db.master("判定情報"))
 		.seek("項目コード","eq",fieldindex)
 		.sort("男性・下限","asc")
 		.map({
@@ -32,5 +32,6 @@ mdclexam_showfielddef.fire=function(params){
 		.runat("#fielddeflist")
 		.remove("tr")
 		.append("<tr><td>{td1}</td><td>{td2}</td><td>{td3}</td><td>{td4}</td><td>{td5}</td><td>{td6}</td><td>{td7}</td></tr>")
-		.withdata(rsFielddeflist);
+		.withdata(rsFielddeflist)
+		.eval("$('#fielddialog').show()");
 };
