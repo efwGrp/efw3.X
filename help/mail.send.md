@@ -1,21 +1,21 @@
-<H1>Mail Class</H1>
+<H1>mail.send</H1>
 
-The Mail class is established as one of operating classes to send mail by templates defined in the mail xml.
+The send function is established to send mail by templates defined in the mail xml.
 
-<h2>Sample for Event</h2>
+<h2>Sample</h2>
 <pre>
-	new Mail("mails","testmail",{"to":"you@abc.def","nowdate":new Date(),"username":"you"});
+	mail.send("mails","test01",{"to":"you@abc.def","nowdate":new Date(),"username":"Wang"});
 </pre>
 
 <h2>API</h2>
 
 <table>
-<tr><th>Calling</th></tr>
-<tr><td>new Mail ( groupId, mailId, params )</td></tr>
+<tr><th>Calling</th><th>Returning</th></tr>
+<tr><td>mail . send ( groupId, mailId, params )</td><td>void</td></tr>
 </table>
 
 <table>
-<tr><th>Parameter</th><th>Type</th><th>Description</th></tr>
+<tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>groupId</td><td>String</td><td>The name of a mail xml file.</td></tr>
 <tr><td>mailId</td><td>String</td><td>The id of a mail tag in a mail xml file.</td></tr>
 <tr><td>params</td><td>JSON Object</td>

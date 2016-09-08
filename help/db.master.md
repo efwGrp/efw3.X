@@ -1,21 +1,21 @@
-<H1>Master Class</H1>
+<H1>db.master</H1>
 
-The Master class is established as one of operating classes to store the data from a master table into the memory.
-It inherited functions from the <a href="api_record.md">Record</a> class, so you can operate records of the master.
+The master function is established to store the data from a master table into the memory.
+Its return is an instance of the <a href="record.md">Record</a> class.
 The first calling to a master means to load it into the memory, and the second calling means to get records from memory.
 <h2>Sample for Event</h2>
 <pre>
-	var record1 = (new Master("user"))
+	var record1 = db.master("user")
 				.sort("years","asc");
-	var record2 = new Master("user",true);
+	var record2 = db.master("user",true);
 </pre>
 
 <h2>API</h2>
 
 <table>
-<tr><th>Calling</th></tr>
-<tr><td>new Master ( masterId )</td></tr>
-<tr><td>new Master ( masterId , reload )</td></tr>
+<tr><th>Calling</th><th>Returning</th></tr>
+<tr><td>db . master ( masterId )</td><td rowspan=2><a href="record.md">Record</a></td></tr>
+<tr><td>db . master ( masterId , reload )</td></tr>
 </table>
 
 <table>
