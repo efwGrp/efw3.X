@@ -9,10 +9,17 @@
 function Record(array) {
 	if (array == null) {
 		this.values = [];
+		this.length = 0;
 	} else {
 		this.values = array;
+		this.length = array.length;
 	}
 };
+
+/**
+ * The internal variable for keeping records length.
+ */
+Record.prototype.length = 0;
 /**
  * The internal variable for keeping records.
  */
@@ -98,6 +105,7 @@ Record.prototype.seek = function(field, action, value) {
 		}
 	}
 	this.values = ret;
+	this.length = ret.length;
 	return this;
 };
 /**
@@ -130,6 +138,7 @@ Record.prototype.sort = function(field, action) {
 		}
 	});
 	this.values = ret;
+	this.length = ret.length;
 	return this;
 };
 /**
@@ -178,6 +187,7 @@ Record.prototype.map = function(mapping) {
 		array.push(item);
 	}
 	this.values = array;
+	this.length = ret.length;
 	return this;
 };
 /**
@@ -186,10 +196,7 @@ Record.prototype.map = function(mapping) {
  * @returns {Object}
  */
 Record.prototype.getSingle = function() {
-	if (this.values == null)
-		return null;
-	if (this.values.length == 0)
-		return null;
+	if (this.values.length == 0)return {};
 	return JSON.clone(this.values[0]);
 };
 /**
@@ -208,10 +215,6 @@ Record.prototype.getArray = function() {
  * @returns {String | Number | Date | Boolean}
  */
 Record.prototype.getValue = function(field) {
-	if (this.values == null)
-		return null;
-	if (this.values.length == 0)
-		return null;
-	var rd = this.values[0];
-	return rd[field];
+	if (this.values.length == 0)return null;
+	return this.values[0][field];
 };
