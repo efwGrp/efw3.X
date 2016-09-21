@@ -7,7 +7,7 @@
 <li><a href="api_data_shortcut.md">data-shortcut Attribute</a></li>
 
 <h2>Event JS</h2>
-<li>About Event Programming</li>
+<li><a href="api_event.md">Event Programming</a></li>
 
 <h3>Global</h3>
 <table>
