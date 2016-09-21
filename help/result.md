@@ -16,7 +16,7 @@ The Result class is established to send values or actions to client.
 
 <table>
 <tr><th>Calling</th><th>Returning</th><th>Description</th></tr>
-<tr><td>new Result ( )</td>				<td rowspan=24>Result</td><td></td></tr>
+<tr><td>new Result ( )</td>				<td rowspan=26>Result</td><td></td></tr>
 <tr><td>.concat ( result )</td>			<td>To include another result.</td></tr>
 <tr><th>Calling for Values</th><th></th></tr>
 <tr><td>.runat ( )</td>		<td>To mean the body is the parent element for selector params in the next functions for values.</td></tr>
@@ -33,15 +33,15 @@ The Result class is established to send values or actions to client.
 <tr><td>.navigate ( url , params )</td>	<td>To navigate to the url, and send the params to it. First calling is effective.</td></tr>
 <tr><td>.attach ( path )</td>			<td>To attach a file or a folder by the path for downloading. Zipping when multi files.</td></tr>
 <tr><td>.deleteAfterDownload (  )</td>	<td>To delete the orgin from the server after downloading. First calling is effective.</td></tr>
-<tr><td>.alert ( message )</td><td>OK</td></tr>
-<tr><td>.alert ( message , params )</td><td>OK</td></tr>
-<tr><td>.highlight ( selector )</td>	<td>OK</td></tr>
-<tr><td>.focus ( selector )</td>		<td>NG</td></tr>
-<tr><td>.error ( clientMessageId )</td><td>NG</td></tr>
-<tr><td>.error ( clientMessageId , params )</td><td>NG</td></tr>
-<tr><td>.confirm ( message , buttons , params )</td><td>NG</td></tr>
-<tr><td>.confirm ( message , buttons )</td><td>NG</td></tr>
-<tr><td>.eval ( script )</td><td>OK</td></tr>
+<tr><td>.alert ( message )</td>			<td>To show a message. </td></tr>
+<tr><td>.alert ( message , params )</td><td>To show a message which is replaced by the params. </td></tr>
+<tr><td>.highlight ( selector )</td>	<td>To highlight elements by the selector.</td></tr>
+<tr><td>.focus ( selector )</td>		<td>To focus in an element by the selector. First calling is effective.</td></tr>
+<tr><td>.error ( clientMessageId )</td><td>To show an error message defined in the client.</td></tr>
+<tr><td>.error ( clientMessageId , params )</td><td>To show an error message defined in the client. The params value will be replaced in the message.</td></tr>
+<tr><td>.confirm ( message , buttons , params )</td><td>To confirm a message which is replaced by the params. First calling is effective.</td></tr>
+<tr><td>.confirm ( message , buttons )</td><td>To confirm a message. First calling is effective.</td></tr>
+<tr><td>.eval ( script )</td>			<td>To execute a script string.</td></tr>
 </table>
 
 <table>
