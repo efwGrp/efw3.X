@@ -187,7 +187,7 @@ Record.prototype.map = function(mapping) {
 		array.push(item);
 	}
 	this.values = array;
-	this.length = ret.length;
+	this.length = array.length;
 	return this;
 };
 /**
