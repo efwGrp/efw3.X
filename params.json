@@ -1,6 +1,6 @@
 {
   "name": "Efw3.x",
-  "tagline": "More easier to coding with JavaScript.",
-  "body": "<H2>efw3.X</H2>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/step_by_step.md\">Step by Step</a><br>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/hello_world.md\">Quick Start</a><br>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/api.md\">API</a><br>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/how_to.md\">How to</a><br>\r\n\r\n<h3>Correlation Diagram</h3>\r\n<img src=\"https://raw.githubusercontent.com/efwGrp/efw3.X/master/help/veslayers.png\"><br>\r\n<h3>Function Diagram</h3>\r\n<img src=\"https://raw.githubusercontent.com/efwGrp/efw3.X/master/help/framework.png\"><br>\r\n",
+  "tagline": "Efw is an Ajax Framework for Server Side JavaScript based on Javax.Script Engine Rhino or Nashorn .",
+  "body": "\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/step_by_step.md\">Step by Step</a><br>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/hello_world.md\">Quick Start</a><br>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/api.md\">API</a><br>\r\n<a href=\"https://github.com/efwGrp/efw3.X/blob/master/help/how_to.md\">How to</a><br>\r\n\r\n<h3>Correlation Diagram</h3>\r\n<img src=\"https://raw.githubusercontent.com/efwGrp/efw3.X/master/help/veslayers.png\"><br>\r\n<h3>Function Diagram</h3>\r\n<img src=\"https://raw.githubusercontent.com/efwGrp/efw3.X/master/help/framework.png\"><br>\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
