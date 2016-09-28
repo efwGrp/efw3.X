@@ -3,7 +3,7 @@
 ////////////////////////////////////////
 //web/WEB-INF/efw/event/myEvent.js
 ////////////////////////////////////////
-var myEvent={};
+var <b>myEvent</b>={};
 myEvent.<b>outOfLogin</b>   = false;
 myEvent.<b>paramsFormat</b> = { 
                                 "#txt_teststring" : "<b>display-name</b>:Test String;<b>max-length</b>:10;",
@@ -27,66 +27,63 @@ myEvent.<b>fire</b>         = function ( requestParams ) {
 <H3>Event Variable</H3>
 The event variable must be same to the event file name. In the sample, it is "myEvent".
 
-<H3>outOfLogin</H3>
+<H3>Out Of Login</H3>
 <table>
 	<tr><th>Value</th><th>Description</th></tr>
 	<tr><td>false or undefined</td><td>The event must be called after login. Or SessionTimeoutException will occur.</td></tr>
 	<tr><td>true</td><td>The event can be called before login.</td></tr>
 </table>
 
-<H3>paramsFormat</H3>
+<H3>Params Format</H3>
 <pre>myEvent.paramsFormat = {
-                     selector1 : null,                                          //入力チェックなしの選択キー。選択キーの規則はJQueryを参照。
-                     selector2 : "<a href="#checkStyle">checkStyle</a>",                                  //チェックスタイルの選択キー。
-                     selector3 : function(){ return "<a href="#checkStyle">checkStyle</a>"; },            //チェックスタイルの選択キー。イベントには関数で作成する可。
-                   { selector4 : ... , },                                       //サブフォーマット。パラメーターフォーマットと同じ種類の要素の組合せ。
-                 [ { selector5 : ... , } ],                                     //サブフォーマットの配列。１種類のサブフォーマットのみを格納する。
+                     selector1 : null,
+                     selector2 : "checkStyle",
+                     selector3 : function(){ return "checkStyle"; },
+                   { selector4 : ... , },
+                 [ { selector5 : ... , } ],
              };
 </pre>
+To reference JQuery about the rules of selectors.
 <table>
 <tbody><tr>
-    <th>属性種類</th>
-    <th>用途</th>
-    <th>正常ケース</th>
-    <th>異常ケース</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Normal</th>
+    <th>Abnormal</th>
 </tr>
 <tr>
     <td>selector : null</td>
-    <td>単独な入力データを識別する。</td>
-    <td>属性名称をセレクタとしてHTMLタグを１つ取得する。<br>タグのvalue，textなどの属性は入力データと利用する。</td>
-    <td>タグを複数取得する場合エラー。</td>
+    <td>To get a single input data from the client by the JQuery selector without input checking.</td>
+    <td>If one html tag is matched to the selector, the value attribute or text attribute will be looked as the input data to the fire method.</td>
+    <td>Error if multi tags are matched to the selector.</td>
 </tr>
 <tr>
-    <td>selector : "<a href="#checkStyle">checkStyle</a>"</td>
-    <td>単独な入力データを識別する。</td>
-    <td>checkStyleに満足する場合、属性名称をセレクタとしてHTMLタグを１つ取得する。<br>タグのvalue，textなどの属性は入力データと利用する。<br>
-    checkStyle で数字・日付の format の場合、数字・日付に変換してから取得する。
-    </td>
-    <td>タグを複数取得する場合エラー。<br>
-    checkStyle に満足できない場合エラー。
+    <td>selector : "checkStyle"</td>
+    <td>To get a single input data from the element matched by the JQuery selector with input checking.</td>
+    <td>If the input data is matched to the check style, it will be used.</td>
+    <td>Error if multi tags are matched to the selector.<br>
+    	Error if the input data is not matched the check style.
     </td>
 </tr>
 <tr>
-    <td>selector : function(){ return "<a href="#checkStyle">checkStyle</a>"; } </td>
-    <td>単独な入力データを識別する。</td>
-    <td>関数戻り値のcheckStyleに満足する場合、属性名称をセレクタとしてHTMLタグを１つ取得する。<br>タグのvalue，textなどの属性は入力データと利用する。<br>
-    checkStyle で数字・日付の format の場合、数字・日付に変換してから取得する。
-    </td>
-    <td>タグを複数取得する場合エラー。<br>
-    checkStyle に満足できない場合エラー。
+    <td>selector : function(){ return "checkStyle"; } </td>
+    <td>To get a single input data from the element with input checking matched by the JQuery selector which is created by a function.</td>
+    <td>If the input data is matched to the check style, it will be used.</td>
+    <td>Error if multi tags are matched to the selector.<br>
+    	Error if the input data is not matched the check style.
     </td>
 </tr>
 <tr>
-    <td>selector : {…}</td>
-    <td>サブ入力オブジェクトを識別する。</td>
-    <td>属性名称をセレクタとして，HTMLタグを１つ取得する。<br>そのタグをサブ定義処理時のコンテキストにする。</td>
-    <td>タグを複数取得する場合エラー。</td>
+    <td>selector : {...}</td>
+    <td>To get several input datas stored in the element matched by the selector.</td>
+    <td>If one element is matched to the selector, it will be used. And the selector will be as the context to the sub selectors.</td>
+    <td>Error if multi tags are matched to the selector.</td>
 </tr>
 <tr>
-    <td>selector : [{…}]</td>
-    <td>サブ入力オブジェクトの配列を識別する。</td>
-    <td>属性名称をセレクタとして，HTMLタグを取得する。<br>そのタグをサブ定義配列処理時のコンテキストにする。</td>
-    <td>－</td>
+    <td>selector : [{...}]</td>
+    <td>To get an array of input datas stored in the element matched by the selector.</td>
+    <td>Multi elements matched to the selector will be as the context to the sub selectors.</td>
+    <td>-</td>
 </tr>
 </tbody></table>
 
@@ -102,36 +99,8 @@ The event variable must be same to the event file name. In the sample, it is "my
 	<tr><td>required</td><td>Boolean</td><td>The element is must or not.</td><td>IsRequiredMessage</td></tr>
 	<tr><td>accept</td><td>String</td><td>The extension file-names seperated by "," which will be accepted as uploading files. </td><td>NotAcceptMessage</td></tr>
 </table>
+<H3>Fire Method</H3>
 
 <H3>Event Return</H3>
 The event return must be void or an instance of Result.
 
-
-
-<H3><A NAME="efw.event.fire">イベントのデータ受取り引渡し</A></H3>
-<pre>
-    form1_event1.paramsFormat = { ... };
-    ...
-    form1_event1.fire         = function ( requestParams ) {
-                                    var ret=[];
-                                        ...
-                                    return ret;
-                                };
-</pre>
-<DL>
-<DD>
-イベントのデータ受取り引渡しは、サーバーサイドのイベントjsファイルに記載する。クライアントjsに記載不要。<br>
-詳細はAPIの efw.server.fire を参照。
-</DL></DD>
-<HR>
-
-<H3><A NAME="efw.jsp.event">トランザクション管理</A></H3>
-<pre>
-</pre>
-<DL>
-<DD>
-event.fireが実行するたび、トランザクションが発行される。<br>
-イベントのfireが成功の場合、トランザクションがcommit。失敗の場合、トランザクションがrollback。<br>
-詳細はAPIの efw.server.prepare と efw.server.finish を参照。<br>
-トランザクションのカスタマイズは、efw.server.customize.js。
-</DL></DD>
