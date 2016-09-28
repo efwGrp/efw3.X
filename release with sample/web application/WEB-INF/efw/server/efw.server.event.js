@@ -123,6 +123,8 @@ EfwServerEvent.prototype._load = function(eventId) {
 			};
 		}
 		eventInfo = EfwServerEvent.prototype._events[eventId];
+	}catch(e){
+		eventInfo=null;
 	} finally {
 		Event_lock.unlock();
 	}

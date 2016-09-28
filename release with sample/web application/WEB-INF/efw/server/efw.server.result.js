@@ -316,7 +316,11 @@ Result.prototype.confirm = function(message, buttons, params) {
 	}
 	return this;
 };
-
+/**
+ * The function to execute script.
+ * @param {String} script: required<br>
+ * @returns {Result}
+ */
 Result.prototype.eval = function(script){
 	if (!this.actions.eval) this.actions.eval=[];
 	if (script instanceof Array) {
