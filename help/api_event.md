@@ -11,10 +11,10 @@ myEvent.<b>paramsFormat</b> = {
                                 "#txt_testdate"   : function(){
                                                         var date1=new Date();
                                                         var date2=new Date();
-                                                        date2.setDate(date1.getDate()+Number(6));
+                                                        date2.setDate(date1.getDate()+6);
                                                         return "<b>format</b>:yyyy-MM-dd;<b>required</b>:true;<b>display-name</b>:Test Date;"
-                                                               +"<b>min</b>:"+efw.server.format.formatDate(date1,"yyyy-MM-dd")+";"
-                                                               +"<b>max</b>:"+efw.server.format.formatDate(date2,"yyyy-MM-dd")+";" ;
+                                                               +"<b>min</b>:"+date1.format("yyyy-MM-dd")+";"
+                                                               +"<b>max</b>:"+date2.format(,"yyyy-MM-dd")+";" ;
                                                     },
                                 ... 
                             };
@@ -35,10 +35,61 @@ The event variable must be same to the event file name. In the sample, it is "my
 </table>
 
 <H3>paramsFormat</H3>
+<pre>myEvent.paramsFormat = {
+                     selector1 : null,                                          //入力チェックなしの選択キー。選択キーの規則はJQueryを参照。
+                     selector2 : "<a href="#checkStyle">checkStyle</a>",                                  //チェックスタイルの選択キー。
+                     selector3 : function(){ return "<a href="#checkStyle">checkStyle</a>"; },            //チェックスタイルの選択キー。イベントには関数で作成する可。
+                   { selector4 : ... , },                                       //サブフォーマット。パラメーターフォーマットと同じ種類の要素の組合せ。
+                 [ { selector5 : ... , } ],                                     //サブフォーマットの配列。１種類のサブフォーマットのみを格納する。
+             };
+</pre>
 <table>
-	<tr><th>Value</th><th>Description</th></tr>
-	<tr><td></td><td></td></tr>
-</table>
+<tbody><tr>
+    <th>属性種類</th>
+    <th>用途</th>
+    <th>正常ケース</th>
+    <th>異常ケース</th>
+</tr>
+<tr>
+    <td>selector : null</td>
+    <td>単独な入力データを識別する。</td>
+    <td>属性名称をセレクタとしてHTMLタグを１つ取得する。<br>タグのvalue，textなどの属性は入力データと利用する。</td>
+    <td>タグを複数取得する場合エラー。</td>
+</tr>
+<tr>
+    <td>selector : "<a href="#checkStyle">checkStyle</a>"</td>
+    <td>単独な入力データを識別する。</td>
+    <td>checkStyleに満足する場合、属性名称をセレクタとしてHTMLタグを１つ取得する。<br>タグのvalue，textなどの属性は入力データと利用する。<br>
+    checkStyle で数字・日付の format の場合、数字・日付に変換してから取得する。
+    </td>
+    <td>タグを複数取得する場合エラー。<br>
+    checkStyle に満足できない場合エラー。
+    </td>
+</tr>
+<tr>
+    <td>selector : function(){ return "<a href="#checkStyle">checkStyle</a>"; } </td>
+    <td>単独な入力データを識別する。</td>
+    <td>関数戻り値のcheckStyleに満足する場合、属性名称をセレクタとしてHTMLタグを１つ取得する。<br>タグのvalue，textなどの属性は入力データと利用する。<br>
+    checkStyle で数字・日付の format の場合、数字・日付に変換してから取得する。
+    </td>
+    <td>タグを複数取得する場合エラー。<br>
+    checkStyle に満足できない場合エラー。
+    </td>
+</tr>
+<tr>
+    <td>selector : {…}</td>
+    <td>サブ入力オブジェクトを識別する。</td>
+    <td>属性名称をセレクタとして，HTMLタグを１つ取得する。<br>そのタグをサブ定義処理時のコンテキストにする。</td>
+    <td>タグを複数取得する場合エラー。</td>
+</tr>
+<tr>
+    <td>selector : [{…}]</td>
+    <td>サブ入力オブジェクトの配列を識別する。</td>
+    <td>属性名称をセレクタとして，HTMLタグを取得する。<br>そのタグをサブ定義配列処理時のコンテキストにする。</td>
+    <td>－</td>
+</tr>
+</tbody></table>
+
 
 <H3>Check Style</H3>
 <table>
