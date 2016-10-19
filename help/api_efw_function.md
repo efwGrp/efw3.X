@@ -14,8 +14,6 @@ The only thing you must to do is sending the event id.
 <tr><th>Calling</th></tr>
 <tr><td>Efw ( eventId )</td></tr>
 <tr><td>Efw ( eventId , manualParams )</td></tr>
-<tr><td>Efw ( eventId , success )</td></tr>
-<tr><td>Efw ( eventId , manualParams , success )</td></tr>
 <tr><td>Efw ( eventId , sever )</td></tr>
 <tr><td>Efw ( eventId , manualParams , sever )</td></tr>
 </table>
