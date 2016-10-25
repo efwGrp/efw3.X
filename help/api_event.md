@@ -4,7 +4,6 @@
 //web/WEB-INF/efw/event/myEvent.js
 ////////////////////////////////////////
 var <b>myEvent</b>={};
-myEvent.<b>outOfLogin</b>   = false;
 myEvent.<b>paramsFormat</b> = { 
                                 "#txt_teststring" : "<b>display-name</b>:Test String;<b>max-length</b>:10;",
                                 "#txt_testnumber" : "<b>format</b>:#,##0.00;<b>required</b>:true;<b>display-name</b>:Test Number;<b>min</b>:-10.00;<b>max</b>:1,000.00",
@@ -26,13 +25,6 @@ myEvent.<b>fire</b>         = function ( requestParams ) {
 
 <H3>Event Variable</H3>
 The event variable must be same to the event file name. In the sample, it is "myEvent".
-
-<H3>Out Of Login</H3>
-<table>
-	<tr><th>Value</th><th>Description</th></tr>
-	<tr><td>false or undefined</td><td>The event must be called after login. Or SessionTimeoutException will occur.</td></tr>
-	<tr><td>true</td><td>The event can be called before login.</td></tr>
-</table>
 
 <H3>Params Format</H3>
 <pre>myEvent.paramsFormat = {

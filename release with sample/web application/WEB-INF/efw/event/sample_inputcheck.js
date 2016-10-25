@@ -1,6 +1,5 @@
 var sample_inputcheck={};
 sample_inputcheck.name="入力チェック";
-sample_inputcheck.outOfLogin=true;
 sample_inputcheck.paramsFormat={
 	"#txt_testtext":"required:true;display-name:テスト文字;max-length:5",
 	"#txt_testnumber":"format:#,##0.00;required:true;display-name:テスト数字;min:-10.00;max:1,000.00",

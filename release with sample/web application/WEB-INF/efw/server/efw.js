@@ -148,16 +148,21 @@ function doPost(req) {
 					endTime);
 			return ret;
 		} else {
-			var ret = EfwServer.prototype.check(event, params);
-			var fireFlag = "error"; // the second calling is error
-			try {
-				if (ret == null)
-					ret = EfwServer.prototype.fire(event, params);
-				fireFlag = "second"; // the second calling is success
-			} finally {
-				var endTime = new Date(); // the end time of event second calling
-				EfwServerEvent.prototype._updateStatistics(eventId, fireFlag,
-						beginTime, endTime);
+			//login check
+			var ret = EfwServer.prototype.checkLogin(eventId);
+			if (ret==null){
+				var fireFlag = "error"; // the second calling is error
+				ret = EfwServer.prototype.checkStyle(event, params);
+				try {
+					if (ret == null)
+						ret = EfwServer.prototype.fire(event, params);
+					fireFlag = "second"; // the second calling is success
+				} finally {
+					var endTime = new Date(); // the end time of event second calling
+					EfwServerEvent.prototype._updateStatistics(eventId, fireFlag,
+							beginTime, endTime);
+				}
+				
 			}
 			// if it is null, return blank array to client as a success
 			if (ret == null) ret=new Result();

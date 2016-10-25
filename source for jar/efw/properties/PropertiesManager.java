@@ -132,6 +132,14 @@ public final class PropertiesManager {
 	 */
 	public static final String EFW_PDF_PDFTK ="efw.pdf.pdftk";
 	/**
+	 * ログインチェック不要なURLの正規表現文字列
+	 */
+	public static final String EFW_OUTOFLOGIN_URL_PATTERN="efw.outoflogin.url.pattern";
+	/**
+	 * ログインチェック不要なイベントIDの正規表現文字列
+	 */
+	public static final String EFW_OUTOFLOGIN_EVENTID_PATTERN="efw.outoflogin.eventid.pattern";
+	/**
 	 * プロパティ値を格納するプロパティオブジェクト。
 	 */
     private static Properties prop = new Properties();

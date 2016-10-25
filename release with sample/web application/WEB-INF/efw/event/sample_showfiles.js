@@ -1,6 +1,5 @@
 var sample_showfiles={};
 sample_showfiles.name="ファイル表示";
-sample_showfiles.outOfLogin=true;
 sample_showfiles.paramsFormat={};
 sample_showfiles.fire=function(params){
 	var data1=file.listFiles("");//storageフォルダのファイルを全部リストする

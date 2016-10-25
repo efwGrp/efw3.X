@@ -1,6 +1,5 @@
 var sample_login={};
 sample_login.name="ログイン";
-sample_login.outOfLogin=true;
 sample_login.paramsFormat={
 	"#txt_uid":"required:true;display-name:アカウント",
 	"#txt_pwd":"required:true;display-name:パスワード",

@@ -34,7 +34,7 @@ public final class LogManager {
     /**
      * ログ出力レベル。
      * <br>efw.propertiesのefw.logging.levelで設定、
-     * デフォルトは「OFF」。
+     * デフォルトは「WARNING」。
      */
     private static String logLevel="WARNING";
     /**

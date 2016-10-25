@@ -118,6 +118,10 @@ public final class efwServlet extends HttpServlet {
             LogManager.init();
             LogManager.InitCommonDebug("PropertiesManager.init");
             LogManager.InitCommonDebug("LogManager.init");
+            //efwFilter init to check login or not
+            efwFilter.init();
+            LogManager.InitCommonDebug("efwJspLoginFilter.init");
+            
             //get attrs from properties or context
             isDebug=PropertiesManager.getBooleanProperty(PropertiesManager.EFW_ISDEBUG,isDebug);
         	LogManager.InitCommonDebug("isDebug = " + isDebug);
@@ -148,16 +152,16 @@ public final class efwServlet extends HttpServlet {
         	LogManager.InitCommonDebug("systemErrorUrl = " + systemErrorUrl);
         	
         	//check the define folders
-        	if (!new File(serverFolder).exists())throw new efwException(efwException.ServerFolderDoesNotExistException,serverFolder);
-        	if (!new File(eventFolder).exists())throw new efwException(efwException.EventFolderDoesNotExistException,eventFolder);
-        	if (!new File(sqlFolder).exists())throw new efwException(efwException.SqlFolderIsNotExistsException,sqlFolder);
-        	if (!new File(mailFolder).exists())throw new efwException(efwException.MailFolderIsNotExistsException,mailFolder);
+        	if (!new File(serverFolder).exists())LogManager.InitErrorDebug(efwException.ServerFolderDoesNotExistException,serverFolder);//throw new efwException(efwException.ServerFolderDoesNotExistException,serverFolder);
+        	if (!new File(eventFolder).exists())LogManager.InitErrorDebug(efwException.EventFolderDoesNotExistException,eventFolder);//throw new efwException(efwException.EventFolderDoesNotExistException,eventFolder);
+        	if (!new File(sqlFolder).exists())LogManager.InitErrorDebug(efwException.SqlFolderIsNotExistsException,sqlFolder);//throw new efwException(efwException.SqlFolderIsNotExistsException,sqlFolder);
+        	if (!new File(mailFolder).exists())LogManager.InitErrorDebug(efwException.MailFolderIsNotExistsException,mailFolder);//throw new efwException(efwException.MailFolderIsNotExistsException,mailFolder);
         	File fileStorage=new File(storageFolder);
         	if(!fileStorage.exists()){
         		try{
             		fileStorage.mkdirs();
         		}catch(SecurityException e){
-        			throw new efwException(efwException.StorageFolderIsNotExistsException,storageFolder);
+        			LogManager.InitErrorDebug(efwException.StorageFolderIsNotExistsException,storageFolder);
         		}
         	}
         	//load definition from folders

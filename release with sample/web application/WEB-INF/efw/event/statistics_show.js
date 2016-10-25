@@ -1,6 +1,5 @@
 var statistics_show={};
 statistics_show.name="アクセス統計情報表示";
-statistics_show.outOfLogin=true;
 statistics_show.paramsFormat={"sortItem":null,"sortAction":null};
 statistics_show.fire=function(params){
 	var data=EfwServerEvent.prototype._getStatistics();

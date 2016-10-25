@@ -1,6 +1,5 @@
 var global={};
 global.name="global";
-global.outOfLogin=true;
 global.paramsFormat={};
 global.fire=function(params){
 	//ここで、アプリ起動時、なにかを実行できる

@@ -1,6 +1,5 @@
 var sample_brmstest={};
 sample_brmstest.name="ルールテスト";
-sample_brmstest.outOfLogin=true;
 sample_brmstest.paramsFormat={
 		"#txt_param1":null,
 		"#txt_param2":null,

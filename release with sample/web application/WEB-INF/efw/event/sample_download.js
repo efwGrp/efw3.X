@@ -1,6 +1,5 @@
 var sample_download={};
 sample_download.name="ダウンロード";
-sample_download.outOfLogin=true;
 sample_download.paramsFormat={"#cmb_download":"required:true;display-name:ダウンロードファイル"};
 sample_download.fire=function(params){
 	var ary_fl=params["#cmb_download"];

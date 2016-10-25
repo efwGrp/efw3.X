@@ -6,6 +6,27 @@
 function EfwServer() {
 };
 /**
+ * The function to check login or not.
+ * @param eventId: Event Id.
+ * @returns {null | Result}<br>
+ */
+EfwServer.prototype.checkLogin = function(eventId){
+	var needLoginCheck = EfwServerProperties.prototype.get("efw.login.check",false);
+	var outOfLoginEventIdPattern =EfwServerProperties.prototype.get("efw.outoflogin.eventid.pattern","");
+	var loginkey = EfwServerProperties.prototype.get("efw.login.key");
+	if (needLoginCheck && outOfLoginEventIdPattern!="" && eventId.search(new RegExp(outOfLoginEventIdPattern))==-1) { // the login check
+		var vl = EfwServerSession.prototype.get(loginkey);
+		if (vl == null || vl == "") {
+			var result=(new Result())
+			.alert(EfwServerMessages.prototype.SessionTimeoutException);
+			var loginUrl = EfwServerProperties.prototype.get("efw.login.url","");
+			if (loginUrl != "")result.navigate(loginUrl);
+			return result;
+		}
+	}
+	return null;
+};
+/**
  * The function to check request params by params format
  * 
  * @param event:
@@ -14,7 +35,7 @@ function EfwServer() {
  *            params from client.
  * @returns {null | Result}<br>
  */
-EfwServer.prototype.check = function(event, requestParams) {
+EfwServer.prototype.checkStyle = function(event, requestParams) {
 	function _check(pms, fts, parentkey) { // required,format,display-name,max-length,min,max,
 		var result = new Result();
 		if (parentkey != null && parentkey != "")
@@ -202,20 +223,6 @@ EfwServer.prototype.check = function(event, requestParams) {
  * @returns {null | Result | Event}
  */
 EfwServer.prototype.fire = function(event, requestParams) {
-	var needlogincheck = EfwServerProperties.prototype
-			.get("efw.login.check",false);
-	var loginkey = EfwServerProperties.prototype.get("efw.login.key");
-	if (needlogincheck && !event.outOfLogin) { // the login check
-		var vl = EfwServerSession.prototype.get(loginkey);
-		if (vl == null || vl == "") {
-			var result=(new Result())
-			.alert(EfwServerMessages.prototype.SessionTimeoutException);
-			var loginUrl = EfwServerProperties.prototype.get("efw.login.url","");
-			if (loginUrl != "")result.navigate(loginUrl);
-			return result;
-		}
-	}
-
 	try {
 		var result = event.fire(requestParams);
 		if (result != null && result["actions"] != null

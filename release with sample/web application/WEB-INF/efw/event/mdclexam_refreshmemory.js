@@ -1,6 +1,5 @@
 var mdclexam_refreshmemory={};
 mdclexam_refreshmemory.name="メモリ常駐マスタ更新";
-mdclexam_refreshmemory.outOfLogin=true;
 mdclexam_refreshmemory.paramsFormat={};
 mdclexam_refreshmemory.fire=function(params){
 	db.master("オプションコース情報",true);

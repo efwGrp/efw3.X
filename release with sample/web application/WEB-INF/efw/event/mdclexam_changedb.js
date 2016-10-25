@@ -1,6 +1,5 @@
 var mdclexam_changedb={};
 mdclexam_changedb.name="検査項目のDB情報更新";
-mdclexam_changedb.outOfLogin=true;
 mdclexam_changedb.paramsFormat={"#fielddefinfo":{"td:eq(0)":"format:0","td:eq(1)":null}};
 mdclexam_changedb.fire=function(params){
 	var cd=params["#fielddefinfo"]["td:eq(0)"];
