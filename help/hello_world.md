@@ -30,7 +30,6 @@ you will see an error, if you click the "Send" button before you complete the ne
 Create a file with the next codes, and name it as "helloWorld_sendMessage.js" in the server event folder "efw/WEB-INF/efw/event/".
 <pre>
 var helloWorld_sendMessage={};
-helloWorld_sendMessage.outOfLogin = true;
 helloWorld_sendMessage.paramsFormat={
 		&quot;#txtMessage&quot;:&quot;required:true;display-name:the input message&quot;
 };
