@@ -52,12 +52,14 @@ public final class SqlManager {
 				}
 			}
 		);
-		for (File fl:files){
-			//the file name is group id
-			String fileName=fl.getName();
-		    String groupId=fileName.substring(0, fileName.lastIndexOf("."));
-			//load it to local param aryData
-			load(groupId);
+		if(files!=null){
+			for (File fl:files){
+				//the file name is group id
+				String fileName=fl.getName();
+			    String groupId=fileName.substring(0, fileName.lastIndexOf("."));
+				//load it to local param aryData
+				load(groupId);
+			}
 		}
 	}
 	/**
