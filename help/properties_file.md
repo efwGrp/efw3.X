@@ -53,7 +53,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 </tr>
 <tr>
 	<td>efw.storage.folder</td>
-	<td>/WEB-INF/efw/storage</td>
+	<td>/WEB-INF/efw/<br>storage</td>
 	<td>The folder for Web application IO. It can be set in a relative or absolute path of the web application.</td>
 </tr>
 <tr>
@@ -125,7 +125,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 <tr>
 	<th rowspan=3>Pdf</th>
 	<td>efw.pdf.<br>wkhtmltopdf</td>
-	<td>C:/Program Files/wkhtmltopdf/bin/<br>wkhtmltopdf.exe</td>
+	<td>C:/Program Files/wkhtmltopdf/<br>bin/<br>wkhtmltopdf.exe</td>
 	<td>The path to wkhtmltopdf.exe. You can download the soft from http://wkhtmltopdf.org/ . </td>
 </tr>
 
