@@ -124,7 +124,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 
 <tr>
 	<th rowspan=3>Pdf</th>
-	<td>efw.pdf.wkhtmltopdf</td>
+	<td>efw.pdf.<br>wkhtmltopdf</td>
 	<td>C:/Program Files/wkhtmltopdf/bin/<br>wkhtmltopdf.exe</td>
 	<td>The path to wkhtmltopdf.exe. You can download the soft from http://wkhtmltopdf.org/ . </td>
 </tr>
@@ -137,7 +137,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 
 <tr>
 	<td>efw.pdf.baseurl</td>
-	<td>http://localhost:8080/efw/</td>
+	<td>http://localhost:8080/<br>efw/</td>
 	<td>The url for pdf generating to access the web appication from the web server itself . </td>
 </tr>
 
