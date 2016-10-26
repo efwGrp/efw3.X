@@ -26,7 +26,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>If the value is true, efw will try to link innorules system and you must setup innorules beforehand.</td>
 </tr>
 <tr>
-	<td>efw.brms.codetype</td>
+	<td>efw.brms.<br>codetype</td>
 	<td>NAME</td>
 	<td>To set the code type which identifies rules in innorules system. It can be set to ID, NAME or ALIAS . </td>
 </tr>
@@ -73,7 +73,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The page to login.If any access without logining, this page will be shown.</td>
 </tr>
 <tr>
-	<td>efw.system.error.url</td>
+	<td>efw.system.error.<br>url</td>
 	<td>error.jsp</td>
 	<td>The page to show system error.</td>
 </tr>
