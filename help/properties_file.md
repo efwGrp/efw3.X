@@ -78,12 +78,12 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The page to show system error.</td>
 </tr>
 <tr>
-	<td>efw.outoflogin.url.pattern</td>
+	<td>efw.outoflogin.<br>url.pattern</td>
 	<td></td>
 	<td>The regexp to set pages which are out of logining check. </td>
 </tr>
 <tr>
-	<td>efw.outoflogin.eventid.pattern</td>
+	<td>efw.outoflogin.<br>eventid.pattern</td>
 	<td></td>
 	<td>The regexp to set events which are out of logining check. </td>
 </tr>
@@ -125,7 +125,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 <tr>
 	<th rowspan=3>Pdf</th>
 	<td>efw.pdf.wkhtmltopdf</td>
-	<td>C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe</td>
+	<td>C:/Program Files/wkhtmltopdf/bin/<br>wkhtmltopdf.exe</td>
 	<td>The path to wkhtmltopdf.exe. You can download the soft from http://wkhtmltopdf.org/ . </td>
 </tr>
 
