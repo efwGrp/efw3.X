@@ -1,7 +1,9 @@
 package efw;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.regex.Pattern;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,6 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import efw.properties.PropertiesManager;
 /**
  * efwFilterから初期化される。
@@ -49,6 +52,18 @@ public class efwFilter implements Filter {
 	 */
 	private static Pattern outOfloginUrlPattern =null;
 	/**
+	 * 権限チェック要否のフラグ。
+	 */
+	private static boolean authCheck =false;
+	/**
+	 * 権限チェック対象のセッションキー。
+	 */
+	private static String authKey ="USER_AUTH";
+	
+	private static String authCases  ="";
+	private static HashMap<String, HashMap<String,String>> authCasesMap =new HashMap<String, HashMap<String,String>>();
+	private static HashMap<String, HashMap<String,Pattern>> authCasePatternsMap =new HashMap<String, HashMap<String,Pattern>>();
+	/**
 	 * エラー画面のURLパターン。
 	 */
 	private static Pattern systemErrorUrlPattern =null;
@@ -57,37 +72,84 @@ public class efwFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		if(loginCheck){
-			String strRequestURI = ((HttpServletRequest) request).getRequestURI();
-			Object loginCheckValue=((HttpServletRequest) request).getSession().getAttribute(loginKey);
-			if(loginCheckValue==null || loginCheckValue.equals("")){//ログインしていない
-				if(outOfloginUrlPattern.matcher(strRequestURI).find()||
-						loginUrlPattern.matcher(strRequestURI).find()||
-						systemErrorUrlPattern.matcher(strRequestURI).find()){
-					chain.doFilter(request, response);
-				}else{
-			        ((HttpServletResponse)response).sendRedirect(loginUrl);
+		String strRequestURI = ((HttpServletRequest) request).getRequestURI();
+		if(loginUrlPattern.matcher(strRequestURI).find()||systemErrorUrlPattern.matcher(strRequestURI).find()){
+			chain.doFilter(request, response);
+		}else{
+			if(loginCheck){
+				Object loginCheckValue=((HttpServletRequest) request).getSession().getAttribute(loginKey);
+				if(loginCheckValue==null || loginCheckValue.equals("")){//ログインしていない場合
+					if(!outOfloginUrlPattern.matcher(strRequestURI).find()){//接続画面がログイン必要な場合
+				        ((HttpServletResponse)response).sendRedirect(loginUrl);
+					}else{
+						chain.doFilter(request, response);
+					}
+				}else{//ログインした場合
+					if(authCheck){
+						boolean hasAuth=false;
+						for (String key : authCasePatternsMap.keySet()) {
+							String authCheckValue=(String)((HttpServletRequest) request).getSession().getAttribute(authKey);
+							Pattern authPattern=authCasePatternsMap.get(key).get(PropertiesManager.EFW_AUTH_AUTHPATTERN);
+							Pattern urlPattern=authCasePatternsMap.get(key).get(PropertiesManager.EFW_AUTH_URLPATTERN);
+							if(authPattern.matcher(authCheckValue).find()&&urlPattern.matcher(strRequestURI).find()){
+								hasAuth=true;
+								break;
+							}
+						}
+						if(hasAuth){
+							chain.doFilter(request, response);
+						}else{
+							((HttpServletResponse)response).sendRedirect(systemErrorUrl);
+						}
+					}else{
+						chain.doFilter(request, response);
+					}
 				}
 			}else{
 				chain.doFilter(request, response);
 			}
-		}else{
-			chain.doFilter(request, response);
 		}
+
 	}
 	/**
 	 * フィルタ初期化の代わりに、efwServletから初期化するための関数。
 	 * @throws efwException
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static synchronized void init()throws efwException{
 		loginCheck=PropertiesManager.getBooleanProperty(PropertiesManager.EFW_LOGIN_CHECK, loginCheck);
 		loginKey=PropertiesManager.getProperty(PropertiesManager.EFW_LOGIN_KEY, loginKey);
 		loginUrl=PropertiesManager.getProperty(PropertiesManager.EFW_LOGIN_URL, loginUrl);
-		systemErrorUrl=PropertiesManager.getProperty(PropertiesManager.EFW_SYSTEM_ERROR_URL, systemErrorUrl);
 		outOfloginUrlPatternString=PropertiesManager.getProperty(PropertiesManager.EFW_OUTOFLOGIN_URL_PATTERN, "");
 		outOfloginUrlPattern=Pattern.compile(outOfloginUrlPatternString);
 		loginUrlPattern=Pattern.compile(loginUrl);
+		
+		authCheck=PropertiesManager.getBooleanProperty(PropertiesManager.EFW_AUTH_CHECK,authCheck);
+		authKey=PropertiesManager.getProperty(PropertiesManager.EFW_AUTH_KEY, authKey);
+		systemErrorUrl=PropertiesManager.getProperty(PropertiesManager.EFW_SYSTEM_ERROR_URL, systemErrorUrl);
 		systemErrorUrlPattern=Pattern.compile(systemErrorUrl);
+		
+		authCases=PropertiesManager.getProperty(PropertiesManager.EFW_AUTH_CASES,authCases);
+		if(authCases!=null&&!authCases.equals("")){
+			String[] ary=authCases.split(",");
+			for(int i=0;i<ary.length;i++){
+				String authCaseKey=ary[i];
+				if(!ary[i].equals("")){
+					String authPattern=PropertiesManager.getProperty(authCaseKey+"."+PropertiesManager.EFW_AUTH_AUTHPATTERN,"");
+					String urlPattern=PropertiesManager.getProperty(authCaseKey+"."+PropertiesManager.EFW_AUTH_URLPATTERN,"");
+					if(!authPattern.equals("")&&!urlPattern.equals("")){
+						HashMap data=new HashMap();
+						data.put(PropertiesManager.EFW_AUTH_AUTHPATTERN, authPattern);
+						data.put(PropertiesManager.EFW_AUTH_URLPATTERN, urlPattern);
+						authCasesMap.put(authCaseKey, data);
+						HashMap authCasePattern=new HashMap();
+						authCasePattern.put(PropertiesManager.EFW_AUTH_AUTHPATTERN, Pattern.compile(authPattern));
+						authCasePattern.put(PropertiesManager.EFW_AUTH_URLPATTERN, Pattern.compile(urlPattern));
+						authCasePatternsMap.put(authCaseKey,authCasePattern);
+					}
+				}
+			}
+		}
 	}
 
 	@Override

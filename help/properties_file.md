@@ -57,7 +57,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The folder for Web application IO. It can be set in a relative or absolute path of the web application.</td>
 </tr>
 <tr>
-	<th rowspan=6>Login Check</th>
+	<th rowspan=5>Login Check</th>
 	<td>efw.login.check</td>
 	<td>false</td>
 	<td>The flag indicating whether the web application does the login check.</td>
@@ -73,11 +73,6 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The page to login.If any access without logining, this page will be shown.</td>
 </tr>
 <tr>
-	<td>efw.system.error.<br>url</td>
-	<td>error.jsp</td>
-	<td>The page to show system error.</td>
-</tr>
-<tr>
 	<td>efw.outoflogin.<br>url.pattern</td>
 	<td></td>
 	<td>The regexp to set pages which are out of logining check. </td>
@@ -86,6 +81,38 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>efw.outoflogin.<br>eventid.pattern</td>
 	<td></td>
 	<td>The regexp to set events which are out of logining check. </td>
+</tr>
+
+<tr>
+	<th rowspan=6>Auth Check</th>
+	<td>efw.auth.check</td>
+	<td>false</td>
+	<td>The flag indicating whether the web application does the authority check.</td>
+</tr>
+<tr>
+	<td>efw.auth.key</td>
+	<td>USER_AUTH</td>
+	<td>The session key for authority check. </td>
+</tr>
+<tr>
+	<td>efw.system.error.<br>url</td>
+	<td>error.jsp</td>
+	<td>The page to show system error.</td>
+</tr>
+<tr>
+	<td>efw.auth.cases</td>
+	<td></td>
+	<td>The authority cases splitted by [,] to define sets of authorities and pages. </td>
+</tr>
+<tr>
+	<td>####.auth.pattern</td>
+	<td></td>
+	<td>The authority regexp of the set. </td>
+</tr>
+<tr>
+	<td>####.url.pattern</td>
+	<td></td>
+	<td>The page regexp of the set. </td>
 </tr>
 
 <tr>

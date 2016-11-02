@@ -1,8 +1,7 @@
 <H1>How To</H1>
 
-<li>About login.
-
-
+<li><a href="how_to.logincheck.md">How to Login & Auth  Check ? </a>
+<br>
 About JSP
 
 <li>‰æ–Ê‰Šú•\¦‚Í‚Ç‚¤ÀŒ»‚µ‚Ü‚·‚©B

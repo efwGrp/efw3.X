@@ -117,6 +117,31 @@ public final class PropertiesManager {
 	 */
 	public static final String EFW_LOGIN_URL="efw.login.url";
 	/**
+	 * 権限チェックフラグのプロパティキー。
+	 * 「efw.auth.check」の定数。
+	 */
+	public static final String EFW_AUTH_CHECK = "efw.auth.check";
+	/**
+	 * 権限セッション情報のプロパティキー。
+	 * 「efw.auth.key」の定数。
+	 */
+	public static final String EFW_AUTH_KEY = "efw.auth.key";
+	/**
+	 * 権限チェック全ケース、カンマ区切り。
+	 * 「efw.auth.cases」の定数。
+	 */
+	public static final String EFW_AUTH_CASES = "efw.auth.cases";
+	/**
+	 * 権限チェック個別ケースの権限パターン。
+	 * 「####.auth.pattern」の定数。
+	 */
+	public static final String EFW_AUTH_AUTHPATTERN ="auth.pattern";
+	/**
+	 * 権限チェック個別ケースのページパターン。
+	 * 「####.url.pattern」の定数。
+	 */
+	public static final String EFW_AUTH_URLPATTERN ="url.pattern";
+	/**
 	 * システムエラー遷移画面のURL。
 	 *  「efw.system.error.url」の定数。
 	 */

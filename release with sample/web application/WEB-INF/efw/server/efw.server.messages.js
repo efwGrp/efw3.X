@@ -5,7 +5,7 @@
  */
 var EfwServerMessages = function() {
 };
-EfwServerMessages.prototype = {
+/*EfwServerMessages.prototype = {
 	NumberType : "numbers",
 	DateType : "dates",
 	StringType : "strings",
@@ -19,8 +19,8 @@ EfwServerMessages.prototype = {
 	MaxOverMessage : "Please enter {display-name} in {data-type}, less than {max}.",
 	NotAcceptMessage : "Please select a correct file in {display-name}.",
 	EventDisableMessage : "The event is disable temporarily.\n\neventId={eventId}",
-};
-/*
+};*/
+
 EfwServerMessages.prototype = {
 		NumberType : "数字",
 		DateType : "日付",
@@ -36,4 +36,3 @@ EfwServerMessages.prototype = {
 		NotAcceptMessage : "{display-name}に正しいファイルを選択してください。",
 		EventDisableMessage : "該当イベントは一時無効に設定されました。\n\neventId={eventId}",
 	};
-*/
