@@ -7,15 +7,14 @@ mdclexam_nextuser.fire=function(params){
 	var usercd=params["#the_id"];
 	if (usercd=="")nextusercd="0000000";
 	var rsUserinfo=(db.select("mdclexam_user","next",{"user_id":usercd}))
-		.map({"#the_id":"個人コード"})
-		.getSingle();
-	if (rsUserinfo){
+		.map({"#the_id":"個人コード"});
+	if (rsUserinfo.length>0){
 		//次の個人情報 の取得
 		//---------------------------------------------------------------------
 		return (new Result())
 			.runat("#userinfo")
 			.withdata(rsUserinfo)
-			.concat(event.fire("mdclexam_seekuser",rsUserinfo));
+			.concat(event.fire("mdclexam_seekuser",rsUserinfo.getSingle()));
 	}else{
 		return (new Result()).alert("次のユーザはありません。");
 	}
