@@ -88,7 +88,7 @@ Result.prototype.concat = function(result) {
 			if (result.actions.hide)this.hide(result.actions.hide);
 			if (result.actions.disable)this.disable(result.actions.disable);
 			if (result.actions.enable)this.enable(result.actions.enable);
-			if (result.actions.navigate)this.navigate(result.actions.navigate.url, this.actions.navigate.params);
+			if (result.actions.navigate)this.navigate(result.actions.navigate.url, result.actions.navigate.params);
 			if (result.actions.download){
 				if (result.actions.download.zip)this.attach(result.actions.download.zip);
 				if (result.actions.download.file)this.attach(result.actions.download.file);
