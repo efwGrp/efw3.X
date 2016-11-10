@@ -51,8 +51,9 @@ EfwServerBRMS.prototype._executeQuery = function(executionParams) {
 		if (key=="debug") continue;// debug function is skipped
 		var vl = aryParam[key];
 
-		if (vl == null || vl == "")
+		if (null == vl ||(typeof(vl) == "string" && vl == "")){
 			vl = null;
+		}
 		params.put(key, vl);
 	}
 

@@ -143,10 +143,11 @@ EfwServerDb.prototype._executeQuery = function(executionParams) {
 	for ( var key in aryParam) {
 		if (key=="debug") continue;// debug function is skipped
 		var vl = aryParam[key];
-		if (vl == null || vl == "")
+		if (null == vl ||(typeof(vl) == "string" && vl == "")){
 			vl = null;
-		else if (vl.getTime)
+		}else if (vl.getTime){
 			vl = new java.sql.Date(vl.getTime());
+		}
 		params.put(key, vl);
 	}
 	var db=Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName);
@@ -234,10 +235,11 @@ EfwServerDb.prototype._executeUpdate = function(executionParams) {
 	for ( var key in aryParam) {
 		if (key=="debug") continue;// debug function is skipped
 		var vl = aryParam[key];
-		if (vl == null || vl == "")
+		if (null == vl ||(typeof(vl) == "string" && vl == "")){
 			vl = null;
-		else if (vl.getTime)
+		}else if (vl.getTime){
 			vl = new java.sql.Date(vl.getTime());
+		}
 		params.put(key, vl);
 	}
 	var db=Packages.efw.db.DatabaseManager.getDatabase(jdbcResourceName);

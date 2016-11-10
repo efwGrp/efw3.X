@@ -16,7 +16,7 @@ EfwServer.prototype.checkLogin = function(eventId){
 	var loginkey = EfwServerProperties.prototype.get("efw.login.key");
 	if (needLoginCheck && outOfLoginEventIdPattern!="" && eventId.search(new RegExp(outOfLoginEventIdPattern))==-1) { // the login check
 		var vl = EfwServerSession.prototype.get(loginkey);
-		if (vl == null || vl == "") {
+		if (vl == null ||(typeof(vl) == "string" && vl == "")) {
 			var result=(new Result())
 			.alert(EfwServerMessages.prototype.SessionTimeoutException);
 			var loginUrl = EfwServerProperties.prototype.get("efw.login.url","");

@@ -13,7 +13,7 @@ mdclexam_nextuser.fire=function(params){
 		//---------------------------------------------------------------------
 		return (new Result())
 			.runat("#userinfo")
-			.withdata(rsUserinfo)
+			.withdata(rsUserinfo.getSingle())
 			.concat(event.fire("mdclexam_seekuser",rsUserinfo.getSingle()));
 	}else{
 		return (new Result()).alert("次のユーザはありません。");
