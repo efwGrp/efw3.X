@@ -32,7 +32,7 @@ The format function is established to format Number or Date to String.
 
 <table>
 <tr><th>Date Formatter</th></tr>
-<tr><td>GGGGy</td><td>Japan WAREKI, 2016 -- ïΩê¨28</td></tr>
+<tr><td>GGGGy</td><td>Japan WAREKI, 2016 -- Âπ≥Êàê28</td></tr>
 <tr><td>Gy</td><td>Japan WAREKI, 2016 -- H28</td></tr>
 <tr><td>yyyy</td></tr>
 <tr><td>yy</td></tr>
