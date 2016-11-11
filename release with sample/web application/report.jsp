@@ -163,13 +163,8 @@ hr {
 
 
 </style>
-<script>
-	function init(){
-		efw.client.fire({eventId:"mdclexam_paintreport"});
-	}
-</script>
 </head>
-<body onload="init()">
+<body onload="Efw('report_paint')">
 
 <div class="page">
 
