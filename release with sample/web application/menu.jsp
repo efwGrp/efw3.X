@@ -34,6 +34,7 @@
 <input type=button value="健康診断閲覧" style="width:300px" onclick="Efw('menu_mdclexam')"><br><br>
 <input type=button value="Hello World" style="width:300px" onclick="Efw('menu_helloworld')"><br><br>
 <input type=button value="各種サンプル" style="width:300px" onclick="Efw('menu_sample')"><br><br>
+<input type=button value="統計情報" style="width:300px" onclick="Efw('menu_statistics')"><br><br>
 「各種サンプル」機能は、<br>adminが閲覧でき、userがを閲覧できないように設定しました。
 </div>
 </body>

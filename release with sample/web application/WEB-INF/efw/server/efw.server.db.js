@@ -184,7 +184,8 @@ EfwServerDb.prototype._executeQuery = function(executionParams) {
 				value = 0 + new Number(value);
 			} else if (value.getClass().getName() == "java.sql.Date"
 					|| value.getClass().getName() == "java.sql.Time"
-					|| value.getClass().getName() == "java.sql.Timestamp") {
+					|| value.getClass().getName() == "java.sql.Timestamp"
+					|| value.getClass().getName() == "java.util.Date") {
 				var dt = new Date();
 				dt.setTime(value.getTime());
 				value = dt;

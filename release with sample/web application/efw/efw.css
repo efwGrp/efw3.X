@@ -17,3 +17,6 @@ data-format
 .efw_input_focus{
 	background-color:lightcyan;
 }
+.ui-dialog{
+	position:fixed!important;
+}

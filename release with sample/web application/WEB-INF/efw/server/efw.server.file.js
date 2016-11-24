@@ -5,6 +5,20 @@
  */
 var EfwServerFile = function() {
 };
+
+/**
+ * The function to judge whether a path exists or not. 
+ * @param {String} path
+ * @returns {Boolean}
+ */
+EfwServerFile.prototype.exists=function(path){
+	var fl = Packages.efw.file.FileManager.get(path);
+	if (fl.exists()) {
+		return true;
+	}else{
+		return false;
+	}
+};
 /**
  * The function to judge whether a path is File or not. 
  * @param {String} path

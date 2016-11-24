@@ -50,3 +50,15 @@ EfwServerSession.prototype.get = function(key) {
 EfwServerSession.prototype.set = function(key, value) {
 	Packages.efw.efwServlet.getRequest().getSession().setAttribute(key, value);
 };
+/**
+ * The function to create a new session.
+ */
+EfwServerSession.prototype.create = function() {
+	Packages.efw.efwServlet.getRequest().getSession(true);
+};
+/**
+ * The function to invalidate the current session.
+ */
+EfwServerSession.prototype.invalidate = function() {
+	Packages.efw.efwServlet.getRequest().getSession().invalidate();
+};

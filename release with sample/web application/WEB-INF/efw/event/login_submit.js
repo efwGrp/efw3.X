@@ -7,6 +7,7 @@ login_submit.paramsFormat={
 login_submit.fire=function(params){
 	if ((params["#txt_uid"]=="admin"&&params["#txt_pwd"]=="password")||
 			(params["#txt_uid"]=="user"&&params["#txt_pwd"]=="password")){
+		session.create();
 		session.set("USER_ID", params["#txt_uid"]);
 		if(params["#txt_uid"]=="admin"){
 			session.set("USER_AUTH","admin");
