@@ -22,7 +22,7 @@
 <tr><td>pdf</td><td><a href="pdf.create.md">create</a></td><td><a href="pdf.merge.md">merge</a></td></tr>
 <tr><td>poi</td><td>...</td></tr>
 <tr><td>properties</td><td><a href="properties.get.md">get</a></td></tr>
-<tr><td>session</td><td><a href="session.create.md">create</a></td><td><a href="session.invalidate.md">invalidate</a></td><td><a href="session.get.md">get</a></td><td><a href="session.set.md">set</a></td></tr>
+<tr><td>session</td><td><a href="session.get.md">get</a></td><td><a href="session.set.md">set</a></td><td><a href="session.create.md">create</a></td><td><a href="session.invalidate.md">invalidate</a></td><td><a href="session.remove.md">remove</a></td></tr>
 <tr><td>{ any }</td><td><a href="any.debug.md">debug</a></td></tr>
 <tr><td>{ Date | Number }</td><td><a href="any.format.md">format</a></td><td><a href="any.parse.md">parse</a></td></tr>
 </table>

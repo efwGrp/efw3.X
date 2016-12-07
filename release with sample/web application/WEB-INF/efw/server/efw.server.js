@@ -254,10 +254,12 @@ EfwServer.prototype.fire = function(event, requestParams) {
 		;
 		EfwServerDb.prototype._commitAll();
 		EfwServerDb.prototype._closeAll();
+		Packages.efw.excel.ExcelManager.closeAll();
 		return result;
 	} catch (e) {
 		EfwServerDb.prototype._rollbackAll();
 		EfwServerDb.prototype._closeAll();
+		Packages.efw.excel.ExcelManager.closeAll();
 		throw e;
 	}
 };

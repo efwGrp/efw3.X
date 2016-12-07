@@ -66,7 +66,7 @@ public final class downloadServlet extends HttpServlet {
 				}
 			}else if(attr_file!=null&&!"".equals(attr_file)){
 				if(attr_saveas==null||"".equals(attr_saveas)){
-					attr_saveas=attr_file;
+					attr_saveas=FileManager.get(attr_file).getName();//Download file name is the last name in the folder name string.
 				}
 			}else{
 				//do nothing in this case because it is an error in client js.

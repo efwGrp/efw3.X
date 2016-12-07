@@ -90,6 +90,7 @@ load(_serverfolder + "/efw.server.mail.js");
 load(_serverfolder + "/efw.server.record.js");
 load(_serverfolder + "/efw.server.result.js");
 load(_serverfolder + "/efw.server.debug.js");
+load(_serverfolder + "/efw.server.excel.js");
 
 /**
  * create instances.
