@@ -549,7 +549,7 @@ public final class Excel {
         	List<XSSFShape> templateShapes=((XSSFDrawing) templateSheet.getDrawingPatriarch()).getShapes();
             for (XSSFShape templateShape : templateShapes) {
         		if (templateShape instanceof XSSFSimpleShape && 
-        			templateShapeName.equals(Excel.getShapeName((XSSFSimpleShape) templateShape))) {
+        				templateShapeName.equals(Excel.getShapeName((XSSFSimpleShape) templateShape))) {
                     XSSFDrawing patriarch=sheet.getDrawingPatriarch();
         			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
         			XSSFClientAnchor anchor=(XSSFClientAnchor)(Excel.cloneShape(patriarch,(XSSFSimpleShape) templateShape).getAnchor());

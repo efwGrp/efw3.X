@@ -316,6 +316,7 @@ Excel.prototype.setCell = function(sheetName, position, value, templateSheetName
  * The default value is 0.5 which means the center.<br>
  * @param {Number} checkpointYRate: optoinal<br>
  * The default value is 0.5 which means the center.<br>
+ * @returns {Boolean}
  */
 Excel.prototype.isEncircled=function(sheetName,position,checkpointXRate,checkpointYRate){
 	if (checkpointXRate==null)checkpointXRate=0.5;
@@ -324,7 +325,7 @@ Excel.prototype.isEncircled=function(sheetName,position,checkpointXRate,checkpoi
 };
 
 /**
- * The function to create a shape by coping.
+ * The function to create a shape by coping to encircle a cell.
  * @param {String} sheetName: required<br>
  * @param {String} position: required<br>
  * @param {String | Number | Date | Boolean | null } value: required<br>
