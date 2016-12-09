@@ -46,6 +46,8 @@
 <td><a href="excel.removeSheet.md">removeSheet</a></td>
 <td><a href="excel.setSheetOrder.md">setSheetOrder</a></td>
 <td><a href="excel.setActiveSheet.md">setActiveSheet</a></td>
+</tr>
+<tr><td></td>
 <td><a href="excel.setCell.md">setCell</a></td>
 <td><a href="excel.encircle.md">encircle</a></td>
 </tr>
@@ -54,10 +56,10 @@
 <td><a href="excel.getSingle.md">getSingle</a></td>
 <td><a href="excel.getValue.md">getValue</a></td>
 <td><a href="excel.getMaxRow.md">getMaxRow</a></td>
-<td><a href="excel.getMaxCol.md">getMaxCol</a></td>
-<td><a href="excel.isEncircled.md">isEncircled</a></td>
 </tr>
 <tr><td></td>
+<td><a href="excel.getMaxCol.md">getMaxCol</a></td>
+<td><a href="excel.isEncircled.md">isEncircled</a></td>
 <td><a href="excel.getSheetNames.md">getSheetNames</a></td>
 </tr>
 
@@ -91,12 +93,14 @@
 <td><a href="result.hide.md">hide</a></td>
 <td><a href="result.enable.md">enable</a></td>
 <td><a href="result.disable.md">disable</a></td>
-<td><a href="result.highlight.md">highlight</a></td>
 </tr>
 <tr><td></td>
+<td><a href="result.highlight.md">highlight</a></td>
 <td><a href="result.attach.md">attach</a></td>
 <td><a href="result.deleteAfterDownload.md">deleteAfterDownload</a></td>
 <td><a href="result.confirm.md">confirm</a></td>
+</tr>
+<tr><td></td>
 <td><a href="result.alert.md">alert</a></td>
 <td><a href="result.eval.md">eval</a></td>
 <td><a href="result.focus.md">focus</a></td>
