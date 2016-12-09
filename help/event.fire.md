@@ -5,12 +5,12 @@ Its return is an instance of the <a href="result.md">Result</a> class.
 
 <h2>Sample</h2>
 <pre>
-	var data={"#txtUser":"Wang"};
-	return (new Result())
-			.runat("body")
-			.withdata({"#txtUser":"Wang"})
-			.alert("hello world!")
-			.concat(event.fire("subEvent",data));
+	var data = {
+		"#txtUser" : "Wang"
+	};
+	return (new Result()).runat("body").withdata({
+		"#txtUser" : "Wang"
+	}).alert("hello world!").concat(event.fire("subEvent", data));
 </pre>
 
 <table>

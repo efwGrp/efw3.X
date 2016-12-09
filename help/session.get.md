@@ -4,7 +4,7 @@ The get function is established to get data from session.
 
 <h2>Sample</h2>
 <pre>
-	var userId=session.get("USER_ID");
+	var userId = session.get("USER_ID");
 </pre>
 
 <h2>API</h2>

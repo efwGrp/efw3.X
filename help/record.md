@@ -3,16 +3,23 @@
 The Record class is established as one of operating classes to operate an array.
 <h2>Sample</h2>
 <pre>
-	var source=[
-		{"name":"Wang","country":"China","years":20},
-		{"name":"Zhang","country":"China","years":30},
-		{"name":"Tanaka","country":"Japan","years":40}
-	];
-	var record1 = (new Record(source))
-				.sort("years","asc");
-	var array =record1.getArray();
-	var youngest =record1.getSingle();
-	var youngestName =record1.getValue("name");
+	var source = [ {
+		"name" : "Wang",
+		"country" : "China",
+		"years" : 20
+	}, {
+		"name" : "Zhang",
+		"country" : "China",
+		"years" : 30
+	}, {
+		"name" : "Tanaka",
+		"country" : "Japan",
+		"years" : 40
+	} ];
+	var record1 = (new Record(source)).sort("years", "asc");
+	var array = record1.getArray();
+	var youngest = record1.getSingle();
+	var youngestName = record1.getValue("name");
 </pre>
 
 <h2>API</h2>

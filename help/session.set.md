@@ -4,7 +4,7 @@ The set function is established to set data to session.
 
 <h2>Sample</h2>
 <pre>
-	session.set("USER_ID" , "Wang");
+	session.set("USER_ID", "Wang");
 </pre>
 
 <h2>API</h2>

@@ -5,9 +5,11 @@ Its return is an instance of the <a href="record.md">Record</a> class.
 
 <h2>Sample</h2>
 <pre>
-	var record1=db.select("helloWorld","selectUser",{"country":"China"})
-						.sort("years","asc");
-	var record2=db.select("select * from table_user where country='China' order years asc");
+	var record1 = db.select("helloWorld", "selectUser", {
+		"country" : "China"
+	}).sort("years", "asc");
+	var record2 = db
+			.select("select * from table_user where country='China' order years asc");
 </pre>
 
 <h2>API</h2>

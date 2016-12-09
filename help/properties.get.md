@@ -4,7 +4,7 @@ The get function is established to get data from the efw.properties file.
 
 <h2>Sample</h2>
 <pre>
-	var bln = properties.get("efw.login.check",false);
+	var bln = properties.get("efw.login.check", false);
 	var str = properties.get("efw.login.key");
 </pre>
 

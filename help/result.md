@@ -4,12 +4,12 @@ The Result class is established to send values or actions to client.
 
 <h2>Sample</h2>
 <pre>
-	var data={"#txtUser":"Wang"};
-	return (new Result())
-			.runat("body")
-			.withdata({"#txtUser":"Wang"})
-			.alert("hello world!")
-			.concat(event.fire("subEvent",data));
+	var data = {
+		"#txtUser" : "Wang"
+	};
+	return (new Result()).runat("body").withdata({
+		"#txtUser" : "Wang"
+	}).alert("hello world!").concat(event.fire("subEvent", data));
 </pre>
 
 <h2>API</h2>

@@ -4,8 +4,10 @@ The change function is established to execute UPDATE or DELETE SQL.
 The return is the count of modefied records.
 <h2>Sample</h2>
 <pre>
-	db.change("helloWorld","DeleteUser",{"country":"China"});
-	var count=db.change("delete * from table_user where country='China'");
+	db.change("helloWorld", "DeleteUser", {
+		"country" : "China"
+	});
+	var count = db.change("delete * from table_user where country='China'");
 </pre>
 
 <h2>API</h2>

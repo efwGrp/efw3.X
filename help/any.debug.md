@@ -8,10 +8,10 @@ The debug function is established to print information of any objects to the con
 	(123).debug("test1");
 	(true).debug("test1");
 	(new Date()).debug("test2");
-	return (new Result())
-		.runat()
-		.withData({"#userId":"Wang"}.debug("test3")).debug("test4");
-	;
+
+	return (new Result()).runat().withData({
+		"#userId" : "Wang"
+	}.debug("test3")).debug("test4");
 </pre>
 
 <h2>API</h2>
