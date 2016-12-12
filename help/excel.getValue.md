@@ -23,7 +23,7 @@ The getValue function is established to get the value from a cell.
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>sheetName</td><td>String</td><td>The sheet name.</td></tr>
 <tr><td>position</td><td>String</td><td>The absolute reference of the cell.</td></tr>
-<tr><td>formatter</td><td>String</td><td>Number Formatter or Date Formatter.</td></tr>
-<tr><td>rounder</td><td>String</td><td>The rounder for number format.</td></tr>
+<tr><td><a href="formatter&rounder.md">formatter</a></td><td>String</td><td>Number formatter or date formatter.</td></tr>
+<tr><td><a href="formatter&rounder.md">rounder</a></td><td>String</td><td>The rounder for number format.</td></tr>
 </table>
 
