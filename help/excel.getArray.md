@@ -5,7 +5,12 @@ The getArray function is established to get several fields as an array from one 
 <h2>Sample</h2>
 <pre>
 	var excel = new Excel("test.xlsx");
-	var ary1 = excel.getArray("Sheet1", 1, 3, {"data1":"A", "data2":"B", "data3":"C"});
+	var ary1 = excel.getArray("Sheet1", 1, 3, 
+		{
+			"data1":"A", 
+			"data2":"B", 
+			"data3":"C"
+		});
 	var ary2 = excel.getArray("Sheet1", 1, 
 		function(row){
 			if (excel.getValue("Sheet1","A"+row)!=""){
@@ -14,10 +19,14 @@ The getArray function is established to get several fields as an array from one 
 				return false;
 			}
 		}
-	, {"data1":"A", "data2":"B", "data3":
-		function(row){
-			return excel.getValue("Sheet1","C"+row)+excel.getValue("Sheet1","D"+row);
-		}
+	, {
+		"data1":"A", 
+		"data2":["B","#,##0.0","HALF_EVEN"], 
+		"data3":["C","yyyy/MM/dd"], 
+		"data4":
+			function(row){
+				return excel.getValue("Sheet1","D"+row)+excel.getValue("Sheet1","E"+row);
+			}
 	});
 	var ary3 = excel.getArray{"Sheet1", 1, 4,[{"data1":"A"},{"data2":"A"}]};
 </pre>
@@ -26,7 +35,7 @@ The getArray function is established to get several fields as an array from one 
 
 <table>
 <tr><th>Calling</th><th>Returning</th></tr>
-<tr><td>Excel . getArray ( sheetName , startRow , endCondition , positionRowMaps )</td><td>Excel</td></tr>
+<tr><td>Excel . getArray ( sheetName , startRow , endCondition , positionRowMaps )</td><td>Array</td></tr>
 </table>
 
 
@@ -42,15 +51,17 @@ It is a number or a function.
 Object: The map for getting data from a row.<br>
 Array: The maps for getting data from several rows.<br>
 <pre>
-	{data1:col, data2:col, data3:
-		function(row){ return String|Number|Date|Boolean;} 
+	{	data1:col, 
+		data2:[col, formatter, rounder], 
+		data3:function(row){ return String|Number|Date|Boolean;} 
 	}
 
 	[
-		{data1:col, data2:col },
-		{data3:col, data4:
-			function(row){ return String|Number|Date|Boolean;} 
-		}
+		{	data1:col, 
+			data2:[col, formatter, rounder], 
+			data3:function(row){ return String|Number|Date|Boolean;} 
+		},
+		{...}
 	]
 </pre>
 </td></tr>
