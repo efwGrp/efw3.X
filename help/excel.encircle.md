@@ -20,9 +20,9 @@ The encircle function is established to create a shape by coping to encircle a c
 
 <table>
 <tr><th>Calling</th><th>Returning</th></tr>
-<tr><td>Excel . encircle ( sheetName , position , templateSheetName, templateShapeName )</td><td>Excel</td></tr>
-<tr><td>Excel . encircle ( sheetName , position , templateSheetName, templateShapeName, shapeCenterXRate, shapeCenterYRate )</td><td>Excel</td></tr>
-<tr><td>Excel . encircle ( sheetName , position , templateSheetName, templateShapeName, shapeCenterXRate, shapeCenterYRate, shapeWidthRate, shapeHeightRate )</td><td>Excel</td></tr>
+<tr><td>Excel . encircle ( sheetName , position , templateSheetName , templateShapeName )</td><td>Excel</td></tr>
+<tr><td>Excel . encircle ( sheetName , position , templateSheetName , templateShapeName , shapeCenterXRate , shapeCenterYRate )</td><td>Excel</td></tr>
+<tr><td>Excel . encircle ( sheetName , position , templateSheetName , templateShapeName , shapeCenterXRate , shapeCenterYRate , shapeWidthRate , shapeHeightRate )</td><td>Excel</td></tr>
 </table>
 
 
