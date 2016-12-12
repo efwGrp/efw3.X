@@ -33,10 +33,14 @@ The encircle function is established to create a shape by coping to encircle a c
 <tr><td>templateSheetName</td><td>String</td><td>The template sheet name.</td></tr>
 <tr><td>templateShapeName</td><td>String</td><td>The template shape name in the template sheet.</td></tr>
 
-<tr><td>shapeCenterXRate</td><td>Number</td><td>The The rate of the x coordinate of the shape center point to the cell width.</td></tr>
-<tr><td>shapeCenterYRate</td><td>Number</td><td>The The rate of the y coordinate of the shape center point to the cell height.</td></tr>
-<tr><td>shapeWidthRate</td><td>Number</td><td>The The rate of the shape width to the cell width.</td></tr>
-<tr><td>shapeHeightRate</td><td>Number</td><td>The The rate of the shape height to the cell height.</td></tr>
+<tr><td>shapeCenterXRate</td><td>Number</td><td>The The rate of the x coordinate of the shape center point to the cell width.
+The default is 0.5 .</td></tr>
+<tr><td>shapeCenterYRate</td><td>Number</td><td>The The rate of the y coordinate of the shape center point to the cell height.
+The default is 0.5 .</td></tr>
+<tr><td>shapeWidthRate</td><td>Number</td><td>The The rate of the shape width to the cell width.
+The default is 0.5 .</td></tr>
+<tr><td>shapeHeightRate</td><td>Number</td><td>The The rate of the shape height to the cell height.
+The default is 0.5 .</td></tr>
 
 </table>
 

@@ -52,13 +52,13 @@ Object: The map for getting data from a row.<br>
 Array: The maps for getting data from several rows.<br>
 <pre>
 	{	data1:col, 
-		data2:[col, formatter, rounder], 
+		data2:[col, <a href="formatter&rounder.md">formatter</a>, <a href="formatter&rounder.md">rounder</a>], 
 		data3:function(row){ return String|Number|Date|Boolean;} 
 	}
 
 	[
 		{	data1:col, 
-			data2:[col, formatter, rounder], 
+			data2:[col, <a href="formatter&rounder.md">formatter</a>, <a href="formatter&rounder.md">rounder</a>], 
 			data3:function(row){ return String|Number|Date|Boolean;} 
 		},
 		{...}

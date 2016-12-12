@@ -32,7 +32,7 @@ The getSingle function is established to get several fields as an object from on
 The map for getting data from a row.<br>
 <pre>
 	{	data1:position, 
-		data2:[position, formatter, rounder], 
+		data2:[position, <a href="formatter&rounder.md">formatter</a>, <a href="formatter&rounder.md">rounder</a>], 
 		data3:function(){ return String|Number|Date|Boolean;} 
 	}
 </pre>
