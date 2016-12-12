@@ -5,8 +5,8 @@ The getArray function is established to get several fields as an array from one 
 <h2>Sample</h2>
 <pre>
 	var excel = new Excel("test.xlsx");
-	var ary = excel.getArray("Sheet1", 1, 3, {"data1":"A", "data2":"B", "data3":"C"});
-	var ary = excel.getArray("Sheet1", 1, 
+	var ary1 = excel.getArray("Sheet1", 1, 3, {"data1":"A", "data2":"B", "data3":"C"});
+	var ary2 = excel.getArray("Sheet1", 1, 
 		function(row){
 			if (excel.getValue("Sheet1","A"+row)!=""){
 				return true;
@@ -14,7 +14,12 @@ The getArray function is established to get several fields as an array from one 
 				return false;
 			}
 		}
-	, {"data1":"A", "data2":"B", "data3":"C"});
+	, {"data1":"A", "data2":"B", "data3":
+		function(row){
+			return excel.getValue("Sheet1","C"+row)+excel.getValue("Sheet1","D"+row);
+		}
+	});
+	var ary3 = excel.getArray{"Sheet1", 1, 4,[{"data1":"A"},{"data2":"A"}]};
 </pre>
 
 <h2>API</h2>
@@ -37,11 +42,11 @@ It is a number or a function.
 Object: The map for getting data from a row.<br>
 Array: The maps for getting data from several rows.<br>
 <pre>
-	{data1:col, data2:col, data3:function(row){ return true/false;} }
+	{data1:col, data2:col, data3:function(row){ return String|Number|Date|Boolean;} }
 
 	[
 		{data1:col, data2:col },
-		{data3:col, data4:function(row){ return true/false;} }
+		{data3:col, data4:function(row){ return String|Number|Date|Boolean;} }
 	]
 </pre>
 </td></tr>
