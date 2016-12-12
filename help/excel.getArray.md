@@ -40,8 +40,8 @@ Array: The maps for getting data from several rows.<br>
 	{data1:col, data2:col, data3:function(row){ return true/false;} }
 
 	[
-		{data1:col, data2:col },// data in the first row
-		{data3:col, data4:function(row){ return true/false;} } // data in the second row
+		{data1:col, data2:col },
+		{data3:col, data4:function(row){ return true/false;} }
 	]
 </pre>
 </td></tr>
