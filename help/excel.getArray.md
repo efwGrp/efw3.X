@@ -42,11 +42,15 @@ It is a number or a function.
 Object: The map for getting data from a row.<br>
 Array: The maps for getting data from several rows.<br>
 <pre>
-	{data1:col, data2:col, data3:function(row){ return String|Number|Date|Boolean;} }
+	{data1:col, data2:col, data3:
+		function(row){ return String|Number|Date|Boolean;} 
+	}
 
 	[
 		{data1:col, data2:col },
-		{data3:col, data4:function(row){ return String|Number|Date|Boolean;} }
+		{data3:col, data4:
+			function(row){ return String|Number|Date|Boolean;} 
+		}
 	]
 </pre>
 </td></tr>
