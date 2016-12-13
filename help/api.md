@@ -72,8 +72,8 @@
 <td><a href="record.map.md">map</a></td>
 </tr>
 <tr><td></td>
-<td><a href="record.getSingle.md">getSingle</a></td>
 <td><a href="record.getArray.md">getArray</a></td>
+<td><a href="record.getSingle.md">getSingle</a></td>
 <td><a href="record.getValue.md">getValue</a></td>
 <td><a href="record.length.md">length</a></td>
 </tr>
