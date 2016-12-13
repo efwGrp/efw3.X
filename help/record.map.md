@@ -32,7 +32,7 @@ The sort function is established to change the array data format.
 <pre>
 {
 	newField1:oldField1,
-	newField2:[oldField2, formatter, rounder],
+	newField2:[oldField2, <a href="formatter&rounder.md">formatter</a>, <a href="formatter&rounder.md">rounder</a>],
 	newField3:function(data){return String|Number|Date|Boolean;}
 }
 </pre>
