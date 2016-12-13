@@ -119,5 +119,4 @@
 
 
 <br><br><br><br>
-<li><a href="record.md">Record Class</a></li>
 <li><a href="result.md">Result Class</a></li>
