@@ -1,10 +1,10 @@
 <H1>Files List</H1>
 
 <pre>
-myWebApp							//The application folder. 
+myWebApp											//The application folder. 
 ├─myPage.jsp
 ├─...
-├─efw								//efw client folder
+├─efw												//Efw client folder
 │  ├─<a href="../../release%20with%20sample/web%20application/efw/efw.client.messages.js">efw.client.messages.js</a>
 │  ├─<a href="../../release%20with%20sample/web%20application/efw/efw.css">efw.css</a>
 │  └─...
@@ -14,21 +14,21 @@ myWebApp							//The application folder.
     ├─classes
     │  └─<b><a href="properties_file.md">efw.properties</a></b>
     ├─efw
-    │  ├─event					//efw event folder
+    │  ├─event									//Efw event folder
     │  │  ├─<b><a href="api_event.md">myEvent.js</a></b>
     │  │  └─...
-    │  ├─mail						//outside mail folder
+    │  ├─mail									//Outside mail folder
     │  │  ├─<b><a href="file_list/myEvent.js.md">mails.xml</a></b>
     │  │  └─...
-    │  ├─server					//efw server folder
+    │  ├─server									//Efw server folder
     │  │  ├─<a href="../../release%20with%20sample/web%20application/WEB-INF/efw/server/efw.server.messages.js">efw.server.messages.js</a>
     │  │  └─...
-    │  ├─sql						//outside sql folder
+    │  ├─sql										//Outside sql folder
     │  │  ├─<b><a href="file_list/mySqlGroup.xml.md">mySqlGroup.xml</a></b>
     │  │  └─...
-    │  └─storage					//storage folder
+    │  └─storage									//Storage folder
     │      └─...
-    └─lib						//lib folder
+    └─lib											//Lib folder
         ├─efw-3.#.###.jar
         ├─jdbc.XXXXXX.jar
         └─poi_3.15_allinone.jar
