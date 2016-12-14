@@ -12,19 +12,19 @@ myWebApp											//The application folder.
 │  └─<a href="../../release%20with%20sample/web%20application/META-INF/context.xml">context.xml</a>
 └─WEB-INF
     ├─classes
-    │  └─<b><a href="properties_file.md">efw.properties</a></b>
+    │  └─<a href="properties_file.md">efw.properties</a>
     ├─efw
     │  ├─event									//Efw event folder
-    │  │  ├─<b><a href="api_event.md">myEvent.js</a></b>
+    │  │  ├─<a href="api_event.md">myEvent.js</a>
     │  │  └─...
-    │  ├─mail									//Outside mail folder
-    │  │  ├─<b><a href="file_list/myEvent.js.md">mails.xml</a></b>
+    │  ├─mail										//Outside mail folder
+    │  │  ├─<a href="file_list/myEvent.js.md">mails.xml</a>
     │  │  └─...
     │  ├─server									//Efw server folder
     │  │  ├─<a href="../../release%20with%20sample/web%20application/WEB-INF/efw/server/efw.server.messages.js">efw.server.messages.js</a>
     │  │  └─...
     │  ├─sql										//Outside sql folder
-    │  │  ├─<b><a href="file_list/mySqlGroup.xml.md">mySqlGroup.xml</a></b>
+    │  │  ├─<a href="file_list/mySqlGroup.xml.md">mySqlGroup.xml</a>
     │  │  └─...
     │  └─storage									//Storage folder
     │      └─...
