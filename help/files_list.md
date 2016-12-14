@@ -17,7 +17,7 @@ myWebApp							//The application folder.
     │  ├─event					//efw event folder
     │  │  ├─<b><a href="api_event.md">myEvent.js</a></b>
     │  │  └─...
-    │  ├─mail					//outside mail folder
+    │  ├─mail						//outside mail folder
     │  │  ├─<b><a href="file_list/myEvent.js.md">mails.xml</a></b>
     │  │  └─...
     │  ├─server					//efw server folder
@@ -28,7 +28,7 @@ myWebApp							//The application folder.
     │  │  └─...
     │  └─storage					//storage folder
     │      └─...
-    └─lib							//lib folder
+    └─lib						//lib folder
         ├─efw-3.#.###.jar
         ├─jdbc.XXXXXX.jar
         └─poi_3.15_allinone.jar
