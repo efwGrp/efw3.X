@@ -24,7 +24,6 @@
 <tr><td>db</td><td><a href="db.select.md">select</a></td><td><a href="db.change.md">change</a></td><td><a href="db.master.md">master</a></td></tr>
 <tr><td>file</td><td>...</td></tr>
 <tr><td>mail</td><td><a href="mail.send.md">send</a></td></tr>
-<tr><td>messages</td><td>...</td></tr>
 <tr><td>pdf</td><td><a href="pdf.create.md">create</a></td><td><a href="pdf.merge.md">merge</a></td></tr>
 <tr><td>properties</td><td><a href="properties.get.md">get</a></td></tr>
 <tr><td>session</td><td><a href="session.get.md">get</a></td><td><a href="session.set.md">set</a></td><td><a href="session.create.md">create</a></td><td><a href="session.invalidate.md">invalidate</a></td></tr>

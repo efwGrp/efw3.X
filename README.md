@@ -3,6 +3,7 @@
 <a href="help/hello_world.md">Quick Start</a><br>
 <a href="help/api.md">API</a><br>
 <a href="help/properties_file.md">Properties</a><br>
+<a href="help/files_list.md">Files List</a><br>
 <a href="help/how_to.md">How to</a><br>
 
 <h3>Correlation Diagram</h3>
