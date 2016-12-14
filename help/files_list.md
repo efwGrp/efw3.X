@@ -4,7 +4,7 @@
 myWebApp							//The application folder. 
 ├─myPage.jsp
 ├─...
-├─efw						//efw client folder
+├─efw								//efw client folder
 │  ├─<a href="../../release%20with%20sample/web%20application/efw/efw.client.messages.js">efw.client.messages.js</a>
 │  ├─<a href="../../release%20with%20sample/web%20application/efw/efw.css">efw.css</a>
 │  └─...
@@ -20,15 +20,15 @@ myWebApp							//The application folder.
     │  ├─mail					//outside mail folder
     │  │  ├─<b><a href="file_list/myEvent.js.md">mails.xml</a></b>
     │  │  └─...
-    │  ├─server		//efw server folder
+    │  ├─server					//efw server folder
     │  │  ├─<a href="../../release%20with%20sample/web%20application/WEB-INF/efw/server/efw.server.messages.js">efw.server.messages.js</a>
     │  │  └─...
-    │  ├─sql			//outside sql folder
+    │  ├─sql						//outside sql folder
     │  │  ├─<b><a href="file_list/mySqlGroup.xml.md">mySqlGroup.xml</a></b>
     │  │  └─...
-    │  └─storage		//storage folder
+    │  └─storage					//storage folder
     │      └─...
-    └─lib				//lib folder
+    └─lib							//lib folder
         ├─efw-3.#.###.jar
         ├─jdbc.XXXXXX.jar
         └─poi_3.15_allinone.jar
