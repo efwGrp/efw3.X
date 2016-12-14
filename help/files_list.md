@@ -5,11 +5,11 @@ myWebApp											//The application folder.
 ├─myPage.jsp
 ├─...
 ├─efw												//Efw client folder
-│  ├─<a href="../../release%20with%20sample/web%20application/efw/efw.client.messages.js">efw.client.messages.js</a>
-│  ├─<a href="../../release%20with%20sample/web%20application/efw/efw.css">efw.css</a>
+│  ├─<a href="../release%20with%20sample/web%20application/efw/efw.client.messages.js">efw.client.messages.js</a>
+│  ├─<a href="../release%20with%20sample/web%20application/efw/efw.css">efw.css</a>
 │  └─...
 ├─META-INF
-│  └─<a href="../../release%20with%20sample/web%20application/META-INF/context.xml">context.xml</a>
+│  └─<a href="../release%20with%20sample/web%20application/META-INF/context.xml">context.xml</a>
 └─WEB-INF
     ├─classes
     │  └─<a href="properties_file.md">efw.properties</a>
@@ -21,7 +21,7 @@ myWebApp											//The application folder.
     │  │  ├─<a href="file_list/myEvent.js.md">mails.xml</a>
     │  │  └─...
     │  ├─server									//Efw server folder
-    │  │  ├─<a href="../../release%20with%20sample/web%20application/WEB-INF/efw/server/efw.server.messages.js">efw.server.messages.js</a>
+    │  │  ├─<a href="../release%20with%20sample/web%20application/WEB-INF/efw/server/efw.server.messages.js">efw.server.messages.js</a>
     │  │  └─...
     │  ├─sql										//Outside sql folder
     │  │  ├─<a href="file_list/mySqlGroup.xml.md">mySqlGroup.xml</a>
