@@ -10,7 +10,6 @@ It can be called as far as once to a runat. The second calling is invalidated wi
 	.runat("#table1")
 	.remove("tr")
 	.append("&lt;tr>&lt;td>{data1}&lt;/td>&lt;td>{{data2}}<&lt;/td>&lt;/tr>");
-	
 </pre>
 
 <h2>API</h2>

@@ -6,7 +6,6 @@ The runat function is established to add the result a return value which will be
 <pre>
 	var result = new Result();
 	result.runat("#table1");
-	
 </pre>
 
 <h2>API</h2>

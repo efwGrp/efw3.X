@@ -108,15 +108,3 @@
 </tr>
 
 </table>
-
-
-
-
-
-
-
-
-
-
-<br><br><br><br>
-<li><a href="result.md">Result Class</a></li>

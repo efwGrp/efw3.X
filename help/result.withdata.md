@@ -18,7 +18,6 @@ It can be called as far as once to a runat. The second calling is invalidated wi
 	.withdata(
 		{ "#text1":"good morning","#text2":"good day" }
 	);
-	
 </pre>
 
 <h2>API</h2>

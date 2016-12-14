@@ -9,7 +9,6 @@ It can be called as far as once to a runat. The second calling is invalidated wi
 	result
 	.runat("#table1")
 	.remove("tr");
-	
 </pre>
 
 <h2>API</h2>
