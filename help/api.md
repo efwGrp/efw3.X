@@ -9,10 +9,10 @@
 <h2>Event JS</h2>
 <li><a href="api_event.md">Event Programming</a></li>
 
-<h2>SQL XML</h2>
-<li>About SQL xml</li>
-<h2>Mail XML</h2>
-<li>About Mail xml</li>
+<h2>Outside SQL</h2>
+<li><a href="api_sql.md">SQL XML</a></li>
+<h2>Outside Mail</h2>
+<li><a href="api_mail.md">Mail XML</a></li>
 
 
 <h3>Global</h3>
