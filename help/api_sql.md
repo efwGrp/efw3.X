@@ -1,9 +1,9 @@
 <H1>SQL XML</H1>
 
 <pre>
-&lt;?xml version="1.0" encoding="UTF-8"?>
 test.xml
 ------------------------------------
+&lt;?xml version="1.0" encoding="UTF-8"?>
 &lt;sqls>
 	&lt;sql id="sql1">
 &lt;!-- this is comment -->

@@ -17,7 +17,7 @@ Result.prototype.actions = null;
  */
 Result.prototype.values = null;
 /**
- * The function to add one return value in array.<br>
+ * The function to add one return value in the result.<br>
  * And create runat attribute to it.
  * 
  * @param {String}
@@ -185,7 +185,7 @@ Result.prototype.navigate = function(url,params) {
 	return this;
 };
 /**
- * The function to set download file or folder path(s).
+ * The function to set download file or folder path.
  * 
  * @param {String |
  *            Array} path: required<br>

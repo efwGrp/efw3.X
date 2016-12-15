@@ -53,18 +53,18 @@ Excel.prototype.getMaxCol = function(sheetName) {
 	return 1 + this._workbook.getMaxCol(sheetName);
 };
 /**
- * The function to get several fields as an array from one sheet.
+ * The function to get several fields as an array from a sheet.
  * @param {String}
  *            sheetName: required<br>
  * @param {Number} startRow: required<br>
  * 			It starts from 1 not 0 . <br>
  * @param {Number|function} endCondition: required<br>
  * 			999|function(row){return true/false;} // The parameter row starts from 1 not 0 .<br>
- * @param {Array} positionRowMaps: required<br>
+ * @param {Object|Array} positionRowMaps: required<br>
  * 			[{<br>//the first row in one record
  * 				"data1":col,	// The col is "A","B","C" and etc.<br>
  * 				"data2":[col,formatter,rounder]<br>
- *            	"data3":function(excel,currentRow){return String|Number|Date|Boolean;}<br> 
+ *            	"data3":function(row){return String|Number|Date|Boolean;}<br> 
  * 			},{//the second row in one record
  * 				...
  * 			}]
@@ -126,7 +126,7 @@ Excel.prototype.getArray = function(sheetName, startRow, endCondition, positionR
 };
 
 /**
- * The function to get several fields as an object from one sheet.<br>
+ * The function to get several fields as an object from a sheet.<br>
  * And you can format the value to String by the formatter in positionMap.<br>
  * @param {String}
  *            sheetName: required<br>
@@ -135,7 +135,7 @@ Excel.prototype.getArray = function(sheetName, startRow, endCondition, positionR
  *            { <br> 
  *            	"data1":position, //row col are required<br> 
  *            	"data2":[position,formatter,rounder] //formatter rounder are optional<br> 
- *            	"data3":function(excel){return String|Number|Date|Boolean;}<br> 
+ *            	"data3":function(){return String|Number|Date|Boolean;}<br> 
  *            }<br> 
  * @returns {Object}
  */
@@ -159,7 +159,7 @@ Excel.prototype._getSingle = function(sheetName, positionMap,currentRow) {
 	return obj;
 };
 /**
- * The function to get the value from one cell.<br>
+ * The function to get the value from a cell.<br>
  * And you can format the value to String by the formatter parameter.<br>
  * 
  * @param {String}
@@ -172,7 +172,7 @@ Excel.prototype._getSingle = function(sheetName, positionMap,currentRow) {
  * @param {String}
  *            rounder : optional, the default is HALF_EVEN<br>
  *            {UP | DOWN | CEILING | FLOOR | HALF_UP | HALF_DOWN | HALF_EVEN}<br>
- * @returns {String | Number | Date}
+ * @returns {String | Number | Date | Boolean}
  */
 Excel.prototype.getValue = function(sheetName, position, formatter, rounder) {
 	var value = this._workbook.get(sheetName, position);
@@ -306,7 +306,7 @@ Excel.prototype.setCell = function(sheetName, position, value, templateSheetName
 	return this;
 };
 /**
- * The function to judge where a point is encircled by a shape or not.
+ * The function to judge whether a point is encircled by a shape or not.
  * @param {String}
  *            sheetName: required<br>
  * @param {Number}

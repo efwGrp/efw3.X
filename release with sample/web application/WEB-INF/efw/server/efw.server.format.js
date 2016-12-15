@@ -84,10 +84,13 @@ EfwServerFormat.prototype.parseDate = function(value, formatter) {
  * The function to format the Number self to String. 
  * @param {String}
  *            formatter: required<br>
+ * @param {String}
+ *            rounder : optional, the default is HALF_EVEN<br>
+ *            {UP | DOWN | CEILING | FLOOR | HALF_UP | HALF_DOWN | HALF_EVEN}<br>
  * @returns {String}
  */
-Number.prototype.format=function(formatter){
-	return EfwServerFormat.prototype.formatNumber(this,formatter);
+Number.prototype.format=function(formatter, rounder){
+	return EfwServerFormat.prototype.formatNumber(this,formatter, rounder);
 };
 /**
  * The function to parse the value to Number.

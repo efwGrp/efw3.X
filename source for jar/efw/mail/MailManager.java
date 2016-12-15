@@ -110,7 +110,7 @@ public final class MailManager {
 	 */
 	public static void send(String groupId,String mailId,Map<String,String> params) throws efwException{
 		Mail mail=get(groupId,mailId);
-		Message message = new MimeMessage(mailSession);
+		MimeMessage message = new MimeMessage(mailSession);
 		try {
 			String to=mail.getTo(params);
 			if (to!=null&&!"".equals(to)){
@@ -135,7 +135,7 @@ public final class MailManager {
 			}
 			String subject=mail.getSubject(params);
 			if (subject!=null&&!"".equals(subject)){
-				message.setSubject(subject);
+				message.setSubject(subject,"UTF-8");
 			}
 			String body=mail.getBody(params);
 			if (body!=null&&!"".equals(body)){

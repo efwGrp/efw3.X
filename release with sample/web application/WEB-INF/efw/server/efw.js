@@ -95,7 +95,6 @@ load(_serverfolder + "/efw.server.excel.js");
 /**
  * create instances.
  */
-var messages = new EfwServerMessages();
 var properties = new EfwServerProperties();
 var session = new EfwServerSession();
 var db = new EfwServerDb();
