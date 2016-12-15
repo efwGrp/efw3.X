@@ -3,20 +3,31 @@
 <pre>
 mails.xml
 ------------------------------------
-<?xml version="1.0" encoding="UTF-8"?>
-<mails>
-	<mail id="mail1">
-		<to>:to</to>
-		<cc></cc>
-		<bcc></bcc>
-		<subject>これはテストメール:nowdate</subject>
-		<body>
-:username さま
-お疲れ様です。テストメールを送信します。
-		</body>
-	</mail>
-	<mail id="mail2">
-	</mail>
-</mails>
-
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;mails>
+	&lt;mail id="mail1">
+		&lt;to>:to&lt;/to>
+		&lt;cc>&lt;/cc>
+		&lt;bcc>&lt;/bcc>
+		&lt;subject>About :about &lt;/subject>
+		&lt;body>
+Mr. :userName
+...
+		&lt;/body>
+	&lt;/mail>
+	&lt;mail id="mail2">
+	...
+	&lt;/mail>
+&lt;/mails>
 </pre>
+
+
+<h3>Mail ID</h3>
+Every Mail tag should have an Id. The Id must be unique in the Mail XML file.
+It will be called by <a href="mail.send.md">mail.send</a>.
+
+<h3>Param</h3>
+You can define params in TO CC BCC SUBJECT BODY just write :param .
+
+<h4>Encode</h3>
+Pay attention to the mark "&lt;". You must write it like "&amp;lt;" to match the xml diction.
