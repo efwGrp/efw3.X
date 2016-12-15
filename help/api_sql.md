@@ -39,3 +39,6 @@ you can do deffient operation by judging whether a param is existed or not.
 
 <h3>Commet</h3>
 You can write comment in several ways.
+
+<h4>Encode</h3>
+Pay attention to the mark "&lt;". You must write it like "&amp;lt;" to match the xml diction.
