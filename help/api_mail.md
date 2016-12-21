@@ -4,6 +4,7 @@
 mails.xml
 ------------------------------------
 &lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE mails>
 &lt;mails>
 	&lt;mail id="mail1">
 		&lt;to>:to&lt;/to>

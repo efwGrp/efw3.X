@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Context>
+<Context>
+	<Resource
+		name			=	"jdbc/efw"
+		auth			=	"Container"
+		type			=	"javax.sql.DataSource"
+		driverClassName	=	"org.postgresql.Driver"
+		url				=	"jdbc:postgresql://127.0.0.1:5432/efwSample"
+		username		=	"postgres"
+		password		=	"postgres"
+		maxActive		=	"100"
+		maxIdle			=	"20"
+		maxWait			=	"10"
+	/>
+	<Resource
+		name			=	"jdbc/ruledb"
+		auth			=	"Application"
+		type			=	"javax.sql.DataSource"
+		driverClassName	=	"org.postgresql.Driver"
+		url				=	"jdbc:postgresql://127.0.0.1:5432/devdb"
+		username		=	"ruledb"
+		password		=	"ruledb"
+		maxActive		=	"100"
+		maxIdle			=	"20"
+		maxWait			=	"10"
+	/>
+	<Resource
+		name			=	"mail/efw" 
+		auth			=	"Container"
+		type			=	"javax.mail.Session"
+		username		=	"efw@efw.efw"
+		password		=	"efw"
+		mail.debug		=	"false"
+		mail.user		=	"efw"
+		mail.from		=	"efw@efw.efw"
+		mail.transport.protocol="smtp" 
+		mail.smtp.host	=	"mail.efw.efw"
+		mail.smtp.auth	=	"true"
+		mail.smtp.port	=	"25"
+		mail.smtp.starttls.enable="true"
+		description		=	"E-Mail Resource"
+	/>
+</Context>

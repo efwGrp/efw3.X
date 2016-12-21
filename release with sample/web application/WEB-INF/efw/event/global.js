@@ -6,6 +6,3 @@ global.fire=function(){
 	db.master("検査項目情報");
 	db.master("判定情報");
 };
-global.checkAuth=function(eventId){
-	return true;
-};

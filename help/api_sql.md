@@ -4,6 +4,7 @@
 test.xml
 ------------------------------------
 &lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;!DOCTYPE sqls>
 &lt;sqls>
 	&lt;sql id="sql1">
 &lt;!-- this is comment -->

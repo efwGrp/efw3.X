@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw.properties;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -35,10 +36,6 @@ public final class PropertiesManager {
     public static final String EFW_JDBC_RESOURCE_PASSWORD ="efw.jdbc.resource.password";
     
     /**
-     * 「efw.mail.import」の定数。
-     */
-    public static final String EFW_MAIL_IMPORT="efw.mail.import";    
-    /**
      * フレームワークに利用するmailリソースの名称のプロパティキー。
      * 「efw.mail.resource」の定数。
      */
@@ -51,11 +48,6 @@ public final class PropertiesManager {
 	 * 「efw.brms.codetype」の定数。
 	 */
     public static final String EFW_BRMS_CODETYPE="efw.brms.codetype";    
-    /**
-     * サーバー部品JavaScriptファイルの格納パスのプロパティキー。
-     * 「efw.server.folder」の定数。
-     */
-    public static final String EFW_SEVER_FOLDER ="efw.server.folder";
     /**
      * イベントJavaScriptファイルの格納パスのプロパティキー。
      * 「efw.event.folder」の定数。

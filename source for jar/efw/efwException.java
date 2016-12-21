@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw;
 
 /**
@@ -6,10 +7,6 @@ package efw;
  */
 @SuppressWarnings("serial")
 public final class efwException extends Exception {
-	/**
-	 * サーバー部品JavaScriptファイルの格納パスが存在しないエラー定数。
-	 */
-	public static final String ServerFolderDoesNotExistException="ServerFolderDoesNotExistException";
 	/**
 	 * イベントJavaScriptファイルの格納パスが存在しないエラー定数。
 	 */

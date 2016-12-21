@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw.script;
 
 import java.io.BufferedReader;
@@ -19,11 +20,6 @@ import efw.efwException;
  */
 public final class ScriptManager {
 	/**
-	 * サーバー部品JavaScriptファイルの格納パス。
-	 * サーブレットから渡される。
-	 */
-    private static String serverFolder;
-	/**
 	 * イベントJavaScriptファイルの格納パス。
 	 * サーブレットから渡される。
 	 */
@@ -38,11 +34,6 @@ public final class ScriptManager {
      * 「UTF-8」に固定。
      */
     private static final String SCRIPT_CHAR_SET="UTF-8";
-    /**
-     * スクリプトエンジンに渡すサーバー部品JavaScriptファイルの格納パスのキー。
-     * 「_eventfolder」に固定。
-     */
-    private static final String KEY_SERVERFOLDER="_serverfolder";
     /**
      * スクリプトエンジンに渡すイベントJavaScriptファイルの格納パスのキー。
      * 「_eventfolder」に固定。
@@ -63,23 +54,20 @@ public final class ScriptManager {
     
 	/**
 	 * サーブレットから設定情報を受け取り、スクリプトエンジン管理オブジェクトを初期化する。
-	 * @param serverFolder サーバー部品JavaScriptファイルの格納パス。
 	 * @param eventFolder イベントJavaScriptファイルの格納パス。
 	 * @param isDebug　デバッグモード制御フラグ。
 	 * @throws ScriptException 
 	 * @throws IOException 
 	 */
-	public static synchronized void init(String serverFolder,String eventFolder,boolean isDebug)throws efwException {
-		ScriptManager.serverFolder=serverFolder;
+	public static synchronized void init(String eventFolder,boolean isDebug)throws efwException {
 		ScriptManager.eventFolder=eventFolder;
 		ScriptManager.isDebug=isDebug;
 
-		se.put(KEY_SERVERFOLDER, ScriptManager.serverFolder);
 		se.put(KEY_EVENTFOLDER, ScriptManager.eventFolder);
 		se.put(KEY_ISDEBUG, ScriptManager.isDebug);
 		se.put(KEY_ENGINE, ScriptManager.se);
 		try {
-			load(serverFolder+"/efw.js");
+			loadResource("efw/resource/server/efw.js");
 		} catch (ScriptException e) {
 			e.printStackTrace();
 			throw new efwException(efwException.ScriptInitFailedException);
@@ -112,6 +100,18 @@ public final class ScriptManager {
 	public static void load(String fileName) throws ScriptException, IOException  {
 		BufferedReader rd=new BufferedReader(new InputStreamReader(
 				new FileInputStream(fileName),SCRIPT_CHAR_SET));
+		se.eval(rd);
+		rd.close();
+	}
+	/**
+	 * jarに含まれるjsをロードする。
+	 * @param fileName
+	 * @throws ScriptException
+	 * @throws IOException
+	 */
+	public static void loadResource(String fileName) throws ScriptException, IOException  {
+		BufferedReader rd=new BufferedReader(new InputStreamReader(
+				Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName),SCRIPT_CHAR_SET));
 		se.eval(rd);
 		rd.close();
 	}

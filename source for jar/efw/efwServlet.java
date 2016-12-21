@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw;
 
 import java.io.File;
@@ -31,13 +32,6 @@ public final class efwServlet extends HttpServlet {
 	 * 初期化成功か否かを表すフラグ。
 	 */
 	private static boolean initSuccessFlag=false;
-	/**
-	 * サーバー部品JavaScriptファイルの格納パス、
-	 * Webアプリケーションコンテキストからの相対パスで表す。
-	 * <br>efw.propertiesのefw.server.folderで設定する。
-     * デフォルトは「/WEB-INF/efw/server」。
-	 */
-    private static String serverFolder="/WEB-INF/efw/server";
 	/**
 	 * イベントJavaScriptファイルの格納パス、
 	 * Webアプリケーションコンテキストからの相対パスで表す。
@@ -94,6 +88,7 @@ public final class efwServlet extends HttpServlet {
      * スレッドローカルにリクエストオブジェクトを格納する。サーバーサイトJavascriptに利用される。
      */
     private static ThreadLocal<HttpServletRequest> request=new ThreadLocal<HttpServletRequest>();
+    private static ThreadLocal<HttpServletResponse> response=new ThreadLocal<HttpServletResponse>();
     /**
      * リクエストオブジェクトを取得。
      * スレッドローカルに格納するリクエストオブジェクトを取得する。
@@ -101,6 +96,9 @@ public final class efwServlet extends HttpServlet {
      */
     public static HttpServletRequest getRequest(){
     	return efwServlet.request.get();
+    }
+    public static HttpServletResponse getResponse(){
+    	return efwServlet.response.get();
     }
     /**
      * サーブレットの起動と同時に、
@@ -128,10 +126,6 @@ public final class efwServlet extends HttpServlet {
             cors=PropertiesManager.getProperty(PropertiesManager.EFW_CORS,cors);
         	LogManager.InitCommonDebug("cors = " + cors);
         	String propertyPath="";
-        	propertyPath=PropertiesManager.getProperty(PropertiesManager.EFW_SEVER_FOLDER,serverFolder);
-        	if(propertyPath.startsWith("/WEB-INF/")){propertyPath=this.getServletContext().getRealPath(propertyPath);}
-        	serverFolder=propertyPath;
-        	LogManager.InitCommonDebug("serverFolder = " + serverFolder);
         	propertyPath=PropertiesManager.getProperty(PropertiesManager.EFW_EVENT_FOLDER,eventFolder);
         	if(propertyPath.startsWith("/WEB-INF/")){propertyPath=this.getServletContext().getRealPath(propertyPath);}
         	eventFolder=propertyPath;
@@ -152,7 +146,6 @@ public final class efwServlet extends HttpServlet {
         	LogManager.InitCommonDebug("systemErrorUrl = " + systemErrorUrl);
         	
         	//check the define folders
-        	if (!new File(serverFolder).exists())LogManager.InitErrorDebug(efwException.ServerFolderDoesNotExistException,serverFolder);//throw new efwException(efwException.ServerFolderDoesNotExistException,serverFolder);
         	if (!new File(eventFolder).exists())LogManager.InitErrorDebug(efwException.EventFolderDoesNotExistException,eventFolder);//throw new efwException(efwException.EventFolderDoesNotExistException,eventFolder);
         	if (!new File(sqlFolder).exists())LogManager.InitErrorDebug(efwException.SqlFolderIsNotExistsException,sqlFolder);//throw new efwException(efwException.SqlFolderIsNotExistsException,sqlFolder);
         	if (!new File(mailFolder).exists())LogManager.InitErrorDebug(efwException.MailFolderIsNotExistsException,mailFolder);//throw new efwException(efwException.MailFolderIsNotExistsException,mailFolder);
@@ -171,35 +164,25 @@ public final class efwServlet extends HttpServlet {
     		LogManager.InitCommonDebug("FileManager.init");
 			DatabaseManager.init();
     		LogManager.InitCommonDebug("DatabaseManager.init");
-    		if (PropertiesManager.getBooleanProperty(PropertiesManager.EFW_BRMS_IMPORT, false)){
-    			try{
-            		Class brms = Class.forName("efw.brms.BrmsManager");
-        			Method method = brms.getDeclaredMethod("init");
-        			method.invoke(null,(Object[])null);
-            		LogManager.InitCommonDebug("BrmsManager.init");
-    			}catch(Exception ex){
-    				LogManager.InitErrorDebug("BrmsManager.init");
-    			}
-    		}
-    		ScriptManager.init(serverFolder,eventFolder,isDebug);
+    		
+    		ScriptManager.init(eventFolder,isDebug);
     		LogManager.InitCommonDebug("ScriptManager.init");
     		FormatManager.init();
     		LogManager.InitCommonDebug("FormatManager.init");
     		PdfManager.init();
     		LogManager.InitCommonDebug("PdfManager.init");
     		
-    		if (PropertiesManager.getBooleanProperty(PropertiesManager.EFW_MAIL_IMPORT, false)){
-    			try{
-            		Class brms = Class.forName("efw.mail.MailManager");
-        			Method method = brms.getDeclaredMethod("init",String.class,boolean.class);
-        			method.invoke(null,mailFolder,isDebug);
-            		LogManager.InitCommonDebug("MailManager.init");
-    			}catch(Exception ex){
-    				ex.printStackTrace();
-    				System.out.println(ex.getMessage());
-    				LogManager.InitErrorDebug("MailManager.init");
-    			}
-    		}
+			try{
+				//Besure jar is existed before calling MailManager, or it is error without exception in jar
+				Class.forName("javax.mail.Session");
+        		Class mail = Class.forName("efw.mail.MailManager");
+    			Method method = mail.getDeclaredMethod("init",String.class,boolean.class);
+    			method.invoke(null,mailFolder,isDebug);
+        		LogManager.InitCommonDebug("MailManager.init");
+			}catch(Exception ex){
+				LogManager.InitErrorDebug("MailManager.init");
+				ex.printStackTrace();
+			}
     		
     		//init is success
     		initSuccessFlag=true;
@@ -240,6 +223,7 @@ public final class efwServlet extends HttpServlet {
 		}
 		//call script 
 		efwServlet.request.set(request);
+		efwServlet.response.set(response);
 		try {
 			response.getWriter().print(ScriptManager.doPost(request.getParameter("data")));
 			LogManager.CommDebug("efwServlet.doPost");
@@ -248,6 +232,7 @@ public final class efwServlet extends HttpServlet {
 			response.getWriter().print(otherError);
 		}finally{
 			efwServlet.request.remove();
+			efwServlet.response.remove();
 		}
 	}
 }

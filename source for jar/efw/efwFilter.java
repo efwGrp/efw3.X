@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import efw.properties.PropertiesManager;
  * @author Chang Kejun
  *
  */
-@WebFilter(filterName="efwFilter", urlPatterns="*.jsp")
+@WebFilter(filterName="efwFilter", urlPatterns={"*.jsp"})
 public class efwFilter implements Filter {
 	/**
 	 * ログインチェック要否のフラグ。

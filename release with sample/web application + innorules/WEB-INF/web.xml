@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://java.sun.com/xml/ns/javaee" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+id="WebApp_ID" version="3.0">
+  <display-name>efw</display-name>
+  <welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+  </welcome-file-list>
+
+<context-param>
+	<param-name>innorules.home</param-name>
+	<param-value>C:/inno7.1</param-value>
+</context-param>
+
+<context-param>
+	<param-name>innorules.system</param-name>
+	<param-value>dev</param-value>
+</context-param>
+<context-param>
+	<param-name>innorules.rule-application-config</param-name>
+	<param-value>devapp</param-value>
+</context-param>
+<context-param>
+	<param-name>innorules.library-template</param-name>
+	<param-value>rule-service</param-value>
+</context-param>
+
+<listener>
+<listener-class>com.innorules.rrt.RuleAppInitializerListener</listener-class>
+</listener>
+
+</web-app>

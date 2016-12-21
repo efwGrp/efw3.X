@@ -20,23 +20,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The default jdbc resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]jdbc/efw</td>
 </tr>
 <tr>
-	<th rowspan=2>Innorules Setting</th>
-	<td>efw.brms.import</td>
-	<td>false</td>
-	<td>If the value is true, efw will try to link innorules system and you must setup innorules beforehand.</td>
-</tr>
-<tr>
-	<td>efw.brms.<br>codetype</td>
-	<td>NAME</td>
-	<td>To set the code type which identifies rules in innorules system. It can be set to ID, NAME or ALIAS . </td>
-</tr>
-<tr>
-	<th rowspan=5>Folder</th>
-	<td>efw.server.folder</td>
-	<td>/WEB-INF/efw/server</td>
-	<td>The folder for efw server program. It can be set in a relative or absolute path of the web application.</td>
-</tr>
-<tr>
+	<th rowspan=4>Folder</th>
 	<td>efw.event.folder</td>
 	<td>/WEB-INF/efw/event</td>
 	<td>The folder for web application events program. It can be set in a relative or absolute path of the web application.</td>
@@ -169,13 +153,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 </tr>
 
 <tr>
-	<th rowspan=2>Mail</th>
-	<td>efw.mail.import</td>
-	<td>false</td>
-	<td>If the value is true, efw will try to use mail functions and you must setup the mail resource beforehand .</td>
-</tr>
-
-<tr>
+	<th>Mail</th>
 	<td>efw.mail.resource</td>
 	<td>mail/efw</td>
 	<td>The default mail resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]mail/efw</td>

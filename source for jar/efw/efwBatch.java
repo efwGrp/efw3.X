@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw;
 
 import java.io.File;
@@ -20,13 +21,6 @@ public class efwBatch {
 	private static final String WEBHOME="WEBHOME";
 	
 	private static final String PROPERTIES="PROPERTIES";
-	/**
-	 * サーバー部品JavaScriptファイルの格納パス、
-	 * Webアプリケーションコンテキストからの相対パスで表す。
-	 * <br>efw.propertiesのefw.server.folderで設定する。
-     * デフォルトは「/WEB-INF/efw/server」。
-	 */
-    private static String serverFolder="/WEB-INF/efw/server";
 	/**
 	 * イベントJavaScriptファイルの格納パス、
 	 * Webアプリケーションコンテキストからの相対パスで表す。
@@ -60,10 +54,6 @@ public class efwBatch {
         	
             String webHome=System.getenv(WEBHOME);
             String propertyPath="";
-        	propertyPath=PropertiesManager.getProperty(PropertiesManager.EFW_SEVER_FOLDER,serverFolder);
-        	if(propertyPath.startsWith("/WEB-INF/")){propertyPath=webHome+"/"+propertyPath;}
-        	serverFolder=(new File(propertyPath)).getAbsolutePath();
-        	LogManager.InitCommonDebug("serverFolder = " + serverFolder);
         	propertyPath=PropertiesManager.getProperty(PropertiesManager.EFW_EVENT_FOLDER,eventFolder);
         	if(propertyPath.startsWith("/WEB-INF/")){propertyPath=webHome+"/"+propertyPath;}
         	eventFolder=(new File(propertyPath)).getAbsolutePath();
@@ -77,7 +67,6 @@ public class efwBatch {
         	storageFolder=(new File(propertyPath)).getAbsolutePath();
         	LogManager.InitCommonDebug("storageFolder = " + storageFolder);
         	//check the define folders
-        	if (!new File(serverFolder).exists())throw new efwException(efwException.ServerFolderDoesNotExistException,serverFolder);
         	if (!new File(eventFolder).exists())throw new efwException(efwException.EventFolderDoesNotExistException,eventFolder);
         	if (!new File(sqlFolder).exists())throw new efwException(efwException.SqlFolderIsNotExistsException,sqlFolder);
         	File fileStorage=new File(storageFolder);
@@ -105,7 +94,7 @@ public class efwBatch {
 	    			LogManager.InitErrorDebug("BrmsManager.initFromBatch");
 	    		}
     		}
-            ScriptManager.init(serverFolder,eventFolder,false);
+            ScriptManager.init(eventFolder,false);
     		LogManager.InitCommonDebug("ScriptManager.init");
     		FormatManager.init();
     		LogManager.InitCommonDebug("FormatManager.init");

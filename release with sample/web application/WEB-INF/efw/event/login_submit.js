@@ -14,6 +14,7 @@ login_submit.fire=function(params){
 		}else{
 			session.set("USER_AUTH","user");
 		}
+		cookie.set("txt_uid",params["#txt_uid"]);
 		return (new Result()).navigate("menu.jsp");
 	}else{
 		return (new Result())

@@ -1,4 +1,4 @@
-<H1><A NAME="efw.event">Event Program</A></H1>
+<H1>Event Program</H1>
 <pre>
 ////////////////////////////////////////
 //web/WEB-INF/efw/event/myEvent.js

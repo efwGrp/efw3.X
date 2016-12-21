@@ -13,7 +13,7 @@
 		});
   	</script>
 </head>
-<body style="background-color:ghostwhite;">
+<body style="background-color:ghostwhite;" onload="Efw('login_last')">
 <table style="width:100%">
 <tr style="height:20px">
 	<td></td>

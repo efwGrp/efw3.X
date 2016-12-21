@@ -27,7 +27,7 @@
 <tr>
 	<td>Browsers</td>
 	<td>IE8 or later, FireFox, Chrome, Edge, etc.</td>
-	<td>All browsers that can use jQuery1.12. <br>
+	<td>All browsers that can use jQuery v3.1.1. <br>
 		*If you want to use cors, please check the url. 
 		http://caniuse.com/#feat=cors
 	</td>
@@ -39,7 +39,9 @@
 	<th>Step</th><th>Description</th><th>Notes</th>
 </tr>
 <tr>
-	<td>JDK and Tomcat</td><td>See the prerequisites.</td><td></td>
+	<td>JDK and Tomcat</td>
+	<td>See the prerequisites.
+	</td><td></td>
 </tr>
 <tr>
 	<td>PostgreSQL</td>
@@ -66,6 +68,14 @@
 	<td>1. Open the file of efw/META-INF/context.xml to modify user name and password in the resource of jdbc/efw.</td>
 	<td>The jdbc driver for postgresSQL is included in the sample app.</td>
 </tr>
+<tr>
+	<td>Java Mail</td>
+	<td>1. Download the JavaMail jar from the url: /release with sample/tomcat lib/<br>
+		2. Copy the JavaMail jar into the folder of Tomcat/lib .
+		3. Open the file of efw/META-INF/context.xml to modify the resource of mail/efw.</td>
+	<td>The JavaMail jar must be put in the tomcat lib folder, or it will be wrong.</td>
+</tr>
+
 <tr>
 	<td>Properties</td>
 	<td>1. Open the file of efw/WEB-INF/classes/efw.properties to modify it.<br>

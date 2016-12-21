@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw.file;
 
 import java.io.BufferedInputStream;

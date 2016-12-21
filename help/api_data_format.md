@@ -12,30 +12,7 @@ Efw framework will add focus and blur behaviors to input elements by data-format
 </pre>
 
 <h2>API</h2>
-<table>
-<tr><th>Number Formatter</th></tr>
-<tr><td>0</td></tr>
-<tr><td>#</td></tr>
-<tr><td>,</td></tr>
-<tr><td>.</td></tr>
-<tr><td>%</td></tr>
-</table>
 
-<table>
-<tr><th>Date Formatter</th></tr>
-<tr><td>yyyy</td></tr>
-<tr><td>yy</td></tr>
-<tr><td>MM</td></tr>
-<tr><td>M</td></tr>
-<tr><td>dd</td></tr>
-<tr><td>d</td></tr>
-<tr><td>HH</td></tr>
-<tr><td>H</td></tr>
-<tr><td>mm</td></tr>
-<tr><td>m</td></tr>
-<tr><td>ss</td></tr>
-<tr><td>s</td></tr>
-<tr><td>SSS</td></tr>
-<tr><td>S</td></tr>
-</table>
+To reference the API of <a href="formatter&rounder.md">formatter</a> ,without supporting to Japan WAREKI.
+
 

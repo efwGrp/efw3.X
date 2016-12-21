@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2016 efwGrp ****/
 package efw.mail;
 
 import java.io.File;
@@ -7,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -68,7 +68,6 @@ public final class MailManager {
 	public synchronized static void init(String mailFolder,boolean isDebug) throws efwException{
 		MailManager.mailFolder=mailFolder;
 		MailManager.isDebug=isDebug;
-		
     	//keep the Mails folder in local param.
     	//seek xml in the folder
 		File dir = new File(MailManager.mailFolder);
@@ -116,21 +115,21 @@ public final class MailManager {
 			if (to!=null&&!"".equals(to)){
 				String[] ary=to.split(";");
 				for(int i=0;i<ary.length;i++){
-					if(!"".equals(ary[i]))message.addRecipient(Message.RecipientType.TO, new InternetAddress(ary[i]));
+					if(!"".equals(ary[i]))message.addRecipient(MimeMessage.RecipientType.TO, new InternetAddress(ary[i]));
 				}
 			}
 			String cc=mail.getCc(params);
 			if (cc!=null&&!"".equals(cc)){
 				String[] ary=to.split(";");
 				for(int i=0;i<ary.length;i++){
-					if(!"".equals(ary[i]))message.addRecipient(Message.RecipientType.CC, new InternetAddress(ary[i]));
+					if(!"".equals(ary[i]))message.addRecipient(MimeMessage.RecipientType.CC, new InternetAddress(ary[i]));
 				}
 			}
 			String bcc=mail.getBcc(params);
 			if (bcc!=null&&!"".equals(bcc)){
 				String[] ary=to.split(";");
 				for(int i=0;i<ary.length;i++){
-					if(!"".equals(ary[i]))message.addRecipient(Message.RecipientType.BCC, new InternetAddress(ary[i]));
+					if(!"".equals(ary[i]))message.addRecipient(MimeMessage.RecipientType.BCC, new InternetAddress(ary[i]));
 				}
 			}
 			String subject=mail.getSubject(params);
@@ -153,7 +152,7 @@ public final class MailManager {
 	}
 	
 	/**
-	 * ひとつのMailオブジェクトを取得する。
+	 * ひとつのMailオブジェクトを取得する。 
 	 * デバッグモードの場合、最終更新日時により再ロードするか否か判断する。
 	 * 通常モードの場合、予めロード済みデータから、Sqlオブジェクトを探す。
 	 * @param groupId MailテンプレートXMLファイルのファイル名（拡張子を除く）。
