@@ -51,13 +51,15 @@ public final class FileManager {
 	 */
 	public static File[] getListByExt(String path,String ext){
 		File fl=get(path);
-		File[] files= fl.listFiles();
 		ArrayList<File> temp=new ArrayList<File>();
- 		for(int i=0;i<files.length;i++){
- 			if (files[i].getName().endsWith("."+ext)){
- 				temp.add(files[i]);
- 			}
- 		}
+		if(fl.exists()){//もしフォルダが存在する場合
+			File[] files= fl.listFiles();
+	 		for(int i=0;i<files.length;i++){
+	 			if (files[i].getName().endsWith("."+ext)){
+	 				temp.add(files[i]);
+	 			}
+	 		}
+		}
  		File[] ret=new File[temp.size()];
  		for(int i=0;i<temp.size();i++){
  			ret[i]= temp.get(i);
@@ -66,13 +68,15 @@ public final class FileManager {
 	}
 	public static File[] getListByExtByAbsolutePath(String absolutePath,String ext){
 		File fl=new File(absolutePath);
-		File[] files= fl.listFiles();
 		ArrayList<File> temp=new ArrayList<File>();
- 		for(int i=0;i<files.length;i++){
- 			if (files[i].getName().endsWith("."+ext)){
- 				temp.add(files[i]);
- 			}
- 		}
+		if(fl.exists()){//もしフォルダが存在する場合
+			File[] files= fl.listFiles();
+	 		for(int i=0;i<files.length;i++){
+	 			if (files[i].getName().endsWith("."+ext)){
+	 				temp.add(files[i]);
+	 			}
+	 		}
+		}
  		File[] ret=new File[temp.size()];
  		for(int i=0;i<temp.size();i++){
  			ret[i]= temp.get(i);

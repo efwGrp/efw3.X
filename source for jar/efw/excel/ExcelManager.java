@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 import efw.file.FileManager;
 /**
  * Excelファイルを取り扱うクラス。
@@ -31,7 +27,7 @@ public final class ExcelManager {
 		if(ExcelManager.excel.get()==null)
 		ExcelManager.excel.set(new HashMap<String,Excel>());
 		try{
-			Excel excel=new Excel(path, WorkbookFactory.create(FileManager.get(path)));
+			Excel excel=new Excel(path, FileManager.get(path));
 			ExcelManager.excel.get().put(path, excel);
 			return excel;
 		}catch(Exception e){
@@ -44,8 +40,7 @@ public final class ExcelManager {
 	 * @throws IOException
 	 */
 	public static void closeAll(){
-		if(ExcelManager.excel.get()==null)
-			ExcelManager.excel.set(new HashMap<String,Excel>());
+		if(ExcelManager.excel.get()==null) return;
 
 		HashMap<String,Excel> map=ExcelManager.excel.get();
 		for(Entry<String, Excel> ex : map.entrySet()) {

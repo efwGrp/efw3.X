@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import efw.db.DatabaseManager;
 import efw.file.FileManager;
 import efw.format.FormatManager;
 import efw.log.LogManager;
@@ -162,10 +161,18 @@ public final class efwServlet extends HttpServlet {
     		LogManager.InitCommonDebug("SqlsManager.init");
     		FileManager.init(storageFolder);
     		LogManager.InitCommonDebug("FileManager.init");
-			DatabaseManager.init();
-    		LogManager.InitCommonDebug("DatabaseManager.init");
     		
-    		ScriptManager.init(eventFolder,isDebug);
+			try{
+        		Class db = Class.forName("efw.db.DatabaseManager");
+    			Method method = db.getDeclaredMethod("init");
+    			method.invoke(null);
+        		LogManager.InitCommonDebug("DatabaseManager.init");
+			}catch(Exception ex){
+				LogManager.InitErrorDebug("DatabaseManager.init");
+				//その他の場合、エラー出力されるので、大丈夫。
+			}
+
+			ScriptManager.init(eventFolder,isDebug);
     		LogManager.InitCommonDebug("ScriptManager.init");
     		FormatManager.init();
     		LogManager.InitCommonDebug("FormatManager.init");
@@ -179,9 +186,12 @@ public final class efwServlet extends HttpServlet {
     			Method method = mail.getDeclaredMethod("init",String.class,boolean.class);
     			method.invoke(null,mailFolder,isDebug);
         		LogManager.InitCommonDebug("MailManager.init");
+			} catch (ClassNotFoundException e) {
+				LogManager.InitErrorDebug("MailManager.init");
+				e.printStackTrace();//javamail.jarもし存在しないとき、エラーメッセージが必要。
 			}catch(Exception ex){
 				LogManager.InitErrorDebug("MailManager.init");
-				ex.printStackTrace();
+				//その他の場合、エラー出力されるので、大丈夫。
 			}
     		
     		//init is success
