@@ -24,55 +24,49 @@ efwClientInputBehavior.prototype.DoShortcut = function(e) {
 	var alt = e.altKey;
 	var fcsElt = $(":focus");
 	var doShortcut = false;
+	var key=null;
 	if (!isNaN(keyCode) && keyCode >= 112 && keyCode <= 123) {// function key
-		var key = "F" + (keyCode - 111);
-		$("[data-shortcut]").each(function() {
-			var btn = $(this);
-			var shortcutKey = $(this).attr("data-shortcut");
-			if (key == shortcutKey) {
-				this.focus();
-				setTimeout(function() {
-					btn.click();
-					$(fcsElt).focus();
-				}, 100);
-				doShortcut = true;
-			}
-		});
+		key = "F" + (keyCode - 111);
 	} else if (ctrl && !isNaN(keyCode)) {
 		if (keyCode != 17) {// 17 is ctrl
-			var key = "CTRL+" + String.fromCharCode(keyCode);
-			$("[data-shortcut]").each(function() {
-				var btn = $(this);
-				var shortcutKey = $(this).attr("data-shortcut");
-				if (key == shortcutKey) {
-					this.focus();
-					setTimeout(function() {
-						btn.click();
-						$(fcsElt).focus();
-					}, 100);
-					doShortcut = true;
-				}
-			});
+			key = "CTRL+" + String.fromCharCode(keyCode);
 		}
 	} else if (alt && !isNaN(keyCode)) {
 		if (keyCode != 18) {// 18 is alt
-			var key = "ALT+" + String.fromCharCode(keyCode);
-			$("[data-shortcut]").each(function() {
-				var btn = $(this);
-				var shortcutKey = $(this).attr("data-shortcut");
-				if (key == shortcutKey) {
-					this.focus();
-					setTimeout(function() {
-						btn.click();
-						$(fcsElt).focus();
-					}, 100);
-					doShortcut = true;
-				}
-			});
+			key = "ALT+" + String.fromCharCode(keyCode);
 		}
 	}
-	if (doShortcut)
-		return false;
+	if (key!=null){
+		var btns=$("[data-shortcut='"+key+"']");
+		if(btns.length>0){doShortcut = true;};
+		//dialog is shown and it is modal,take btn in dialog
+		if($(".ui-dialog:visible").length!=0 && $(".ui-widget-overlay:visible").length!=0){
+			var topDialog=null;
+			$(".ui-dialog:visible").each(function(){
+				if (topDialog==null){
+					topDialog=this;
+				}else{
+					if($(topDialog).css("z-index")<$(this).css("z-index")){
+						topDialog=this;
+					}
+				}
+			});
+			btns=$("[data-shortcut='"+key+"']",topDialog);
+		}else{//or take btn not in dialog
+			btns=$("[data-shortcut='"+key+"']:not(.ui-dialog [data-shortcut='"+key+"'])");
+		}
+		$(btns).each(function(){
+			var btn = $(this);
+			this.focus();
+			setTimeout(function() {
+				btn.click();
+				$(fcsElt).focus();
+			}, 100);
+			return false;//run only once.it means you can not define a key muti times.
+		});
+	}
+	
+	if (doShortcut) return false;
 };
 /**
  * The event of focus.

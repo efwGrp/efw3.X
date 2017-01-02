@@ -174,7 +174,7 @@ function doPost(req) {
 		}
 	}catch(e){
 		var result=(new Result())
-		.error("RuntimeErrorException", {"eventId":eventId,"message":e});
+		.error("RuntimeErrorException", {"eventId":eventId,"message":""+e});
 		var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","");
 		if (systemErrorUrl!=""){
 			result.navigate(systemErrorUrl);

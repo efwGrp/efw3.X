@@ -40,11 +40,11 @@ Record.prototype.values = null;
  */
 Record.prototype.seek = function(field, action, value) {
 	if (field == "" || field == undefined || field == null)
-		return this;
+		return new Record();
 	if (action != "eq" && action != "gt" && action != "lt" && action != "like"
 			&& action != "!eq" && action != "!gt" && action != "!lt"
 			&& action != "!like")
-		return this;
+		return new Record();
 
 	var ret = [];
 	var likeFirst = false;
@@ -105,9 +105,7 @@ Record.prototype.seek = function(field, action, value) {
 		}
 		}
 	}
-	this.values = ret;
-	this.length = ret.length;
-	return this;
+	return new Record(ret);
 };
 /**
  * Sort records.<br>
@@ -121,10 +119,10 @@ Record.prototype.seek = function(field, action, value) {
  */
 Record.prototype.sort = function(field, action) {
 	if (field == "" || field == undefined || field == null)
-		return this;
+		return new Record();
 	if (action != "asc" && action != "desc" && action != "ASC"
 			&& action != "DESC")
-		return this;
+		return new Record();
 	var ret = this.values.sort(function(a, b) {
 		if (action == "desc" || action == "DESC") {
 			if (a[field] < b[field])
@@ -138,9 +136,7 @@ Record.prototype.sort = function(field, action) {
 				return 1;
 		}
 	});
-	this.values = ret;
-	this.length = ret.length;
-	return this;
+	return new Record(ret);
 };
 /**
  * The function to change the record format.
@@ -152,7 +148,7 @@ Record.prototype.sort = function(field, action) {
  */
 Record.prototype.map = function(mapping) {
 	if (mapping == null)
-		return this;
+		return new Record();
 
 	var array = [];
 	for (var i = 0; i < this.values.length; i++) {
@@ -187,9 +183,7 @@ Record.prototype.map = function(mapping) {
 		}
 		array.push(item);
 	}
-	this.values = array;
-	this.length = array.length;
-	return this;
+	return new Record(array);
 };
 /**
  * The function to get the first data item from records.

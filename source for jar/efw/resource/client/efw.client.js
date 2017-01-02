@@ -76,15 +76,12 @@ EfwClient.prototype.alert = function(message, buttons) {
 			for(var key in buttons){
 				window.eval("var EfwClientAlert_ButtonFunc=function(){"+
 						"$('#efw_client_alert').dialog('close').remove();"+
-						"EfwClient_showActions_MsgClosed=true;"+
-						buttons[key]+";"+
-						"}");
+						buttons[key]+";}");
 				dialogButtons[key]=EfwClientAlert_ButtonFunc;
 			};
 		}else{
 			dialogButtons["OK"]=function(){
 				$("#efw_client_alert").dialog("close").remove();
-				EfwClient_showActions_MsgClosed=true;
 			};
 		}
 		$("body")
@@ -96,10 +93,9 @@ EfwClient.prototype.alert = function(message, buttons) {
 			modal : true,
 			width : 500,
 			title : "Message",
-			closeOnEscape : false,
 			buttons : dialogButtons,
-			open : function(event, ui) {
-				$(".ui-dialog-titlebar-close", $(this).parent()).hide();
+			beforeClose : function(){
+				EfwClient_showActions_MsgClosed=true;
 			}
 		});
 	} else {

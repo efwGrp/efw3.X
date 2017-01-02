@@ -50,7 +50,7 @@ EfwServer.prototype.checkStyle = function(event, requestParams) {
 			} else if (paramdef instanceof Array) { // if format define is array
 				if (param != null) {
 					// loop it to validate items in the array
-					for (var i = 0; i < paramdef.length; i++) {
+					for (var i = 0; i < param.length; i++) {
 						result = result.concat(_check(param[i], paramdef[0],
 								parentkey + key + ":eq(" + i + ")"));
 					}
@@ -177,7 +177,7 @@ EfwServer.prototype.checkStyle = function(event, requestParams) {
 						if (value < minv)
 							message = EfwServerMessages.prototype.MinOverMessage;
 					} else if (maxv != null) {
-						if (value < maxv)
+						if (value > maxv)
 							message = EfwServerMessages.prototype.MaxOverMessage;
 					}
 					if (message != null) {
