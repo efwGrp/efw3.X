@@ -15,7 +15,11 @@ function EfwServerCookie() {
  */
 EfwServerCookie.prototype.get = function(key) {
 	var value=Packages.efw.cookie.CookieManager.get(key);
-	if (value==null) value="";
+	if (value == null) {
+		value = null;
+	} else {
+		value = "" + value;
+	}
 	return value;
 };
 /**
