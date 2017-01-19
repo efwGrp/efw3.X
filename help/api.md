@@ -5,6 +5,7 @@
 <li><a href="api_efw_function.md">Efw Function</a></li>
 <li><a href="api_data_format.md">data-format Attribute</a></li>
 <li><a href="api_data_shortcut.md">data-shortcut Attribute</a></li>
+<li><a href="api_draw_barcode.md">To Draw Barcode</a></li>
 
 <h2>Event JS</h2>
 <li><a href="api_event.md">Event Programming</a></li>
@@ -22,6 +23,7 @@
 <tr><th>Varieties</th><th>Functions</th></tr>
 <tr><td>csv</td><td>...</td></tr>
 <tr><td>file</td><td>...</td></tr>
+<tr><td>barcode</td><td><a href="barcode.decode.md">decode</a></td></tr>
 <tr><td>brms</td><td><a href="brms.getRuleById.md">getRuleById</a></td><td><a href="brms.getRuleByName.md">getRuleByName</a></td><td><a href="brms.getRuleByAlias.md">getRuleByAlias</a></td></tr>
 <tr><td>event</td><td><a href="event.fire.md">fire</a></td></tr>
 <tr><td>db</td><td><a href="db.select.md">select</a></td><td><a href="db.change.md">change</a></td><td><a href="db.master.md">master</a></td></tr>

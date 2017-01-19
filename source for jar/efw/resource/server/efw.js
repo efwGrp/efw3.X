@@ -92,6 +92,7 @@ loadResource("efw/resource/server/efw.server.record.js");
 loadResource("efw/resource/server/efw.server.result.js");
 loadResource("efw/resource/server/efw.server.excel.js");
 loadResource("efw/resource/server/efw.server.cookie.js");
+loadResource("efw/resource/server/efw.server.barcode.js");
 loadResource("efw/resource/server/efw.server.debug.js");
 
 /**
@@ -106,6 +107,7 @@ var brms = new EfwServerBRMS();
 var mail =new EfwServerMail();
 var pdf = new EfwServerPdf();
 var cookie =new EfwServerCookie();
+var barcode =new EfwServerBarcode();
 
 // /////////////////////////////////////////////////////////////////////////////
 // The initialization of system.

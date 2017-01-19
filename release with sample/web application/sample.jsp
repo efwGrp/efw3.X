@@ -13,8 +13,10 @@
 		//Then you must do it in client javascript.
 		$(function(){
 			//me like jquery ui buttons, but it is not necessary
-			$("#btnLogin,#btnClear,#btnF1,#btnF2,#btnF3,#btnF4,#btnF5,#btnF6,#btnF7,#btnF8,#btnF9,#btnF10").button();
+			$("#btnLogin,#btnClear,#btnF1,#btnF2,#btnF3,#btnF4,#btnF5,#btnF6,#btnF7,#btnF8,#btnF9,#btnF10,#btnF11,#btnF12").button();
 		});
+		
+		window.location.href.replace("sample.jsp", "camera.jsp");
   	</script>
 </head>
 <body style="background-color:ghostwhite;" onload="Efw('sample_showfiles')">
@@ -101,9 +103,15 @@
 	<br>
 	<br>
 	
-	
-	<input type="button" value="F11" data-shortcut="F11" onclick="alert('F11 is clicked!');">
-	<input type="button" value="F12" data-shortcut="F12" onclick="alert('F12 is clicked!');">
+<%
+String cameraJspPath=request.getRequestURL().toString().replace("sample.jsp", "camera.jsp");
+%>
+	<div style="text-align:center">
+	<%=cameraJspPath%><br>携帯のQRコードスキャンナーでテストしてください。<br> 
+	<img src="drawServlet?type=qrcode&msg=<%=cameraJspPath%>" style="width:200px"></div>
+	<input type="button" id="btnF11" style="width:150px" value="F11 ﾊﾞｰｺｰﾄﾞ一覧" data-shortcut="F11" onclick="window.location='barcode.jsp';">
+	<br>
+	<br>
 	
 	<input type="button" value="CTRL+A" data-shortcut="CTRL+A" onclick="alert('CTRL+A is clicked!');">
 	<input type="button" value="ALT+Z" data-shortcut="ALT+Z" onclick="alert('ALT+Z is clicked!');">

@@ -647,6 +647,21 @@ EfwServerSession.prototype.create = function() {};
  */
 EfwServerSession.prototype.invalidate = function() {};
 ///////////////////////////////////////////////////////////////////////////////
+/**
+ * The class to operate barcode files.
+ * @author Chang Kejun
+ */
+function EfwServerBarcode() {
+};
+/**
+ * The function to decode a barcode from an image file.<br> 
+ * @param {String} imagePath: required<br>
+ * @returns {String|null}
+ */
+EfwServerBarcode.prototype.decode = function(imagePath) {
+	return null;
+};
+///////////////////////////////////////////////////////////////////////////////
 String.prototype.debug = function(label) {return this;};
 Number.prototype.debug = function(label) {return this;};
 Boolean.prototype.debug = function(label) {return this;};
@@ -694,3 +709,7 @@ var pdf = new EfwServerPdf();
  * cookie
  */
 var cookie =new EfwServerCookie();
+/**
+ * barcode
+ */
+var barcode =new EfwServerBarcode();
