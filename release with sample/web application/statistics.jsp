@@ -18,7 +18,7 @@
 	
 	//Sort Click
 	//-------------------------------------------------------------------------
-	var sortItem="";
+	var sortItem="eventId";
 	var sortAction="asc";
 	var lastSortItem="";
 	function selectSortItem(obj,value){
