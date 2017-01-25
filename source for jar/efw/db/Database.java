@@ -53,12 +53,11 @@ public final class Database {
     		String sqlString=sql.getSqlString(params);
     		ArrayList<Object> sqlParams=sql.getSqlParams(params);
     		
-    	    LogManager.CommDebug("sql =" , sqlString);
+    	    LogManager.CommDebug("Database.executeQuery sql =" , sqlString);
     	    CallableStatement mStmt = mConn.prepareCall(sqlString);
     	    mStmtAry.add(mStmt);
     	    setSQLParams(mStmt, sqlParams);
     	    ResultSet rs = mStmt.executeQuery();
-    	    LogManager.CommDebug("Database.executeQuery");
     	    return rs;
     	}catch(efwException e){
     		throw e;
@@ -103,11 +102,10 @@ public final class Database {
         	String sqlString=sql.getSqlString(params);
         	ArrayList<Object> sqlParams=sql.getSqlParams(params);
         	
-            LogManager.CommDebug("sql =" , sqlString);
+            LogManager.CommDebug("Database.executeUpdate sql =" , sqlString);
             mStmt = mConn.prepareCall(sqlString);
             setSQLParams(mStmt, sqlParams);
             int cnt = mStmt.executeUpdate();
-            LogManager.CommDebug("Database.executeUpdate　cnt="+cnt);
             
             return cnt;
     	}catch(efwException e){
@@ -132,11 +130,10 @@ public final class Database {
         	Sql sql=SqlManager.get(groupId, sqlId);
         	String sqlString=sql.getSqlString(params);
         	ArrayList<Object> sqlParams=sql.getSqlParams(params);
-            LogManager.CommDebug("sql =" , sqlString);
+            LogManager.CommDebug("Database.execute sql =" , sqlString);
             mStmt = mConn.prepareCall(sqlString);
             setSQLParams(mStmt, sqlParams);
             mStmt.execute();
-            LogManager.CommDebug("Database.execute");
     	}catch(efwException e){
     		throw e;
     	}catch(SQLException e){
@@ -236,11 +233,10 @@ public final class Database {
      */
     public ResultSet executeQuerySql(String sql) throws SQLException{
     	try{
-    	    LogManager.CommDebug("sql =" , sql);
+    	    LogManager.CommDebug("Database.executeQuery sql =" , sql);
     	    CallableStatement mStmt = mConn.prepareCall(sql);
     	    mStmtAry.add(mStmt);
     	    ResultSet rs = mStmt.executeQuery();
-    	    LogManager.CommDebug("Database.executeQuery");
     	    return rs;
     	}catch(SQLException e){
     		throw e;
@@ -255,10 +251,9 @@ public final class Database {
     public int executeUpdateSql(String sql) throws SQLException{
     	CallableStatement mStmt=null;
     	try{
-            LogManager.CommDebug("sql =" , sql);
+            LogManager.CommDebug("Database.executeUpdate sql =" , sql);
             mStmt = mConn.prepareCall(sql);
             int cnt = mStmt.executeUpdate();
-            LogManager.CommDebug("Database.executeUpdate");
             
             return cnt;
     	}catch(SQLException e){
@@ -278,10 +273,9 @@ public final class Database {
     public void executeSql(String sql) throws SQLException{
     	CallableStatement mStmt=null;
     	try{
-            LogManager.CommDebug("sql =" , sql);
+            LogManager.CommDebug("Database.execute sql =" , sql);
             mStmt = mConn.prepareCall(sql);
             mStmt.execute();
-            LogManager.CommDebug("Database.execute");
     	}catch(SQLException e){
     		throw e;
     	}finally{

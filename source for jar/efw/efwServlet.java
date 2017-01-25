@@ -117,7 +117,7 @@ public final class efwServlet extends HttpServlet {
             LogManager.InitCommonDebug("LogManager.init");
             //efwFilter init to check login or not
             efwFilter.init();
-            LogManager.InitCommonDebug("efwJspLoginFilter.init");
+            LogManager.InitCommonDebug("efwFilter.init");
             
             //get attrs from properties or context
             isDebug=PropertiesManager.getBooleanProperty(PropertiesManager.EFW_ISDEBUG,isDebug);
@@ -236,7 +236,6 @@ public final class efwServlet extends HttpServlet {
 		efwServlet.response.set(response);
 		try {
 			response.getWriter().print(ScriptManager.doPost(request.getParameter("data")));
-			LogManager.CommDebug("efwServlet.doPost");
 		} catch (Exception e) {
 			LogManager.ErrorDebug(e.getMessage());
 			response.getWriter().print(otherError);

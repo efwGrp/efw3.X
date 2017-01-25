@@ -111,7 +111,6 @@ public class efwBatch {
 		try {
 			String ret=ScriptManager.doPost(args[0]);
 			System.out.println(ret);
-			LogManager.CommDebug("ScriptManager.doPost");
 		} catch (Exception e) {
 			LogManager.ErrorDebug(e.getMessage());
 		}finally{

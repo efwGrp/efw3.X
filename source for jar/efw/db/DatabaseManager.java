@@ -10,7 +10,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import efw.efwException;
-import efw.log.LogManager;
 import efw.properties.PropertiesManager;
 
 /**
@@ -115,7 +114,6 @@ public final class DatabaseManager {
 
 		DatabaseManager.database.get()
 		.put(DatabaseManager.jdbcResourceName, new Database(dataSource.getConnection()));
-        LogManager.CommDebug("DatabaseManager.open");
     }
     /**
      * jdbcリソース名称によりデータベース接続を取得する。
@@ -144,7 +142,6 @@ public final class DatabaseManager {
     			DatabaseManager.database.set(new HashMap<String,Database>());
     		DatabaseManager.database.get()
     		.put(jdbcResourceName, otherdb);
-            LogManager.CommDebug("DatabaseManager.open",jdbcResourceName);
     	}
     }
     /**
@@ -161,7 +158,6 @@ public final class DatabaseManager {
 			db.close();
 		}
 		DatabaseManager.database.remove();
-        LogManager.CommDebug("DatabaseManager.closeAll");
     }
     /**
      * すべてのデータベースをコミット。
@@ -176,7 +172,6 @@ public final class DatabaseManager {
 			Database db=e.getValue();
 			db.commit();
 		}
-        LogManager.CommDebug("DatabaseManager.commitAll");
     }
     
     public static void rollbackAll() throws SQLException{
@@ -188,8 +183,6 @@ public final class DatabaseManager {
 			Database db=e.getValue();
 			db.rollback();
 		}
-        LogManager.CommDebug("DatabaseManager.rollbackAll");
-    	
     }
 
 }
