@@ -137,6 +137,148 @@ function EfwServerEvent() {};
 EfwServerEvent.prototype.fire = function(eventId, params) {return null;};
 ///////////////////////////////////////////////////////////////////////////////
 /**
+ * The class to operate file in storage.
+ */
+function EfwServerFile() {};
+/**
+ * The function to judge whether a path exists or not. 
+ * @param {String} path
+ * @returns {Boolean}
+ */
+EfwServerFile.prototype.exists=function(path){return false;};
+/**
+ * The function to judge whether a path is File or not. 
+ * @param {String} path
+ * @returns {Boolean}
+ */
+EfwServerFile.prototype.isFile=function(path){return false;};
+/**
+ * The function to judge whether a path is Folder or not. 
+ * @param {String} path
+ * @returns {Boolean}
+ */
+EfwServerFile.prototype.isFolder=function(path){return false;};
+/**
+ * The function to get all folders and files infomation in the relative folder path to the
+ * storage folder.
+ * 
+ * @param {String}
+ *            path: required<br>
+ * @param {Boolean}
+ *            withoutFolderLength: optional<br>
+ * @returns {Array}
+ * {name:String,<br>
+ * 		length:Number,<br>
+ * 		lastModified:Date,<br>
+ * 		absolutePath:String,<br>
+ * 		mineType:String,<br>
+ * }<br>
+ */
+EfwServerFile.prototype.list = function(path,withoutFolderLength) {return null;};
+/**
+ * The function to get the information of the relative path to the
+ * storage folder.
+ * 
+ * @param {String}
+ *            path: required<br>
+ * @param {Boolean}
+ *            withoutFolderLength: optional<br>
+ * @returns {null | Object}<br>
+ * {name:String,<br>
+ * 		length:Number,<br>
+ * 		lastModified:Date,<br>
+ * 		absolutePath:String,<br>
+ * 		mineType:String,<br>
+ * }<br>
+ */
+EfwServerFile.prototype.get = function(path,withoutFolderLength) {return null;};
+/**
+ * The function to remove a file or a folder by the relative path to the storage
+ * folder.
+ * 
+ * @param {String}
+ *            path: required<br>
+ */
+EfwServerFile.prototype.remove = function(path) {};
+/**
+ * The function to get the absolute path of the storage folder.
+ * 
+ * @returns {String}
+ */
+EfwServerFile.prototype.getStorageFolder = function() {return null;};
+/**
+ * The function to save update files in the relative path to the storage folder.
+ * 
+ * @param {String}
+ *            path: required<br>
+ */
+EfwServerFile.prototype.saveUploadFiles = function(path) {};
+/**
+ * The function to make dirs by the relative path to the storage folder.
+ * @param {String}
+ *            path: required<br>
+ */
+EfwServerFile.prototype.makeDir = function(path) {};
+/**
+ * The function to read all from a text file with auto charset checking.
+ * @param {String}
+ *            path: required<br>
+ * @returns {String}
+ */
+EfwServerFile.prototype.readAllLines = function(path){return null;};
+/**
+ * The function to rename a file by relative paths to the storage folder.
+ * @param {String}
+ *            orgPath: required<br>
+ * @param {String}
+ *            newName: required<br>
+ * @returns {String}
+ */
+EfwServerFile.prototype.rename = function(orgPath,newName){return null;};
+/**
+ * The function to make an empty file by the relative path to the storage folder.
+ * @param {String}
+ *            path: required<br>
+ */
+EfwServerFile.prototype.makeFile = function(path){};
+/**
+ * The function to write a text file by the relative path to the storage folder.
+ * @param {String}
+ *            path: required<br>
+ * @param {String}
+ *            content: required<br>
+ * @param {String}
+ *            encoding: optional<br>
+ */
+EfwServerFile.prototype.writeAllLines=function(path,content,encoding) {};
+/**
+ * The function to duplicate a file by  relative paths to the storage folder.
+ * @param {String}
+ *            srcPath: required<br>
+ * @param {String}
+ *            destPath: required<br>
+ */
+EfwServerFile.prototype.duplicate=function(srcPath,destPath) {};
+
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * The function to encode the string by base64.
+ * @returns {String}
+ */
+String.prototype.base64Encode=function(){return null;};
+/**
+ * The function to encode the string by base64 for URI.
+ * @returns {String}
+ */
+String.prototype.base64EncodeURI=function(){return null;};
+/**
+ * The function to decode a encoded String by base64.
+ * @returns {String}
+ */
+String.prototype.base64Decode=function(){return null;};
+
+///////////////////////////////////////////////////////////////////////////////
+/**
  * The class to operate Excel.<br>
  * Do not try to open a same file more than once in an event.
  * @param {String}
@@ -553,9 +695,10 @@ Result.prototype.navigate = function(url,params) {return this;};
  * 
  * @param {String |
  *            Array} path: required<br>
+ * @param {String} zipBasePath: optional<br>
  * @returns {Result}
  */
-Result.prototype.attach = function(path) {return this;};
+Result.prototype.attach = function(path,zipBasePath) {return this;};
 /**
  * The function to set a flag to delete original files after download.
  * 
@@ -672,6 +815,7 @@ Object.prototype.debug = function(label) {return this;};
 Record.prototype.debug = function(label) {return this;};
 Result.prototype.debug = function(label) {return this;};
 Excel.prototype.debug = function(label) {return this;};
+
 ///////////////////////////////////////////////////////////////////////////////
 /**
  * properties

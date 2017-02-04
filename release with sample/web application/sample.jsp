@@ -113,11 +113,24 @@ String cameraJspPath=request.getRequestURL().toString().replace("sample.jsp", "c
 	<br>
 	<br>
 	
-	<input type="button" value="CTRL+A" data-shortcut="CTRL+A" onclick="alert('CTRL+A is clicked!');">
-	<input type="button" value="ALT+Z" data-shortcut="ALT+Z" onclick="alert('ALT+Z is clicked!');">
 	
 	</div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<br>
+
+<table style="width:100%;">
+<tr><td></td><td style="width:800px">
+<!-- lang = zh_CN, en, jp,  -->
+<efw:elfinder id="elfinder001" home="" width="800" height="400" lang="jp" readonly="false"/>
+</td><td></td></tr>
+</table>
+<br><br><br><br><br><br>
+
+<div style="text-align:center">
+	<input type="button" value="CTRL+A" data-shortcut="CTRL+A" onclick="alert('CTRL+A is clicked!');">
+	<input type="button" value="ALT+Z" data-shortcut="ALT+Z" onclick="alert('ALT+Z is clicked!');">
+</div>
+<br><br><br><br><br><br><br><br>
+
 </div>
 </body>
 </html>
