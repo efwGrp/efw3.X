@@ -22,4 +22,3 @@ The get function is established to get a file or folder information.
 <tr><td>path</td><td>String</td><td>The relative file or folder path to the storage.</td></tr>
 <tr><td>withoutFolderLength</td><td>Boolean</td><td>A flag to get folder size or not. The default value is false.</td></tr>
 </table>
-

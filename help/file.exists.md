@@ -20,4 +20,3 @@ The exists function is established to judge a file or folder is existed or not.
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>path</td><td>String</td><td>The relative file or folder path to the storage.</td></tr>
 </table>
-

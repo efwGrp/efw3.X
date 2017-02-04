@@ -21,4 +21,3 @@ The list function is established to get an array of files or sub folders informa
 <tr><td>path</td><td>String</td><td>The relative folder path to the storage.</td></tr>
 <tr><td>withoutFolderLength</td><td>Boolean</td><td>A flag to get sub folders size or not. The default value is false.</td></tr>
 </table>
-
