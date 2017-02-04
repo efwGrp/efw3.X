@@ -27,7 +27,7 @@ public class Part extends TagSupport implements DynamicAttributes {
 	 * タグを実行する。
 	 */
 	@Override
-	public int doStartTag() throws JspException {
+	public int doStartTag() {
 		
 		try {
 			pageContext.include(path);

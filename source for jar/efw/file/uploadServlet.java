@@ -2,7 +2,9 @@
 package efw.file;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -48,6 +50,8 @@ public class uploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding(RESPONSE_CHAR_SET);
 		uploadServlet.request.set(request);
+		InputStream inputStream =null;
+		FileOutputStream outputStream = null;
 		try{
 	        for (Part part : request.getParts()) {
 	            String uploadFileName=null;
@@ -55,7 +59,14 @@ public class uploadServlet extends HttpServlet {
 	                if (cd.trim().startsWith("filename")) {
 	                	uploadFileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
 	                    File fl=File.createTempFile("efw", null);//efw#####.tmpのファイル名
-	                    part.write(fl.getAbsolutePath());
+	                    //Change code for resin4.
+	                    inputStream =part.getInputStream();
+	                    byte[] b = new byte[inputStream.available()];
+	                    inputStream.read(b);
+	                    outputStream = new FileOutputStream(fl.getAbsolutePath());
+	                    outputStream.write(b);
+	                    inputStream.close();
+	                    //part.write(fl.getAbsolutePath());//This line cant run at resin4 but ok to tomcat.
 	                    FileManager.keepUploadFile(uploadFileName,fl.getAbsolutePath());
 	                    break;
 	                }
@@ -65,6 +76,20 @@ public class uploadServlet extends HttpServlet {
 	        response.getWriter().print("[]");
 		}finally{
 	        uploadServlet.request.remove();
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 		}
     }
 }

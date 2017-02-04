@@ -32,6 +32,7 @@ public final class downloadServlet extends HttpServlet {
     private static final String EFW_DOWNLOAD_ZIP="efw.download.zip";
     private static final String EFW_DOWNLOAD_SAVEAS="efw.download.saveas";
     private static final String EFW_DOWNLOAD_DELETEAFTERDOWNLOAD="efw.download.deleteafterdownload";
+    private static final String EFW_DOWNLOAD_ZIPBASEPATH="efw.download.zipBasePath";
     /**
      * get方法でファイルをダウンロードする
      * ダウンロード方法などの情報は、セッションから渡す。
@@ -45,10 +46,12 @@ public final class downloadServlet extends HttpServlet {
 		String attr_zip=(String)sn.getAttribute(EFW_DOWNLOAD_ZIP);
 		String attr_saveas=(String)sn.getAttribute(EFW_DOWNLOAD_SAVEAS);
 		String attr_deleteafterdownload=(String)sn.getAttribute(EFW_DOWNLOAD_DELETEAFTERDOWNLOAD);
+		String attr_zipBasePath=(String)sn.getAttribute(EFW_DOWNLOAD_ZIPBASEPATH);
 		sn.removeAttribute(EFW_DOWNLOAD_FILE);
 		sn.removeAttribute(EFW_DOWNLOAD_ZIP);
 		sn.removeAttribute(EFW_DOWNLOAD_SAVEAS);
 		sn.removeAttribute(EFW_DOWNLOAD_DELETEAFTERDOWNLOAD);
+		sn.removeAttribute(EFW_DOWNLOAD_ZIPBASEPATH);
 
 		String tmp_zip=null;
 		String[] tmp_files=null;
@@ -60,7 +63,7 @@ public final class downloadServlet extends HttpServlet {
 				File zipFile=File.createTempFile("tmp", "zip",new File(FileManager.getStorageFolder()));
 				tmp_zip=zipFile.getName();
 				attr_file=zipFile.getName();
-				FileManager.zip(tmp_zip, tmp_files);
+				FileManager.zip(tmp_zip, tmp_files, attr_zipBasePath);
 				
 				if(attr_saveas==null||"".equals(attr_saveas)){
 					attr_saveas="attachment.zip";

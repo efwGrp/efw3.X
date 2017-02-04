@@ -22,10 +22,10 @@ public class Client extends SimpleTagSupport {
 	public void doTag() throws JspException, IOException {
 		super.doTag();
 		JspWriter out = this.getJspContext().getOut();
-		out.print("<link href=\"./efw/efw.css\" rel=\"stylesheet\">");
-		out.print("<link href=\"./efw/jquery-ui.min.css\" rel=\"stylesheet\">");
-		out.print("<link href=\"./efw/jquery-ui.structure.min.css\" rel=\"stylesheet\">");
-		out.print("<link href=\"./efw/jquery-ui.theme.min.css\" rel=\"stylesheet\">");
+		out.print("<link type=\"text/css\" rel=\"stylesheet\" href=\"./efw/efw.css\">");
+		out.print("<link type=\"text/css\" rel=\"stylesheet\" href=\"./efw/jquery-ui.min.css\">");
+		out.print("<link type=\"text/css\" rel=\"stylesheet\" href=\"./efw/jquery-ui.structure.min.css\">");
+		out.print("<link type=\"text/css\" rel=\"stylesheet\" href=\"./efw/jquery-ui.theme.min.css\">");
 		out.print("<script type=\"text/javascript\" charset=\"UTF-8\" src=\"./efw/jquery-min.js\"></script>");
 		out.print("<script type=\"text/javascript\" charset=\"UTF-8\" src=\"./efw/jquery-ui.min.js\"></script>");
 		out.print("<script type=\"text/javascript\" charset=\"UTF-8\" src=\"./efw/js.cookie.min.js\"></script>");

@@ -3,16 +3,24 @@ package efw.file;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.mozilla.universalchardet.UniversalDetector;
 
 import efw.efwServlet;
 /**
@@ -111,7 +119,6 @@ public final class FileManager {
 	    long size = 0;
 	    for (File file : dir.listFiles()) {
 	        if (file.isFile()) {
-	            System.out.println(file.getName() + " " + file.length());
 	            size += file.length();
 	        }
 	        else
@@ -142,16 +149,16 @@ public final class FileManager {
 	 * @param paths 圧縮対象のファイル配列。
 	 * @throws IOException ファイルアクセスエラー。
 	 */
-	public static void zip(String filename, String[] paths) throws IOException{
+	public static void zip(String filename, String[] paths, String basePath) throws IOException{
 		ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(get(filename))));
 		try{
-			_zip(zos,paths);
+			_zip(zos,paths,basePath);
 		}finally{
 			zos.close();
 		}
 	}
 	
-	private static void _zip(ZipOutputStream zos,String[] paths) throws IOException {
+	private static void _zip(ZipOutputStream zos,String[] paths, String basePath) throws IOException {
 		for (String path : paths) {
 			File fl=get(path);
 			if(fl.isDirectory()){
@@ -160,11 +167,18 @@ public final class FileManager {
 			    for(int i=0;i<f.length;i++){
 			    	paths2[i] = path +"/" + f[i].getName();
 			    }
-			    _zip(zos,paths2);
+			    _zip(zos,paths2,basePath);
 			}else{
 				byte[] buf = new byte[1024];
 	            InputStream is = new BufferedInputStream(new FileInputStream(fl));
 	            try{
+	            	//ベースフォルダからzipのrootを作成する。
+	            	if (path.indexOf(basePath)==0){
+	            		path=path.substring(basePath.length());
+	            		if (path.indexOf("/")==0){
+	            			path=path.substring(1);
+	            		}
+	            	}
 		            zos.putNextEntry(new ZipEntry(path));
 		            int len = 0;
 		            while ((len = is.read(buf)) != -1) {
@@ -183,14 +197,12 @@ public final class FileManager {
 	 * @param path　スドレジからの相対パス
 	 * @throws IOException 
 	 */
-	public static void saveUploadFiles(String path) throws IOException{
+	public synchronized static void saveUploadFiles(String path) throws IOException{
 		if (path==null||"".equals(path)){
 			path=storageFolder;
 		}else{
 			path=storageFolder+"/"+path;
 		}
-		File p=new File(path);
-		if (!p.exists())p.mkdirs();
 		
 		@SuppressWarnings("unchecked")
 		HashMap<String, String> map= (HashMap<String, String>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
@@ -200,17 +212,16 @@ public final class FileManager {
 			for(HashMap.Entry<String, String> entry : map.entrySet()) {
 				String srcPath=entry.getValue();
 				String uploadFileName=entry.getKey();
-				String destPath=path+"/"+uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
-				@SuppressWarnings("resource")
-				FileChannel srcChannel = new FileInputStream(srcPath).getChannel();
-		        @SuppressWarnings("resource")
-				FileChannel destChannel = new FileOutputStream(destPath).getChannel();
-		        try {
-		            srcChannel.transferTo(0, srcChannel.size(), destChannel);
-		        } finally {
-		            srcChannel.close();
-		            destChannel.close();
-		        }
+				int destFileNamefromIndex=0;
+				if (uploadFileName.lastIndexOf("\\")>-1){
+					destFileNamefromIndex=uploadFileName.lastIndexOf("\\")+1;
+				//}else if(uploadFileName.lastIndexOf("/")>-1){
+				//	destFileNamefromIndex=uploadFileName.lastIndexOf("/")+1;
+				}else{
+					destFileNamefromIndex=0;
+				}
+				String destPath=path+"/"+uploadFileName.substring(destFileNamefromIndex);
+				duplicateByAbsolutePath(srcPath,destPath);
 		        new File(srcPath).delete();
 			}
 		}
@@ -219,7 +230,7 @@ public final class FileManager {
 	/***
 	 * アップロードされて一時保存中のファイルを削除する。
 	 */
-	public static void removeUploadFiles(){
+	public synchronized static void removeUploadFiles(){
 		@SuppressWarnings("unchecked")
 		HashMap<String, String> map= (HashMap<String, String>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
 		if (map==null){
@@ -238,7 +249,7 @@ public final class FileManager {
 	 * @param uploadFileName　アッポロードファイル名（クライアントパスと名称）
 	 * @param tempFileAbsolutePath　一時ファイルパス（サーバ絶対パスと名称）
 	 */
-	public static void keepUploadFile(String uploadFileName,String tempFileAbsolutePath){
+	public synchronized static void keepUploadFile(String uploadFileName,String tempFileAbsolutePath){
 		@SuppressWarnings("unchecked")
 		HashMap<String, String> map= (HashMap<String, String>)uploadServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
 		if (map==null){
@@ -249,4 +260,162 @@ public final class FileManager {
 		if (oldTempFileAbsolutePath!=null) new File(oldTempFileAbsolutePath).delete();
 		map.put(uploadFileName, tempFileAbsolutePath);
 	}
+	/**
+	 * ファイルのMimeTypeを取得する。
+	 * フォルダはdirectory。確定できない場合、application/octet-stream
+	 * @param absolutePath
+	 * @return
+	 */
+	public static String getMimeType(String absolutePath){
+		String mime;
+		try {
+			Path path=Paths.get(absolutePath);
+			if (path.toFile().isDirectory()){
+				mime="directory";
+			}else{
+				mime=Files.probeContentType(path);
+				if (mime==null)mime="application/octet-stream";
+			}
+		} catch (IOException e) {
+			mime="application/octet-stream";
+		}
+		return mime;
+	}
+	/**
+	 * フォルダを作成する
+	 * @param path
+	 */
+	public static void makeDir(String path){
+		if (path==null||"".equals(path)){
+			path=storageFolder;
+		}else{
+			path=storageFolder+"/"+path;
+		}
+		File p=new File(path);
+		if (!p.exists())p.mkdirs();
+	}
+	/**
+	 * テキストファイルを読み取る。文字コードは自動判断する。
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
+	public static String readAllLines(String path) throws IOException{
+		if (path==null||"".equals(path)){
+			path=storageFolder;
+		}else{
+			path=storageFolder+"/"+path;
+		}
+		File file=new File(path);
+		UniversalDetector detector = new UniversalDetector(null);
+		String encoding;
+		FileInputStream in=new FileInputStream(file);
+		ByteArrayOutputStream bao = new ByteArrayOutputStream();
+		byte[] buff = new byte[8000];
+		int bytesRead;
+        while ((bytesRead = in.read(buff)) != -1) {
+            bao.write(buff, 0, bytesRead);
+        }
+        in.close();
+        byte[] data = bao.toByteArray();
+        detector.handleData(data, 0, data.length);
+        detector.dataEnd();
+        encoding = detector.getDetectedCharset();
+        detector.reset();
+        if(encoding!=null){
+            return new String(Files.readAllBytes(Paths.get(path)), Charset.forName(encoding));
+        }else{
+        	return new String(Files.readAllBytes(Paths.get(path)));
+        }
+	}
+	/**
+	 * ファイルまたはフォルダ名を変更する。
+	 * @param orgPath
+	 * @param newName
+	 * @throws IOException
+	 */
+	public static void rename(String orgPath,String newName) throws IOException{
+		if (orgPath==null||"".equals(orgPath)){
+			orgPath=storageFolder;
+		}else{
+			orgPath=storageFolder+"/"+orgPath;
+		}
+		Path source = Paths.get(orgPath);
+		Files.move(source, source.resolveSibling(newName));
+	}
+	/**
+	 * からのファイルを作成する。
+	 * @param path
+	 * @throws IOException
+	 */
+	public static void makeFile(String path) throws IOException{
+		if (path==null||"".equals(path)){
+			path=storageFolder;
+		}else{
+			path=storageFolder+"/"+path;
+		}
+		File p=new File(path);
+		if (!p.exists())p.createNewFile();
+	}
+	/**
+	 * テキストを書き込む。
+	 * @param path
+	 * @param content
+	 * @param encoding
+	 * @throws IOException
+	 */
+	public static void writeAllLines(String path,String content,String encoding) throws IOException{
+		if (path==null||"".equals(path)){
+			path=storageFolder;
+		}else{
+			path=storageFolder+"/"+path;
+		}
+		Files.write(Paths.get(path), content.getBytes(encoding),StandardOpenOption.WRITE);
+	}
+	/**
+	 * ファイルを複製する。
+	 * @param srcPath
+	 * @param destPath
+	 * @throws IOException
+	 */
+	public static void duplicate(String srcPath,String destPath) throws IOException{
+		String absSrcPath,absDestPath;
+		if (srcPath==null||"".equals(srcPath)){
+			absSrcPath=storageFolder;
+		}else{
+			absSrcPath=storageFolder+"/"+srcPath;
+		}
+		if (destPath==null||"".equals(destPath)){
+			absDestPath=storageFolder;
+		}else{
+			absDestPath=storageFolder+"/"+destPath;
+		}
+		duplicateByAbsolutePath(absSrcPath,absDestPath);
+	}
+	private static void duplicateByAbsolutePath(String absSrcPath,String absDestPath) throws IOException{
+		File fileSrc=new File(absSrcPath);
+		File fileDest=new File(absDestPath);
+		boolean doCopy=false;
+		if (fileSrc.isFile()){
+			doCopy=true;
+			if(fileDest.exists())_delete(fileDest);
+		}else if (!fileDest.exists()){
+			doCopy=true;
+		}
+		if (absDestPath.lastIndexOf("/")>-1){//フォルダがある場合、フォルダの存在を確保する
+			new File(absDestPath.substring(0, absDestPath.lastIndexOf("/"))).mkdirs();
+		}
+		if (doCopy){
+			Files.copy(Paths.get(absSrcPath),Paths.get(absDestPath),StandardCopyOption.REPLACE_EXISTING,StandardCopyOption.COPY_ATTRIBUTES);
+		}
+		if (fileSrc.isDirectory()){
+			File lst[]=fileSrc.listFiles();
+			for(int i=0;i<lst.length;i++){
+				String subSrcPath=absSrcPath+"/"+lst[i].getName();
+				String subDestPath=absDestPath+"/"+lst[i].getName();
+				duplicateByAbsolutePath(subSrcPath,subDestPath);
+			}
+		}
+	}
+	
 }

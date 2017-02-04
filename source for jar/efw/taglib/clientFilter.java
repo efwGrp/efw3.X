@@ -52,10 +52,10 @@ public class clientFilter implements Filter {
 			resourcePath="efw/resource/client/"+filename;
 			response.setContentType("text/javascript"); 
 		}else if("png".equals(ex)){
-			resourcePath="efw/resource/client/images/"+filename;
+			resourcePath="efw/resource/client/"+filename;
 			response.setContentType("image/png"); 
 		}else if("gif".equals(ex)){
-			resourcePath="efw/resource/client/images/"+filename;
+			resourcePath="efw/resource/client/"+filename;
 			response.setContentType("image/gif"); 
 		}
 		if (resourcePath==null){
