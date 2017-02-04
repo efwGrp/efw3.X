@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://caucho.com/ns/resin">
+	<display-name>efw</display-name>
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+
+	<database 
+		jndi-name				=	"java:comp/env/jdbc/efw"
+		name					=	"jdbc/efw"
+		user					=	"postgres"
+		password				=	"postgres"
+		max-connections			=	"100"
+		max-idle-count			=	"20"
+		connection-wait-time	=	"10"
+	>
+		<driver
+			type				=	"org.postgresql.Driver"
+			url					=	"jdbc:postgresql://127.0.0.1:5432/efwSample"
+		/>
+	</database>
+
+	<mail
+		jndi-name				=	"java:comp/env/mail/efw"
+		name					=	"mail/efw"
+		type					=	"javax.mail.Session"
+		debug					=	"false"
+		user					=	"efw"
+		password				=	"efw"
+		from					=	"efw@efw.efw"
+		transport-protocol		=	"smtp"
+		smtp-host				=	"mail.efw.efw"
+		smtp-auth				=	"true"
+		smtp-port				=	"25"
+	>
+		<properties>
+			mail.smtp.starttls.enable=true
+		</properties>
+	</mail>
+
+	<multipart-form enable="true"/>
+
+</web-app>
