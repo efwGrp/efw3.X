@@ -21,7 +21,7 @@ EfwServerEvent.prototype.fire = function(eventId, params) {
 	var beginTime = new Date();
 	var fireFlag = "error";
 	try {
-		result.concat(EfwServerEvent.prototype._load(eventId).event.fire(params));
+		result=EfwServerEvent.prototype._loadFromFile(eventId).event.fire(params);
 		fireFlag = "second";
 	} finally {
 		var endTime = new Date();
@@ -40,6 +40,46 @@ var Event_lock = new java.util.concurrent.locks.ReentrantLock();
  */
 EfwServerEvent.prototype._events = {};
 /**
+ * 
+ * @param resourcePath
+ * @param eventId
+ */
+EfwServerEvent.prototype._loadFromResource = function(resourcePath,eventId) {
+	loadResource(resourcePath + "/" + eventId + ".js");
+	var event = eval("(" + eventId + ")");
+	EfwServerEvent.prototype._events[eventId] = {
+			"event" : event,
+			"lastModified":null,
+			"enable" : true,
+			"first" : {
+				"count" : 0,
+				"sum" : 0,
+				"avg" : 0,
+				"max" : 0,
+				"min" : 0
+			},
+			"second" : {
+				"count" : 0,
+				"sum" : 0,
+				"avg" : 0,
+				"max" : 0,
+				"min" : 0
+			},
+			"error" : {
+				"count" : 0,
+				"sum" : 0,
+				"avg" : 0,
+				"max" : 0,
+				"min" : 0
+			},
+			"from":"resource",
+			"path":resourcePath,
+			"eventId":eventId,
+		};
+	return EfwServerEvent.prototype._events[eventId];
+};
+
+/**
  * The function to load all events.
  */
 EfwServerEvent.prototype._loadAll = function() {
@@ -55,7 +95,7 @@ EfwServerEvent.prototype._loadAll = function() {
 		var filename = files[i];
 		try {
 			var eventId = filename.substring(0, filename.length - 3);
-			EfwServerEvent.prototype._load(eventId);
+			EfwServerEvent.prototype._loadFromFile(eventId);
 		} catch (e) {
 			Packages.efw.log.LogManager.ErrorDebug("[" + filename
 					+ "] is wrong.");
@@ -67,12 +107,12 @@ EfwServerEvent.prototype._loadAll = function() {
  * The function to load a event.<br>
  * If the debug mode,load event every time.<br>
  * If the release mode, load event only the first time.<br>
- * 
+ * If the event is from resource,do not reload it.<br>
  * @param {String}
  *            eventId: required<br>
  * @returns {EventInfo}
  */
-EfwServerEvent.prototype._load = function(eventId) {
+EfwServerEvent.prototype._loadFromFile = function(eventId) {
 	var eventInfo;
 	Event_lock.lock();
 	try {
@@ -81,13 +121,15 @@ EfwServerEvent.prototype._load = function(eventId) {
 		if(!EfwServerEvent.prototype._events.hasOwnProperty(eventId)){
 			needLoad=true;
 		}else if (_isdebug){
-			//if debug mode, check lastModified to decide load or not.
-			var fl=Packages.efw.file.FileManager.getByAbsolutePath(_eventfolder+"/"+ eventId+".js");
-			var lastModified = new Date();
-			lastModified.setTime(fl.lastModified());
-			event=EfwServerEvent.prototype._events[eventId];
-			if(event.lastModified.getTime()!=lastModified.getTime()){
-				needLoad=true;
+			var event=EfwServerEvent.prototype._events[eventId];
+			if (event.from=="file"){//resource event is not need reload.
+				//if debug mode, check lastModified to decide load or not.
+				var fl=Packages.efw.file.FileManager.getByAbsolutePath(_eventfolder+"/"+ eventId+".js");
+				var lastModified = new Date();
+				lastModified.setTime(fl.lastModified());
+				if(event.lastModified.getTime()!=lastModified.getTime()){
+					needLoad=true;
+				}
 			}
 		}
 		if (needLoad){
@@ -121,6 +163,9 @@ EfwServerEvent.prototype._load = function(eventId) {
 					"max" : 0,
 					"min" : 0
 				},
+				"from":"file",
+				"path":_eventfolder,
+				"eventId":eventId,
 			};
 		}
 		eventInfo = EfwServerEvent.prototype._events[eventId];
@@ -138,8 +183,19 @@ EfwServerEvent.prototype._load = function(eventId) {
  *            eventId: required<br>
  */
 EfwServerEvent.prototype._reload = function(eventId) {
-	delete EfwServerEvent.prototype._events[eventId];
-	EfwServerEvent.prototype._load(eventId);
+	var eventinfo=EfwServerEvent.prototype._events[eventId];
+	if (eventinfo!=null){
+		if(eventinfo.from=="file"){
+			delete EfwServerEvent.prototype._events[eventId];
+			EfwServerEvent.prototype._loadFromFile(eventId);
+		}else{//resource
+			var path=eventinfo.path;
+			delete EfwServerEvent.prototype._events[eventId];
+			EfwServerEvent.prototype._loadFromResource(path,eventId);
+		}
+	}else{
+		EfwServerEvent.prototype._loadFromFile(eventId);
+	}
 };
 /**
  * The function to enable a event.

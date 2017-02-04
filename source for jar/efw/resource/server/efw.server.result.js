@@ -91,8 +91,8 @@ Result.prototype.concat = function(result) {
 			if (result.actions.enable)this.enable(result.actions.enable);
 			if (result.actions.navigate)this.navigate(result.actions.navigate.url, result.actions.navigate.params);
 			if (result.actions.download){
-				if (result.actions.download.zip)this.attach(result.actions.download.zip);
-				if (result.actions.download.file)this.attach(result.actions.download.file);
+				if (result.actions.download.zip)this.attach(result.actions.download.zip,result.actions.download.zipBasePath);
+				if (result.actions.download.file)this.attach(result.actions.download.file,result.actions.download.zipBasePath);
 				if (result.actions.download.deleteafterdownload)this.deleteAfterDownload();
 			}
 			if (result.actions.alert)this.alert(result.actions.alert);
@@ -190,10 +190,14 @@ Result.prototype.navigate = function(url,params) {
  * 
  * @param {String |
  *            Array} path: required<br>
+ * @param {String} zipBasePath: optional<br>
  * @returns {Result}
  */
-Result.prototype.attach = function(path) {
+Result.prototype.attach = function(path,zipBasePath) {
 	if (!this.actions.download)this.actions.download={};
+	if (zipBasePath!=null){
+		this.actions.download.zipBasePath=zipBasePath;
+	}
 	if (this.actions.download.zip != null) {
 		if (path instanceof Array) {
 			this.actions.download.zip = this.actions.download.zip.concat(path);

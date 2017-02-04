@@ -246,11 +246,16 @@ EfwServer.prototype.fire = function(event, requestParams) {
 			var tmpsaveas = download.saveas;
 			if (tmpsaveas == null)
 				tmpsaveas = "";
+			var tmpzipBasePath =download.zipBasePath;
+			if (tmpzipBasePath == null)
+				tmpzipBasePath = "";
+			
 			EfwServerSession.prototype.set("efw.download.file", tmpfile);
 			EfwServerSession.prototype.set("efw.download.zip", tmpzip);
 			EfwServerSession.prototype.set("efw.download.deleteafterdownload",
 					tmpdeleteafterdownload);
 			EfwServerSession.prototype.set("efw.download.saveas", tmpsaveas);
+			EfwServerSession.prototype.set("efw.download.zipBasePath", tmpzipBasePath);
 		}
 		;
 		EfwServerDb.prototype._commitAll();

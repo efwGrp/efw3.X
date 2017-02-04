@@ -94,7 +94,8 @@ loadResource("efw/resource/server/efw.server.excel.js");
 loadResource("efw/resource/server/efw.server.cookie.js");
 loadResource("efw/resource/server/efw.server.barcode.js");
 loadResource("efw/resource/server/efw.server.debug.js");
-
+loadResource("efw/resource/server/base64.min.js");
+loadResource("elFinder/resource/server/init.js");
 /**
  * create instances.
  */
@@ -121,8 +122,8 @@ EfwServerEvent.prototype._loadAll();
 /**
  * Run global event.
  */
-if (EfwServerEvent.prototype._load("global") != null)
-	EfwServer.prototype.fire(EfwServerEvent.prototype._load("global").event);
+if (EfwServerEvent.prototype._loadFromFile("global") != null)
+	EfwServer.prototype.fire(EfwServerEvent.prototype._loadFromFile("global").event);
 // /////////////////////////////////////////////////////////////////////////////
 /**
  * The ajax service function<br>
@@ -137,7 +138,7 @@ function doPost(req) {
 	var eventId = reqJson.eventId; // get eventId from json object
 	var params = reqJson.params; // get params from json object
 	try{
-		var eventInfo = EfwServerEvent.prototype._load(eventId); // to load or get a event
+		var eventInfo = EfwServerEvent.prototype._loadFromFile(eventId); // to load or get a event
 		if(eventInfo.enable==false){
 			var message=EfwServerMessages.prototype.EventDisableMessage;
 			return JSON.stringify(
