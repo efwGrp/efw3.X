@@ -62,7 +62,7 @@ ElFinder is a famous file manager for web. We made a customized version from elF
 	&lt;efw:Client/%&gt;
 &lt;/head&gt;
 &lt;body&gt;
-	&lt;efw:elFinder id="elFinder1" home="homefolder" height="400" width="800" lang="en" readonly="false" /%&gt;
+	&lt;efw:elFinder id="elFinder1" home="homefolder" height="400" width="800" lang="en" readonly="false" /&gt;
 &lt;/body&gt;
 </pre>
 
