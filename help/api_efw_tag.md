@@ -53,8 +53,8 @@ You can get the params in the part jsp by request.getAttribute like the next.
 </pre>
 
 <h2>elFinder Tag</h2>
-ElFinder is a famous file manager for web. We made a customized version from elFinder 2.1.10, and included it into Efw as a tag. It must be used after the Client tag.<br>
-<a href="https://studio-42.github.io/elFinder/">https://studio-42.github.io/elFinder/</a>
+ElFinder is a famous file manager for web. We made a customized version from <a href="https://studio-42.github.io/elFinder/">https://studio-42.github.io/elFinder/">elFinder 2.1.10</a>,
+and included it into Efw as a tag. It must be used after the Client tag for jQuery and jQuery UI including.<br>
 
 <pre>
 &lt;%@ taglib prefix=&quot;efw&quot; uri=&quot;efw&quot; %&gt;
@@ -67,7 +67,7 @@ ElFinder is a famous file manager for web. We made a customized version from elF
 </pre>
 
 <b>id</b>: The identity of the elFinder window. You can use it as the instance of the elFinder.<br>
-<b>home</b>: A relative path to the storage folder. The default value is blank.<br>
+<b>home</b>: A relative path to the storage folder. The default value is blank. You can set <a href="properties_file.md">the properties file</a> to change the storage folder.<br>
 <b>height</b>: The height of elFinder window. The unit is "px". The default value is 400.<br>
 <b>width</b>: The width of elFinder window. The unit is "px". The deufault is "auto" means 100%.<br>
 <b>lang</b>: The language of elFinder window. The default value is "en". You can set it "en", "zh_CN", "jp". If you need other languages please copy it from <a href="https://studio-42.github.io/elFinder/">the official website</a>.<br>
