@@ -67,8 +67,18 @@ and included it into Efw as a tag. It must be used after the Client tag for jQue
 </pre>
 
 <b>id</b>: The identity of the elFinder window. You can use it as the instance of the elFinder.<br>
-<b>home</b>: A relative path to the storage folder. The default value is blank. You can set <a href="properties_file.md">the properties file</a> to change the storage folder.<br>
+<b>home</b>: A relative path to the storage folder(/WEB-INF/storage). You can set <a href="properties_file.md">the properties file</a> to change the storage folder to your own folder.<br>
 <b>height</b>: The height of elFinder window. The unit is "px". The default value is 400.<br>
 <b>width</b>: The width of elFinder window. The unit is "px". The deufault is "auto" means 100%.<br>
 <b>lang</b>: The language of elFinder window. The default value is "en". You can set it "en", "zh_CN", "jp". If you need other languages please copy it from <a href="https://studio-42.github.io/elFinder/">the official website</a>.<br>
 <b>readonly</b>: The elFinder window is for reference or not. The default value is false.<br>
+
+To use elFinder by Efw, the smallist constitution is the next.<br>
+<pre>
+    elfinderApp
+    „¥„ŸelfinderPage.jsp
+    „¤„ŸWEB-INF
+        „¤„Ÿlib
+            „¥„Ÿefw-3.#.###.jar
+            „¤„Ÿjuniversalchardet-1.0.3.jar
+</pre>

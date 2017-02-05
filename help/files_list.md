@@ -27,6 +27,7 @@ tomcat
             │      └─...
             └─lib											//Lib folder
                 ├─efw-3.#.###.jar
+                ├─juniversalchardet-1.0.3.jar
                 ├─jdbc.XXXXXX.jar
                 └─poi_3.15_allinone.jar
 </pre>
