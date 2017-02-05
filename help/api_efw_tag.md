@@ -53,7 +53,7 @@ You can get the params in the part jsp by request.getAttribute like the next.
 </pre>
 
 <h2>elFinder Tag</h2>
-ElFinder is a famous file manager for web. We made a customized version from <a href="https://studio-42.github.io/elFinder/">elFinder 2.1.10</a>,
+ElFinder is a famous file manager for web. We made a customized version from <a href="https://studio-42.github.io/elFinder/">elFinder 2.1</a>,
 and included it into Efw as a tag. It must be used after the Client tag for jQuery and jQuery UI including.<br>
 
 <pre>
