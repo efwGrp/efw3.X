@@ -76,9 +76,9 @@ and included it into Efw as a tag. It must be used after the Client tag for jQue
 To use elFinder by Efw, the smallist constitution is the next.<br>
 <pre>
     elfinderApp
-    „¥„ŸelfinderPage.jsp
-    „¤„ŸWEB-INF
-        „¤„Ÿlib
-            „¥„Ÿefw-3.#.###.jar
-            „¤„Ÿjuniversalchardet-1.0.3.jar
+    â”œâ”€elfinderPage.jsp
+    â””â”€WEB-INF
+        â””â”€lib
+            â”œâ”€efw-3.#.###.jar
+            â””â”€juniversalchardet-1.0.3.jar
 </pre>
