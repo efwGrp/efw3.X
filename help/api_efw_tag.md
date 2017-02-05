@@ -59,7 +59,7 @@ and included it into Efw as a tag. It must be used after the Client tag for jQue
 <pre>
 &lt;%@ taglib prefix=&quot;efw&quot; uri=&quot;efw&quot; %&gt;
 &lt;head&gt;
-	&lt;efw:Client/%&gt;
+	&lt;efw:Client/&gt;
 &lt;/head&gt;
 &lt;body&gt;
 	&lt;efw:elFinder id="elFinder1" home="homefolder" height="400" width="800" lang="en" readonly="false" /&gt;
