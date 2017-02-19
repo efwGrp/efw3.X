@@ -117,12 +117,6 @@ String cameraJspPath=request.getRequestURL().toString().replace("sample.jsp", "c
 	</div>
 	<br>
 
-<table style="width:100%;">
-<tr><td></td><td style="width:800px">
-<!-- lang = zh_CN, en, jp,  -->
-<efw:elfinder id="elfinder001" home="" width="800" height="400" lang="jp" readonly="false"/>
-</td><td></td></tr>
-</table>
 <br><br><br><br><br><br>
 
 <div style="text-align:center">
