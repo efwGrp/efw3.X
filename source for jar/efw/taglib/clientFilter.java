@@ -39,9 +39,6 @@ public class clientFilter implements Filter {
 			return;
 		}else{
 			filename=filename.substring(5);
-			if(filename.indexOf("images/")==0){
-				filename=filename.substring(7);
-			}
 		}
 		String ex=getExtension(filename);
 		String resourcePath=null;

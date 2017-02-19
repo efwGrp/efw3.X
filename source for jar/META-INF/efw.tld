@@ -44,26 +44,77 @@
   
   <tag>
     <name>ElFinder</name>
-    <tag-class>elFinder.taglib.ElFinder</tag-class>
+    <tag-class>elfinder.taglib.ElFinder</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
   </tag>
   <tag>
     <name>ELFINDER</name>
-    <tag-class>elFinder.taglib.ElFinder</tag-class>
+    <tag-class>elfinder.taglib.ElFinder</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
   </tag>
   <tag>
     <name>elfinder</name>
-    <tag-class>elFinder.taglib.ElFinder</tag-class>
+    <tag-class>elfinder.taglib.ElFinder</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
   </tag>
   <tag>
     <name>elFinder</name>
-    <tag-class>elFinder.taglib.ElFinder</tag-class>
+    <tag-class>elfinder.taglib.ElFinder</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
   </tag>
-  </taglib>
+
+  <tag>
+    <name>signature</name>
+    <tag-class>signature.taglib.Signature</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>Signature</name>
+    <tag-class>signature.taglib.Signature</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>SIGNATURE</name>
+    <tag-class>signature.taglib.Signature</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  
+  <tag>
+    <name>CKEditor</name>
+    <tag-class>ckeditor.taglib.CKEditor</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>CKeditor</name>
+    <tag-class>ckeditor.taglib.CKEditor</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>Ckeditor</name>
+    <tag-class>ckeditor.taglib.CKEditor</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>ckEditor</name>
+    <tag-class>ckeditor.taglib.CKEditor</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>ckeditor</name>
+    <tag-class>ckeditor.taglib.CKEditor</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+
+</taglib>
