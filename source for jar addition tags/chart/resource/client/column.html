@@ -1,0 +1,23 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+var chart;
+var googleChartIsLoaded=false;
+function drawChart(data,options){
+	chart.draw(google.visualization.arrayToDataTable(data), options);
+}
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(
+    function() {
+    	chart = new google.visualization.ColumnChart(document.body);
+    	googleChartIsLoaded=true;
+    }
+);
+    
+</script>
+</head>
+<body>
+</body>

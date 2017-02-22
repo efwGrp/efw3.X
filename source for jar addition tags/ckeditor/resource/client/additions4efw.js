@@ -1,3 +1,4 @@
+/**** efw3.X Copyright 2017 efwGrp ****/
 //Efw adds setWidth setHeight setMode
 CKEDITOR.editor.prototype._setReadOnly=CKEDITOR.editor.prototype.setReadOnly;
 CKEDITOR.editor.prototype.setReadOnly=function(readonly){

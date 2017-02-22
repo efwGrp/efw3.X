@@ -23,7 +23,7 @@ public class CKEditor extends TagSupport implements DynamicAttributes {
 	private String lang="";// "" ja zh-cn en
 	private String height="400";
 	private String width="800";
-	private String mode="full";
+	private String pattern="standard";
 
 	/**
 	 * タグを実行する。
@@ -51,12 +51,12 @@ public class CKEditor extends TagSupport implements DynamicAttributes {
 			out.print("\"resize_dir\":\"both\",");
 			//out.print("\"autoUpdateElement\":true,");
 			
-			if(mode=="basic"){
+			if(pattern=="basic"){
 				out.print("\"toolbarGroups\":CKEDITOR.editor.prototype.basicPattern.toolbarGroups,");
 				out.print("\"removeButtons\":CKEDITOR.editor.prototype.basicPattern.removeButtons,");
 				//out.print("\"toolbarGroups\":[{name:\"document\",groups:[\"mode\",\"document\",\"doctools\"]},{name:\"clipboard\",groups:[\"clipboard\",\"undo\"]},{name:\"editing\",groups:[\"find\",\"selection\",\"spellchecker\",\"editing\"]},{name:\"forms\",groups:[\"forms\"]},{name:\"basicstyles\",groups:[\"basicstyles\",\"cleanup\"]},{name:\"paragraph\",groups:[\"list\",\"indent\",\"blocks\",\"align\",\"bidi\",\"paragraph\"]},{name:\"links\",groups:[\"links\"]},{name:\"insert\",groups:[\"insert\"]},{name:\"styles\",groups:[\"styles\"]},{name:\"colors\",groups:[\"colors\"]},{name:\"tools\",groups:[\"tools\"]},{name:\"others\",groups:[\"others\"]},{name:\"about\",groups:[\"about\"]}],");
 				//out.print("\"removeButtons\":\"Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Redo,Undo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Maximize,ShowBlocks,BGColor,TextColor,Styles,Format,Font,FontSize,Iframe,PageBreak,SpecialChar,Smiley,HorizontalRule,Table,Image,Flash,Anchor,Language,BidiRtl,BidiLtr,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,CreateDiv,Blockquote,CopyFormatting,Underline,Strike,Subscript,Superscript,RemoveFormat\",");
-			}else if (mode=="standard"){
+			}else if (pattern=="standard"){
 				out.print("\"toolbarGroups\":CKEDITOR.editor.prototype.standardPattern.toolbarGroups,");
 				out.print("\"removeButtons\":CKEDITOR.editor.prototype.standardPattern.removeButtons,");
 				//out.print("\"toolbarGroups\":[{name:\"clipboard\",groups:[\"clipboard\",\"undo\"]},{name:\"editing\",groups:[\"find\",\"selection\",\"spellchecker\",\"editing\"]},{name:\"links\",groups:[\"links\"]},{name:\"insert\",groups:[\"insert\"]},{name:\"tools\",groups:[\"tools\"]},{name:\"document\",groups:[\"mode\",\"document\",\"doctools\"]},\"/\",{name:\"forms\",groups:[\"forms\"]},{name:\"basicstyles\",groups:[\"basicstyles\",\"cleanup\"]},{name:\"paragraph\",groups:[\"list\",\"indent\",\"blocks\",\"align\",\"bidi\",\"paragraph\"]},{name:\"styles\",groups:[\"styles\"]},{name:\"colors\",groups:[\"colors\"]},{name:\"others\",groups:[\"others\"]},{name:\"about\",groups:[\"about\"]}],");
@@ -95,8 +95,8 @@ public class CKEditor extends TagSupport implements DynamicAttributes {
 			if(((String) value).equalsIgnoreCase("true")){
 				readonly=true;
 			}
-		}else if (name.equalsIgnoreCase("mode")){
-			mode=(String) value;
+		}else if (name.equalsIgnoreCase("pattern")){
+			pattern=(String) value;
 		}
 	}
 

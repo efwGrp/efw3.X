@@ -128,4 +128,13 @@ Date.parse=function(value,formatter){
 		return EfwServerFormat.prototype.parseDate(value, formatter); 
 	}
 };
-
+/**
+ * The function to get years to now. 
+  * @param {Date} current: optional<br>
+ * @returns {Number}
+ */
+Date.prototype.getYears=function(current){
+	if (current==null)current=new Date();
+	var diff=Number.parse(current.format("yyyyMMdd"),"0")-Number.parse(this.format("yyyyMMdd"),"0");
+	return Math.floor(diff/10000);
+};

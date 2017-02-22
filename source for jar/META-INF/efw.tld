@@ -117,4 +117,23 @@
     <dynamic-attributes>true</dynamic-attributes>
   </tag>
 
+  <tag>
+    <name>Chart</name>
+    <tag-class>chart.taglib.Chart</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>chart</name>
+    <tag-class>chart.taglib.Chart</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+  <tag>
+    <name>CHART</name>
+    <tag-class>chart.taglib.Chart</tag-class>
+    <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
+  </tag>
+
 </taglib>
