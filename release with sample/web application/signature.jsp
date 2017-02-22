@@ -8,7 +8,7 @@
 	<efw:Client/>
 </head>
 <body>
-<efw:Signature id="signature1" width="300" height="150"/><br>
+<efw:Signature id="signature1" width="400" height="200"/><br><br>
 <button onclick="Efw('signature_get')">画像を取得する</button><br>
 <img id="imgDest">
 </body>

@@ -7,7 +7,7 @@
 	<efw:Client/>
 </head>
 <body>
-<efw:CKEditor id="ckeditor001" width="800" height="150" readonly="false" lang="ja" mode="basic" />
+<efw:CKEditor id="ckeditor001" width="800" height="300" readonly="false" lang="ja" pattern="standard" />
 <button onclick="ckeditor001.setReadOnly(true)">readonly</button>
 <button onclick="ckeditor001.setReadOnly(false)">not readonly</button>
 <button onclick="ckeditor001.setWidth(500);">reset width</button>

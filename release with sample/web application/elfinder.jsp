@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<efw:elfinder id="elfinder001" home="" width="900px" height="300px" lang="jp" readonly="false"/>
+<efw:elfinder id="elfinder001" home="" width="800px" height="400px" lang="jp" readonly="false"/>
 <button onclick="elfinder001.setReadOnly(true);">readonly</button>
 <button onclick="elfinder001.setReadOnly(false);">not readonly</button>
 <button onclick="elfinder001.setWidth(800);">reset width</button>

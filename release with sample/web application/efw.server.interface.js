@@ -480,6 +480,12 @@ Date.prototype.format=function(formatter){return null;};
  * @returns {Date}
  */
 Date.parse=function(value,formatter){return null;};
+/**
+ * The function to get years to now. 
+  * @param {Date} current: optional<br>
+ * @returns {Number}
+ */
+Date.prototype.getYears=function(current){return 0;};
 ///////////////////////////////////////////////////////////////////////////////
 /**
  * The class to send mail.

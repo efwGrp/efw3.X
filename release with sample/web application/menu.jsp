@@ -37,6 +37,7 @@
 <input type=button value="elFinderタグ" style="width:300px" onclick="Efw('menu_goto',{page:'elfinder.jsp'})"><br><br>
 <input type=button value="Signatureタグ" style="width:300px" onclick="Efw('menu_goto',{page:'signature.jsp'})"><br><br>
 <input type=button value="CKEditorタグ" style="width:300px" onclick="Efw('menu_goto',{page:'ckeditor.jsp'})"><br><br>
+<input type=button value="Chartタグ" style="width:300px" onclick="Efw('menu_goto',{page:'chart.jsp'})"><br><br>
 <input type=button value="統計情報" style="width:300px" onclick="Efw('menu_goto',{page:'statistics.jsp'})"><br><br>
 「各種サンプル」機能は、<br>adminが閲覧でき、userがを閲覧できないように設定しました。
 </div>
