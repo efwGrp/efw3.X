@@ -174,7 +174,7 @@ and included them into Efw as a tag. It must be used after the Client tag for jQ
 	&lt;efw:Client/&gt;
 &lt;/head&gt;
 &lt;body&gt;
-	&lt;efw:Chart id="char1" data="chart1_data" type="column" width="400" height="250" /&gt; //or efw:ckeditor , efw:CKeditor , efw:Ckeditor , efw:ckEditor
+	&lt;efw:Chart id="char1" data="chart1_data" type="column" width="400" height="250" /&gt; //or efw:chart , efw:CHART
 
 	&lt;table border=1 id="chart1_data">
 	&lt;caption>会社業績&lt;/caption>
