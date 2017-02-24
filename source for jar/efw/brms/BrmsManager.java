@@ -1,11 +1,13 @@
 /**** efw3.X Copyright 2016 efwGrp ****/
 package efw.brms;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
 import com.innoexpert.rulesclient.ClusterManager;
 import com.innoexpert.rulesclient.Constants;
+import com.innoexpert.rulesclient.Item;
 import com.innoexpert.rulesclient.ResultSet;
 import com.innoexpert.rulesclient.RuleInterface;
 import com.innoexpert.rulesclient.RuleReq;
@@ -80,6 +82,7 @@ public class BrmsManager {
 	 * @return ルール実行結果
 	 * @throws RulesException ルール実行エラー
 	 */
+	@SuppressWarnings("rawtypes")
 	private static ResultSet execute(int codeType, String ruleIndentifier, String ruleDate, Map<String, Object> params) throws RulesException {
 		try {
 			RuleReq req = new RuleReq();
@@ -89,11 +92,38 @@ public class BrmsManager {
 			Iterator<Entry<String, Object>> it = params.entrySet().iterator();
 			while(it.hasNext()){
 				Entry<String,Object> entry = (Entry<String,Object>)it.next();
-				if(entry.getValue() instanceof String){
-					req.addStringItem(entry.getKey().toString()).add((String) entry.getValue());
-				}
-				if(entry.getValue() instanceof Double){
-					req.addNumberItem(entry.getKey().toString()).add((Double) entry.getValue());
+				String key=entry.getKey().toString();
+				Object value=entry.getValue();
+				
+				if (value==null){
+					req.addStringItem(key).add(null);
+				}else if(value instanceof String){
+					req.addStringItem(key).add((String) value);
+				}else if(value instanceof Double){
+					req.addNumberItem(key).add((Double) value);
+				}else if(value instanceof ArrayList){
+					ArrayList ary=(ArrayList)value;
+					Item item=null;
+					for(int i=0;i<ary.size();i++){
+						Object subValue=ary.get(i);
+						if (i==0){
+							if (subValue==null){
+								item=req.addStringItem(key);
+							}else if (subValue instanceof String){
+								item=req.addStringItem(key);
+							}else if(subValue instanceof Double){
+								item=req.addNumberItem(key);
+							}
+						}
+						if (subValue==null){
+							item.add(null);
+						}else if (subValue instanceof String){
+							item.add((String)subValue);
+						}else if(subValue instanceof Double){
+							item.add((Double)subValue);
+						}
+						
+					}
 				}
 			}
 			RuleInterface intf = ClusterManager.getInterface();

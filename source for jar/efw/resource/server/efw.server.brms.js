@@ -83,10 +83,19 @@ EfwServerBRMS.prototype._executeQuery = function(executionParams) {
 		if (key=="debug") continue;// debug function is skipped
 		var vl = aryParam[key];
 
-		if (null == vl ||(typeof(vl) == "string" && vl == "")){
-			vl = null;
+		if (null == vl){//null is not equals to ""
+			params.put(key, vl);
+		}else if(typeof(vl) == "string"){
+			params.put(key, vl);
+		}else if(typeof(vl) == "number"){
+			params.put(key, vl);
+		}else if(vl instanceof Array){
+			var aryparams=new java.util.ArrayList();
+			for(var i=0;i<vl.length;i++){
+				aryparams.add(vl[i]);
+			}
+			params.put(key, aryparams);
 		}
-		params.put(key, vl);
 	}
 
 	var rs=null;
