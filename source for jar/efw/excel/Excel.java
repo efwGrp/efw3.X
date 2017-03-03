@@ -62,9 +62,9 @@ import efw.file.FileManager;
  */
 public final class Excel {
 	/**
-	 * Excelの相対パス。storageから。
+	 * Excelのパス。
 	 */
-	private String path;
+	private File file;
 	/**
 	 * ExcelのPOIオブジェクト。
 	 */
@@ -77,19 +77,15 @@ public final class Excel {
 	 * @throws InvalidFormatException 
 	 * @throws EncryptedDocumentException 
 	 */
-	protected Excel(String path,File file) throws EncryptedDocumentException, InvalidFormatException, IOException {
-		this.path=path;
-		this.workbook = WorkbookFactory.create(file);
-	}
-	/**
-	 * Excelのファイルを削除する。
-	 * 実行後、継続に取り扱わないように。
-	 */
-	public void remove(){
-		try {
-			this.close();
-		} catch (IOException e2) {}
-		FileManager.remove(path);
+	protected Excel(File file) throws EncryptedDocumentException, InvalidFormatException, IOException {
+		//一時ファイルを作成する。
+		//引数のfileを一時ファイルにコピーする。
+		//一時ファイルでexcelを開く。
+		//閉じる際、一時ファイルを削除する。
+		File tempFile=File.createTempFile("efw", "");
+		FileManager.duplicateByAbsolutePath(file.getAbsolutePath(), tempFile.getAbsolutePath());
+		this.file=tempFile;
+		this.workbook = WorkbookFactory.create(tempFile);
 	}
 	/**
 	 * ExcelのPOIオブジェクトを削除する。
@@ -98,6 +94,7 @@ public final class Excel {
 	public void close() throws IOException {
 		try {
 			workbook.close();
+			this.file.delete();
 		} catch (IOException e) {
 			throw e;
 		}

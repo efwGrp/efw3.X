@@ -27,7 +27,7 @@ public final class ExcelManager {
 		if(ExcelManager.excel.get()==null)
 		ExcelManager.excel.set(new HashMap<String,Excel>());
 		try{
-			Excel excel=new Excel(path, FileManager.get(path));
+			Excel excel=new Excel(FileManager.get(path));
 			ExcelManager.excel.get().put(path, excel);
 			return excel;
 		}catch(Exception e){

@@ -20,12 +20,6 @@ Excel.prototype.save = function(path) {
 	return this;
 };
 /**
- * The function to delete the excel file.
- */
-Excel.prototype.remove = function() {
-	this._workbook.remove();
-};
-/**
  * The function to close the handle to free the excel file.
  */
 Excel.prototype.close = function() {

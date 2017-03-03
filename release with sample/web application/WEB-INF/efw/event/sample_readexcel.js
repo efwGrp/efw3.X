@@ -3,9 +3,9 @@ sample_readexcel.name="Excel読込み";
 sample_readexcel.paramsFormat={"#txt_excel":"required:true;display-name:ファイル１;accept:xls,xlsx;"};
 sample_readexcel.fire=function(params){
 	file.saveUploadFiles("");
-	var flnm=file.listFiles("")[0].name;
+	var flnm=file.list("")[0].name;
 	var ex= new Excel(flnm);
-
+	file.remove(flnm);
 	//get data  from row 1 to row 3, if the cell is encircled by a shape, show it in red.
 	var data=ex.getArray("Sheet1",1, 3,
 		{
@@ -40,7 +40,7 @@ sample_readexcel.fire=function(params){
 	.setCell("newSheet", "F7", null,"テンプレート", "D2")
 	.encircle("newSheet", "F3", "Sheet1", "abc",0.5,0.5,0.5,0.5)
 	;
-	ex.save("my.xlsx").remove();
+	ex.save("my.xlsx");
 	
 	return (new Result)
 		.runat("#tbl_readexcel")

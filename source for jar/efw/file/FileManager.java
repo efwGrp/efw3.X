@@ -392,7 +392,7 @@ public final class FileManager {
 		}
 		duplicateByAbsolutePath(absSrcPath,absDestPath);
 	}
-	private static void duplicateByAbsolutePath(String absSrcPath,String absDestPath) throws IOException{
+	public static void duplicateByAbsolutePath(String absSrcPath,String absDestPath) throws IOException{
 		File fileSrc=new File(absSrcPath);
 		File fileDest=new File(absDestPath);
 		boolean doCopy=false;
