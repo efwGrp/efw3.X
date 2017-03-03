@@ -46,7 +46,6 @@
 <tr><td>Excel</td>
 <td><a href="excel.new.md">new</a></td>
 <td><a href="excel.save.md">save</a></td>
-<td><a href="excel.remove.md">remove</a></td>
 <td><a href="excel.close.md">close</a></td>
 </tr>
 <tr><td></td>
