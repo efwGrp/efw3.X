@@ -586,7 +586,7 @@ EfwClient.prototype._displayLoading = function() {
 		var $ = top.$;
 		$("#loading").remove();
 		$("body").append(
-				"<div id='loading' class='ui-widget-overlay ui-front'></div>");
+				"<div id='loading' class='ui-widget-overlay ui-front' style='z-index:9999'></div>");
 	}, 100);
 };
 /**
