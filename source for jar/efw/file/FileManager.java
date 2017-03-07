@@ -192,6 +192,28 @@ public final class FileManager {
         }	
 	}
 ////////////////////////////////////////////////////////////////
+	/**
+	 * ひとつのアップロードファイルを
+	 * @param path
+	 * @throws IOException
+	 */
+	public synchronized static void saveSingleUploadFile(String path) throws IOException{
+		String destPath=storageFolder+"/"+path;
+		@SuppressWarnings("unchecked")
+		HashMap<String, String> map= (HashMap<String, String>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
+		if (map==null){
+			return;
+		}else{
+			for(HashMap.Entry<String, String> entry : map.entrySet()) {
+				String srcPath=entry.getValue();
+				duplicateByAbsolutePath(srcPath,destPath);
+		        new File(srcPath).delete();
+		        break;
+			}
+		}
+		efwServlet.getRequest().getSession().removeAttribute(EFW_UPLOAD);
+		
+	}
 	/***
 	 *　アップロードされたファイルを全部相対パスで保存する。
 	 * @param path　スドレジからの相対パス

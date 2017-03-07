@@ -207,6 +207,13 @@ EfwServerFile.prototype.remove = function(path) {};
  */
 EfwServerFile.prototype.getStorageFolder = function() {return null;};
 /**
+ * The function to save a single update file to the relative path to the storage folder.
+ * 
+ * @param {String}
+ *            path: required<br>
+ */
+EfwServerFile.prototype.saveSingleUploadFile = function(path) {};
+/**
  * The function to save update files in the relative path to the storage folder.
  * 
  * @param {String}

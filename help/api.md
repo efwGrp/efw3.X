@@ -24,7 +24,7 @@
 <tr><td>csv</td><td>...</td></tr>
 <tr><td>file</td><td><a href="file.get.md">get</a></td><td><a href="file.list.md">list</a></td><td><a href="file.isFile.md">isFile</a></td><td><a href="file.isFolder.md">isFolder</a></td></td><td><a href="file.makeFile.md">makeFile</a></td><td><a href="file.makeDir.md">makeDir</a></td></tr>
 <tr><td><td><a href="file.exists.md">exists</a></td><td><a href="file.duplicate.md">duplicate</a></td><td><a href="file.rename.md">rename</a></td><td><a href="file.remove.md">remove</a></td></tr>
-<tr><td></td><td><a href="file.readAllLines.md">readAllLines</a></td><td><a href="file.writeAllLines.md">writeAllLines</a></td><td><a href="file.getStorageFolder.md">getStorageFolder</a></td><td><a href="file.saveUploadFiles.md">saveUploadFiles</a></td></tr>
+<tr><td></td><td><a href="file.readAllLines.md">readAllLines</a></td><td><a href="file.writeAllLines.md">writeAllLines</a></td><td><a href="file.getStorageFolder.md">getStorageFolder</a></td><td><a href="file.saveUploadFiles.md">saveUploadFiles</a></td><td><a href="file.saveSingleUploadFile.md">saveSingleUploadFile</a></td></tr>
 <tr><td>barcode</td><td><a href="barcode.decode.md">decode</a></td></tr>
 <tr><td>brms</td><td><a href="brms.getRuleById.md">getRuleById</a></td><td><a href="brms.getRuleByName.md">getRuleByName</a></td><td><a href="brms.getRuleByAlias.md">getRuleByAlias</a></td></tr>
 <tr><td>event</td><td><a href="event.fire.md">fire</a></td></tr>

@@ -167,6 +167,15 @@ EfwServerFile.prototype.getStorageFolder = function() {
 	return "" + Packages.efw.file.FileManager.getStorageFolder();
 };
 /**
+ * The function to save a single update file to the relative path to the storage folder.
+ * 
+ * @param {String}
+ *            path: required<br>
+ */
+EfwServerFile.prototype.saveSingleUploadFile = function(path) {
+	Packages.efw.file.FileManager.saveSingleUploadFile(path);
+};
+/**
  * The function to save update files in the relative path to the storage folder.
  * 
  * @param {String}
