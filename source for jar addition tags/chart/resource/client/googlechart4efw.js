@@ -35,13 +35,19 @@ EfwClientChart.prototype.draw=function(){
 	var d=[];
 	$("#"+this.dataId+" tr").each(function(){
 		var row=[];
+		var isFirstTd=true;
 		$("td,th",this).each(function(){
 			var value=$(this).html();
-			var num=Number.parse(value);
-			if (isNaN(num)){
+			if (isFirstTd){
 				row[row.length]=value;
+				isFirstTd=false;
 			}else{
-				row[row.length]=0+num;
+				var num=Number.parse(value);
+				if (isNaN(num)){
+					row[row.length]=value;
+				}else{
+					row[row.length]=0+num;
+				}
 			}
 		});
 		d[d.length]=row;
