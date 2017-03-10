@@ -58,8 +58,8 @@ EfwClientChart.prototype.draw=function(){
 		     hAxis:{title: $("#"+this.dataId+" td,th:eq(0)").html()},
 		 };
 	window.frames["iframe_"+this.chartId].location="chart/"+this.type+".html";
-	this._draw();
-	
+    var _chart=this;
+    window.setTimeout(function(){_chart._draw();}, 100);
 };
 EfwClientChart.prototype._draw=function(){
     var win = window.frames["iframe_"+this.chartId];
@@ -79,8 +79,6 @@ EfwClientChart.prototype._draw=function(){
  */
 EfwClientChart.prototype.setType=function(type){
 	this.type=type;
-    var win = window.frames["iframe_"+this.chartId];
-    win.googleChartIsLoaded=false;
 	this.draw();
 };
 /**
@@ -89,8 +87,6 @@ EfwClientChart.prototype.setType=function(type){
  */
 EfwClientChart.prototype.setWidth=function(width){
 	$("#iframe_"+this.chartId).css("width",width);
-    var win = window.frames["iframe_"+this.chartId];
-    win.googleChartIsLoaded=false;
 	this.draw();
 };
 /**
@@ -99,7 +95,5 @@ EfwClientChart.prototype.setWidth=function(width){
  */
 EfwClientChart.prototype.setHeight=function(height){
 	$("#iframe_"+this.chartId).css("height",height);
-    var win = window.frames["iframe_"+this.chartId];
-    win.googleChartIsLoaded=false;
 	this.draw();
 };
