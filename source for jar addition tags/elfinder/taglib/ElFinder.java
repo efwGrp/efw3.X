@@ -33,7 +33,7 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 	 */
 	@Override
 	public int doStartTag(){
-		
+		id=this.getId();
 		JspWriter out;
 		try {
 			out = pageContext.getOut();
@@ -79,6 +79,7 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 			throws JspException {
 		if(name.equalsIgnoreCase("id")){
 			id=(String) value;
+			this.setId(id);
 		}else if(name.equalsIgnoreCase("home")){
 			home=(String) value;
 		}else if(name.equalsIgnoreCase("lang")){

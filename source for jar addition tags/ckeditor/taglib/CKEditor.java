@@ -30,7 +30,7 @@ public class CKEditor extends TagSupport implements DynamicAttributes {
 	 */
 	@Override
 	public int doStartTag(){
-		
+		id=this.getId();
 		JspWriter out;
 		try {
 			out = pageContext.getOut();
@@ -85,6 +85,7 @@ public class CKEditor extends TagSupport implements DynamicAttributes {
 			throws JspException {
 		if(name.equalsIgnoreCase("id")){
 			id=(String) value;
+			this.setId(id);
 		}else if(name.equalsIgnoreCase("lang")){
 			lang=(String) value;
 		}else if(name.equalsIgnoreCase("height")){

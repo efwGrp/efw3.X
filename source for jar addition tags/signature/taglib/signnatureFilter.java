@@ -38,7 +38,7 @@ public class signnatureFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}else{
-			filename=filename.substring(10);
+			filename=filename.substring(11);
 		}
 		String ex=getExtension(filename);
 		String resourcePath=null;

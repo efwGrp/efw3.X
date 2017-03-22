@@ -33,12 +33,13 @@ EfwClientChart.prototype.options={};
  */
 EfwClientChart.prototype.draw=function(){
 	var d=[];
+	var isFirstTr=true;
 	$("#"+this.dataId+" tr").each(function(){
 		var row=[];
 		var isFirstTd=true;
 		$("td,th",this).each(function(){
 			var value=$(this).html();
-			if (isFirstTd){
+			if (isFirstTd||isFirstTr){
 				row[row.length]=value;
 				isFirstTd=false;
 			}else{
@@ -50,6 +51,7 @@ EfwClientChart.prototype.draw=function(){
 				}
 			}
 		});
+		isFirstTr=false;
 		d[d.length]=row;
 	});
 	this.data=d;
