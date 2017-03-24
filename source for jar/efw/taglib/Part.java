@@ -30,6 +30,9 @@ public class Part extends TagSupport implements DynamicAttributes {
 	public int doStartTag() {
 		
 		try {
+			if (this.getId()!=null){
+				pageContext.setAttribute("id", this.getId(),PageContext.REQUEST_SCOPE);
+			}
 			pageContext.include(path);
 		} catch (ServletException e1) {
 			e1.printStackTrace();

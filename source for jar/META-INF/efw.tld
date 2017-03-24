@@ -11,16 +11,19 @@
     <name>Client</name>
     <tag-class>efw.taglib.Client</tag-class>
     <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
   </tag>
   <tag>
     <name>CLIENT</name>
     <tag-class>efw.taglib.Client</tag-class>
     <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
   </tag>
   <tag>
     <name>client</name>
     <tag-class>efw.taglib.Client</tag-class>
     <body-content>empty</body-content>
+    <dynamic-attributes>true</dynamic-attributes>
   </tag>
 
   <tag>

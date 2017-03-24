@@ -1,4 +1,3 @@
-
 EfwServerEvent.prototype._loadFromResource("elfinder/resource/server","elfinder_cmds");
 EfwServerEvent.prototype._loadFromResource("elfinder/resource/server","elfinder_open");
 EfwServerEvent.prototype._loadFromResource("elfinder/resource/server","elfinder_parents");

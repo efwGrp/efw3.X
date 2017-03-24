@@ -107,6 +107,7 @@ public final class efwServlet extends HttpServlet {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public void init() throws ServletException {
+    	if (initSuccessFlag) return;
     	try {
         	//call the orgin init function
         	super.init();

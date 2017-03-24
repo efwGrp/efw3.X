@@ -16,9 +16,16 @@ import efw.script.ScriptManager;
 @SuppressWarnings("serial")
 @WebServlet(name="elFinderServlet",loadOnStartup=10,urlPatterns={"/elFinderServlet"})
 public class elFinderServlet extends HttpServlet {
+	/**
+	 * 初期化成功か否かを表すフラグ。
+	 */
+	private static boolean initSuccessFlag=false;
+
 	public void init() throws ServletException {
+		if (initSuccessFlag) return;
 		try {
 			ScriptManager.loadResource("elfinder/resource/server/init.js");
+			initSuccessFlag=true;
 		} catch (ScriptException e) {
 			e.printStackTrace();
 			LogManager.InitErrorDebug(e.getMessage());

@@ -68,7 +68,6 @@ EfwClient.prototype.fire = function(eventParams) {
  * @param {Function} callback: optional<br>
  */
 EfwClient.prototype.alert = function(message, buttons) {
-	var $ = top.$;
 	if ($("body").dialog) {
 		$("#efw_client_alert").remove();
 		var dialogButtons={};
@@ -583,7 +582,6 @@ EfwClient.prototype._consoleLog = function(msg, data) {
 var EfwClient_displayLoading_handle=null;
 EfwClient.prototype._displayLoading = function() {
 	EfwClient_displayLoading_handle=window.setTimeout(function(){
-		var $ = top.$;
 		$("#loading").remove();
 		$("body").append(
 				"<div id='loading' class='ui-widget-overlay ui-front' style='z-index:9999'></div>");
@@ -594,7 +592,6 @@ EfwClient.prototype._displayLoading = function() {
  */
 EfwClient.prototype._removeLoading = function() {
 	if(EfwClient_displayLoading_handle)window.clearTimeout(EfwClient_displayLoading_handle);
-	var $ = top.$;
 	$("#loading").remove();
 };
 
