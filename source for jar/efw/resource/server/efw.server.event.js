@@ -21,7 +21,11 @@ EfwServerEvent.prototype.fire = function(eventId, params) {
 	var beginTime = new Date();
 	var fireFlag = "error";
 	try {
-		result=EfwServerEvent.prototype._loadFromFile(eventId).event.fire(params);
+		var eventInfo=EfwServerEvent.prototype._events[eventId];
+		if (eventInfo==null||eventInfo.from=="file"){
+			eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
+		}
+		result=eventInfo.event.fire(params);
 		fireFlag = "second";
 	} finally {
 		var endTime = new Date();
@@ -45,11 +49,12 @@ EfwServerEvent.prototype._events = {};
  * @param eventId
  */
 EfwServerEvent.prototype._loadFromResource = function(resourcePath,eventId) {
+	var folderAry=eventId.split("/");
+	var jsId=folderAry[folderAry.length-1];
 	loadResource(resourcePath + "/" + eventId + ".js");
-	var event = eval("(" + eventId + ")");
+	var event = eval("(" + jsId + ")");
 	EfwServerEvent.prototype._events[eventId] = {
 			"event" : event,
-			"lastModified":null,
 			"enable" : true,
 			"first" : {
 				"count" : 0,
@@ -80,30 +85,6 @@ EfwServerEvent.prototype._loadFromResource = function(resourcePath,eventId) {
 };
 
 /**
- * The function to load all events.
- */
-EfwServerEvent.prototype._loadAll = function() {
-	var lst=Packages.efw.file.FileManager.getListByExtByAbsolutePath(_eventfolder, "js");
-	var files=[];
-	for (var i = 0; i < lst.length; i++) {
-		var fl = lst[i];
-		if (true && fl.isFile()) {
-			files.push("" + fl.getName());
-		}
-	}
-	for (var i = 0; i < files.length; i++) {
-		var filename = files[i];
-		try {
-			var eventId = filename.substring(0, filename.length - 3);
-			EfwServerEvent.prototype._loadFromFile(eventId);
-		} catch (e) {
-			Packages.efw.log.LogManager.ErrorDebug("[" + filename
-					+ "] is wrong.");
-			throw filename + " " + e;
-		}
-	}
-};
-/**
  * The function to load a event.<br>
  * If the debug mode,load event every time.<br>
  * If the release mode, load event only the first time.<br>
@@ -113,34 +94,17 @@ EfwServerEvent.prototype._loadAll = function() {
  * @returns {EventInfo}
  */
 EfwServerEvent.prototype._loadFromFile = function(eventId) {
+	var folderAry=eventId.split("/");
+	var jsId=folderAry[folderAry.length-1];
 	var eventInfo;
 	Event_lock.lock();
 	try {
-		var needLoad=false;
 		//if the event hasnot be loaded, load it.
 		if(!EfwServerEvent.prototype._events.hasOwnProperty(eventId)){
-			needLoad=true;
-		}else if (_isdebug){
-			var event=EfwServerEvent.prototype._events[eventId];
-			if (event.from=="file"){//resource event is not need reload.
-				//if debug mode, check lastModified to decide load or not.
-				var fl=Packages.efw.file.FileManager.getByAbsolutePath(_eventfolder+"/"+ eventId+".js");
-				var lastModified = new Date();
-				lastModified.setTime(fl.lastModified());
-				if(event.lastModified.getTime()!=lastModified.getTime()){
-					needLoad=true;
-				}
-			}
-		}
-		if (needLoad){
-			var fl=Packages.efw.file.FileManager.getByAbsolutePath(_eventfolder+"/"+ eventId+".js");
-			var lastModified = new Date();
-			lastModified.setTime(fl.lastModified());
-			load(_eventfolder + "/" + eventId + ".js");
-			var event = eval("(" + eventId + ")");
+			loadFile(_eventfolder + "/" + eventId + ".js");
+			var event = eval("(" + jsId + ")");
 			EfwServerEvent.prototype._events[eventId] = {
 				"event" : event,
-				"lastModified":lastModified,
 				"enable" : true,
 				"first" : {
 					"count" : 0,
@@ -167,7 +131,12 @@ EfwServerEvent.prototype._loadFromFile = function(eventId) {
 				"path":_eventfolder,
 				"eventId":eventId,
 			};
+		}else if (_isdebug){
+			loadFile(_eventfolder + "/" + eventId + ".js");
+			var event = eval("(" + jsId + ")");
+			EfwServerEvent.prototype._events[eventId].event=event;
 		}
+
 		eventInfo = EfwServerEvent.prototype._events[eventId];
 	}catch(e){
 		eventInfo=null;

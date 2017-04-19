@@ -4,38 +4,36 @@
  * @author Chang Kejun
  */
 ///////////////////////////////////////////////////////////////////////////////
-//The global variables
+//The global variables created from java.
 ///////////////////////////////////////////////////////////////////////////////
 /**
  * The event folder absolute path.
  */
-var _eventfolder;
+//var _eventfolder;
 /**
  * The boolean flag to show the mode is debug or not.
  */
-var _isdebug;
+//var _isdebug;
 /**
  * The javascript engine.
  */
-var _engine;// Mozilla Rhino 1.7 / Oracle Nashorn 1.8
+//var _engine;// Mozilla Rhino 1.7 / Oracle Nashorn 1.8
 
 // /////////////////////////////////////////////////////////////////////////////
 // The customization to javax.script
 // /////////////////////////////////////////////////////////////////////////////
 /**
- * Add load function if the javascript engine is Rhino 1.7
+ * To add something into global scope.
+ * The functions for clearing the difference of Nashorn 1.8 and Rhino 1.7 1.6
  */
 function loadResource(filename) {
-	Packages.efw.script.ScriptManager.loadResource(filename);
+	_engine.eval(Packages.efw.script.ScriptManager.loadResource(filename));
 }
-if ((_engine.getFactory().getEngineName() + "").indexOf("Rhino") > -1) {
-	function load(filename) {
-		Packages.efw.script.ScriptManager.load(filename);
-	}
-	// Add JSON if the javascript engine is Rhion 1.6
-	if ((java.lang.System.getProperty("java.version") + "").indexOf("1.6") == 0) {
-		loadResource("efw/script/json2.min.js");
-	}
+function loadFile(filename) {
+	_engine.eval(Packages.efw.script.ScriptManager.loadFile(filename));
+}
+if (typeof this.JSON!="object"){
+	loadResource("efw/script/json2.min.js");
 }
 
 /**
@@ -114,11 +112,6 @@ var barcode =new EfwServerBarcode();
 // /////////////////////////////////////////////////////////////////////////////
 
 /**
- * If it is not debug mode, load all events in system at starting.<br>
- * Then you can see all events in statistics.
- */
-EfwServerEvent.prototype._loadAll();
-/**
  * Run global event.
  */
 if (EfwServerEvent.prototype._loadFromFile("global") != null)
@@ -137,7 +130,10 @@ function doPost(req) {
 	var eventId = reqJson.eventId; // get eventId from json object
 	var params = reqJson.params; // get params from json object
 	try{
-		var eventInfo = EfwServerEvent.prototype._loadFromFile(eventId); // to load or get a event
+		var eventInfo=EfwServerEvent.prototype._events[eventId];// to load or get a event
+		if (eventInfo==null||eventInfo.from=="file"){
+			eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
+		}
 		if(eventInfo.enable==false){
 			var message=EfwServerMessages.prototype.EventDisableMessage;
 			return JSON.stringify(
@@ -177,7 +173,7 @@ function doPost(req) {
 	}catch(e){
 		var result=(new Result())
 		.error("RuntimeErrorException", {"eventId":eventId,"message":""+e});
-		var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","");
+		var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","error.jsp");
 		if (systemErrorUrl!=""){
 			result.navigate(systemErrorUrl);
 		}

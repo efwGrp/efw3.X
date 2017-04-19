@@ -50,8 +50,11 @@ public final class ScriptManager {
      */
     private static final String KEY_ENGINE="_engine";
 
-    private static final ScriptEngine se=(new ScriptEngineManager()).getEngineByName("JavaScript");
+    private static final ScriptEngine _se=(new ScriptEngineManager()).getEngineByName("JavaScript");
     
+    public static final ScriptEngine se(){
+    	return _se;
+    }
 	/**
 	 * サーブレットから設定情報を受け取り、スクリプトエンジン管理オブジェクトを初期化する。
 	 * @param eventFolder イベントJavaScriptファイルの格納パス。
@@ -63,11 +66,11 @@ public final class ScriptManager {
 		ScriptManager.eventFolder=eventFolder;
 		ScriptManager.isDebug=isDebug;
 
-		se.put(KEY_EVENTFOLDER, ScriptManager.eventFolder);
-		se.put(KEY_ISDEBUG, ScriptManager.isDebug);
-		se.put(KEY_ENGINE, ScriptManager.se);
+		se().put(KEY_EVENTFOLDER, ScriptManager.eventFolder);
+		se().put(KEY_ISDEBUG, ScriptManager.isDebug);
+		se().put(KEY_ENGINE, ScriptManager.se());
 		try {
-			loadResource("efw/resource/server/efw.js");
+			se().eval(loadResource("efw/resource/server/efw.js"));
 		} catch (ScriptException e) {
 			e.printStackTrace();
 			throw new efwException(efwException.ScriptInitFailedException);
@@ -86,7 +89,7 @@ public final class ScriptManager {
 	 * @throws IOException ファイル操作エラー。
 	 */
 	public static String doPost(String req) throws Exception {
-		Invocable invocable = (Invocable) se;
+		Invocable invocable = (Invocable) se();
 		return (String)invocable.invokeFunction("doPost", req);
 	}
 
@@ -97,11 +100,17 @@ public final class ScriptManager {
 	 * @throws ScriptException スクリプトエラー。
 	 * @throws IOException ファイル操作エラー。
 	 */
-	public static void load(String fileName) throws ScriptException, IOException  {
+	public static String loadFile(String fileName) throws ScriptException, IOException  {
 		BufferedReader rd=new BufferedReader(new InputStreamReader(
 				new FileInputStream(fileName),SCRIPT_CHAR_SET));
-		se.eval(rd);
+		StringBuffer buffer=new StringBuffer();
+		String line=null;
+		while((line=rd.readLine())!=null){
+			buffer.append(line);
+			buffer.append("\n");
+		}
 		rd.close();
+		return buffer.toString();
 	}
 	/**
 	 * jarに含まれるjsをロードする。
@@ -109,11 +118,17 @@ public final class ScriptManager {
 	 * @throws ScriptException
 	 * @throws IOException
 	 */
-	public static void loadResource(String fileName) throws ScriptException, IOException  {
+	public static String loadResource(String fileName) throws ScriptException, IOException  {
 		BufferedReader rd=new BufferedReader(new InputStreamReader(
 				Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName),SCRIPT_CHAR_SET));
-		se.eval(rd);
+		StringBuffer buffer=new StringBuffer();
+		String line=null;
+		while((line=rd.readLine())!=null){
+			buffer.append(line);
+			buffer.append("\n");
+		}
 		rd.close();
+		return buffer.toString();
 	}
 	  
 }

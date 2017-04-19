@@ -56,23 +56,39 @@ EfwServerDb.prototype._masters={};
  * @param {String}
  *            masterId: required<br>
  * @param {Boolean}
- *            reload
+ *            reload<br>
+ * @param {String}
+ *            jdbcResourceName<br>
  * @returns {Record}
  */
-EfwServerDb.prototype.master=function(masterId, reload) {
+EfwServerDb.prototype.master=function(masterId, reload, jdbcResourceName) {
 	Master_lock.lock();
 	var values;
+	if (jdbcResourceName==undefined && reload==undefined){
+		jdbcResourceName="";
+		reload=false;
+	}
+	if (jdbcResourceName==undefined && typeof(reload) == "string"){
+		jdbcResourceName=reload;
+		reload=false;
+	}
+	if (jdbcResourceName==undefined){
+		jdbcResourceName="";
+	}
+		
 	try {
 		if (reload == true) {
-			EfwServerDb.prototype._masters[masterId] = EfwServerDb.prototype._executeQuery({
-						"sql" : "select * from " + masterId
+			EfwServerDb.prototype._masters[jdbcResourceName+":"+masterId] = EfwServerDb.prototype._executeQuery({
+						"sql" : "select * from " + masterId,
+						"jdbcResourceName":jdbcResourceName,
 					});
 		} else if (EfwServerDb.prototype._masters[masterId] == null) {
-			EfwServerDb.prototype._masters[masterId] = EfwServerDb.prototype._executeQuery({
-						"sql" : "select * from " + masterId
+			EfwServerDb.prototype._masters[jdbcResourceName+":"+masterId] = EfwServerDb.prototype._executeQuery({
+						"sql" : "select * from " + masterId,
+						"jdbcResourceName":jdbcResourceName,
 					});
 		}
-		values = EfwServerDb.prototype._masters[masterId];
+		values = EfwServerDb.prototype._masters[jdbcResourceName+":"+masterId];
 	} finally {
 		Master_lock.unlock();
 	}

@@ -2,6 +2,7 @@
 package efw.taglib;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspException;
@@ -22,7 +23,10 @@ public class Part extends TagSupport implements DynamicAttributes {
 	 * includeページの相対パス。
 	 */
 	private String path;
-
+	/**
+	 * 設定された属性の配列。
+	 */
+	private ArrayList<String> attrs=new ArrayList<String>(); 
 	/**
 	 * タグを実行する。
 	 */
@@ -32,8 +36,12 @@ public class Part extends TagSupport implements DynamicAttributes {
 		try {
 			if (this.getId()!=null){
 				pageContext.setAttribute("id", this.getId(),PageContext.REQUEST_SCOPE);
+				attrs.add("id");
 			}
 			pageContext.include(path);
+			for(int i=0;i<attrs.size();i++){
+				pageContext.removeAttribute(attrs.get(i));
+			}
 		} catch (ServletException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -53,6 +61,7 @@ public class Part extends TagSupport implements DynamicAttributes {
 			path=(String) value;
 		}else{
 			pageContext.setAttribute(name, value,PageContext.REQUEST_SCOPE);
+			attrs.add(name);
 		}
 	}
 

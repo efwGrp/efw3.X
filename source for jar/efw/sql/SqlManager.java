@@ -2,7 +2,6 @@
 package efw.sql;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,35 +32,14 @@ public final class SqlManager {
      */
     private static boolean isDebug;
     /**
-     * サーブレットから設定情報を受け取り、Sql外部化XMLファイルをロードする。
+     * サーブレットから設定情報を受け取る。
      * @param sqlFolder　Sql外部化XMLファイルの格納パス。
      * @param isDebug　デバッグモード制御フラグ。
      * @throws efwException　Sql外部化XMLファイルの読み取りエラー。
      */
-	public synchronized static void init(String sqlFolder,boolean isDebug) throws efwException{
+	public synchronized static void init(String sqlFolder,boolean isDebug){
 		SqlManager.sqlFolder=sqlFolder;
 		SqlManager.isDebug=isDebug;
-		
-    	//keep the Sqls folder in local param.
-    	//seek xml in the folder
-		File dir = new File(SqlManager.sqlFolder);
-		File[] files = dir.listFiles(
-			new FilenameFilter() {  
-				public boolean accept(File file, String name) {  
-					boolean ret = name.endsWith(".xml");   
-					return ret;  
-				}
-			}
-		);
-		if(files!=null){
-			for (File fl:files){
-				//the file name is group id
-				String fileName=fl.getName();
-			    String groupId=fileName.substring(0, fileName.lastIndexOf("."));
-				//load it to local param aryData
-				load(groupId);
-			}
-		}
 	}
 	/**
 	 * ひとつのSqlオブジェクトを取得する。
@@ -82,6 +60,11 @@ public final class SqlManager {
 		}
 		//get group
 		HashMap<String,Sql> group=groups.get(groupId);
+		//if group is not exists, try to load it
+		if (group==null){
+			load(groupId);
+			group=groups.get(groupId);
+		}
 		//if group is not exists, it is wrong group id
 		if (group==null){
 			throw new efwException(efwException.SqlGroupIdIsNotExistsException,groupId);

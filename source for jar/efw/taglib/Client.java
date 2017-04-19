@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 /**
@@ -56,7 +55,8 @@ public class Client extends SimpleTagSupport implements DynamicAttributes {
 				withoutJQuery=true;
 			}
 		}else{
-			this.getJspContext().setAttribute(name, value,PageContext.REQUEST_SCOPE);
+			//attrの設定は不要です。削除する。
+			//this.getJspContext().setAttribute(name, value,PageContext.REQUEST_SCOPE);
 		}
 		
 	}

@@ -24,7 +24,7 @@ public class elFinderServlet extends HttpServlet {
 	public void init() throws ServletException {
 		if (initSuccessFlag) return;
 		try {
-			ScriptManager.loadResource("elfinder/resource/server/init.js");
+			ScriptManager.se().eval(ScriptManager.loadResource("elfinder/resource/server/init.js"));
 			initSuccessFlag=true;
 		} catch (ScriptException e) {
 			e.printStackTrace();

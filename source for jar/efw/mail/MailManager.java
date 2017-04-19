@@ -2,7 +2,6 @@
 package efw.mail;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,7 +59,7 @@ public final class MailManager {
      */
     private static boolean isDebug;
     /**
-     * サーブレットから設定情報を受け取り、MailテンプレートXMLファイルをロードする。
+     * サーブレットから設定情報を受け取る。
      * @param mailFolder　MailテンプレートXMLファイルの格納パス。
      * @param isDebug　デバッグモード制御フラグ。
      * @throws efwException　MailテンプレートXMLファイルの読み取りエラー。
@@ -68,26 +67,6 @@ public final class MailManager {
 	public synchronized static void init(String mailFolder,boolean isDebug) throws efwException{
 		MailManager.mailFolder=mailFolder;
 		MailManager.isDebug=isDebug;
-    	//keep the Mails folder in local param.
-    	//seek xml in the folder
-		File dir = new File(MailManager.mailFolder);
-		File[] files = dir.listFiles(
-			new FilenameFilter() {
-				public boolean accept(File file, String name) {
-					boolean ret = name.endsWith(".xml");
-					return ret;
-				}
-			}
-		);
-		if(files!=null){
-			for (File fl:files){
-				//the file name is group id
-				String fileName=fl.getName();
-			    String groupId=fileName.substring(0, fileName.lastIndexOf("."));
-				//load it to local param aryData
-				load(groupId);
-			}
-		}
 
 		try {
 			mailResourceName=PropertiesManager.getProperty(PropertiesManager.EFW_MAIL_RESOURCE,mailResourceName);
@@ -170,6 +149,11 @@ public final class MailManager {
 		}
 		//get group
 		HashMap<String,Mail> group=groups.get(groupId);
+		//if group is not exists, try to load it.
+		if (group==null){
+			load(groupId);
+			group=groups.get(groupId);
+		}
 		//if group is not exists, it is wrong group id
 		if (group==null){
 			throw new efwException(efwException.MailGroupIdIsNotExistsException,groupId);
