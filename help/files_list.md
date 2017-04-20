@@ -41,13 +41,13 @@ You can put jsp files here. It is not recommended to create sub jsp folder. If y
 </pre>
 
 <h3>Efw Event Folder</h3>
-You should add your event files here.
+You should add your event files here. And you can create sub folders.
 
 <h3>Outside SQL Folder</h3>
-You should add your sql defines here.
+You should add your sql defines here. And you can create sub folders.
 
 <h3>Outside Mail Folder</h3>
-You should add your mail defines here.
+You should add your mail defines here. And you can create sub folders.
 
 <h3>Context File</h3>
 The context file contains the db resource define and the mail resource define.

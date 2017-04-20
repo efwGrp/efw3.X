@@ -16,7 +16,7 @@ The send function is established to send mail by templates defined in the mail x
 
 <table>
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-<tr><td>groupId</td><td>String</td><td>The name of a mail xml file.</td></tr>
+<tr><td>groupId</td><td>String</td><td>"SubFolder/FileName". SubFolder is relatived from efw.mail.folder. FileName is the name of a mail xml file.</td></tr>
 <tr><td>mailId</td><td>String</td><td>The id of a mail tag in a mail xml file.</td></tr>
 <tr><td>params</td><td>JSON Object</td>
 <td>To send values which is requried by the mail defined in the mail xml file. 

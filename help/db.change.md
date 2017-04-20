@@ -22,7 +22,7 @@ The return is the count of modefied records.
 
 <table>
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
-<tr><td>groupId</td><td>String</td><td>The name of a SQL xml file.</td></tr>
+<tr><td>groupId</td><td>String</td><td>"SubFolder/FileName". SubFolder is relatived from efw.sql.folder. FileName is the name of a SQL xml file.</td></tr>
 <tr><td>sqlId</td><td>String</td><td>The id of a sql tag in a SQL xml file.</td></tr>
 <tr><td>params</td><td>JSON Object</td>
 <td>To send values which is requried by the SQL defined in the SQL xml file. 
