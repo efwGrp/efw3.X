@@ -4,7 +4,8 @@
  * 
  * @author Chang Kejun
  */
-function EfwServerFile() {
+function EfwServerFile(isAbsolutePath) {
+	this.isAbsolutePath=isAbsolutePath;
 };
 
 /**
@@ -13,7 +14,9 @@ function EfwServerFile() {
  * @returns {Boolean}
  */
 EfwServerFile.prototype.exists=function(path){
-	var fl = Packages.efw.file.FileManager.get(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
 	if (fl.exists()) {
 		return true;
 	}else{
@@ -26,7 +29,9 @@ EfwServerFile.prototype.exists=function(path){
  * @returns {Boolean}
  */
 EfwServerFile.prototype.isFile=function(path){
-	var fl = Packages.efw.file.FileManager.get(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
 	if (fl.isFile()) {
 		return true;
 	}else{
@@ -39,7 +44,9 @@ EfwServerFile.prototype.isFile=function(path){
  * @returns {Boolean}
  */
 EfwServerFile.prototype.isFolder=function(path){
-	var fl = Packages.efw.file.FileManager.get(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
 	if (fl.isDirectory()) {
 		return true;
 	}else{
@@ -65,7 +72,9 @@ EfwServerFile.prototype.isFolder=function(path){
  * }<br>
  */
 EfwServerFile.prototype.list = function(path,withoutFolderLength) {
-	var lst = Packages.efw.file.FileManager.getList(path);
+	var lst = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getListByAbsolutePath(path)
+			:Packages.efw.file.FileManager.getList(path);
 	var ret = [];
 	for (var i = 0; i < lst.length; i++) {
 		var fl = lst[i];
@@ -118,7 +127,9 @@ EfwServerFile.prototype.list = function(path,withoutFolderLength) {
  * }<br>
  */
 EfwServerFile.prototype.get = function(path,withoutFolderLength) {
-	var fl = Packages.efw.file.FileManager.get(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
 	var lastModified = new Date();
 	lastModified.setTime(fl.lastModified());
 	var data = {
@@ -156,7 +167,10 @@ EfwServerFile.prototype.get = function(path,withoutFolderLength) {
  *            path: required<br>
  */
 EfwServerFile.prototype.remove = function(path) {
-	Packages.efw.file.FileManager.remove(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
+	Packages.efw.file.FileManager.remove(fl);
 };
 /**
  * The function to get the absolute path of the storage folder.
@@ -173,7 +187,10 @@ EfwServerFile.prototype.getStorageFolder = function() {
  *            path: required<br>
  */
 EfwServerFile.prototype.saveSingleUploadFile = function(path) {
-	Packages.efw.file.FileManager.saveSingleUploadFile(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
+	Packages.efw.file.FileManager.saveSingleUploadFile(fl);
 };
 /**
  * The function to save update files in the relative path to the storage folder.
@@ -182,9 +199,10 @@ EfwServerFile.prototype.saveSingleUploadFile = function(path) {
  *            path: required<br>
  */
 EfwServerFile.prototype.saveUploadFiles = function(path) {
-	if (path == undefined)
-		path = null;
-	Packages.efw.file.FileManager.saveUploadFiles(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
+	Packages.efw.file.FileManager.saveUploadFiles(fl);
 };
 /**
  * The function to make dirs by the relative path to the storage folder.
@@ -192,7 +210,10 @@ EfwServerFile.prototype.saveUploadFiles = function(path) {
  *            path: required<br>
  */
 EfwServerFile.prototype.makeDir = function(path) {
-	Packages.efw.file.FileManager.makeDir(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
+	Packages.efw.file.FileManager.makeDir(fl);
 };
 /**
  * The function to read all from a text file with auto charset checking.
@@ -201,7 +222,10 @@ EfwServerFile.prototype.makeDir = function(path) {
  * @returns {String}
  */
 EfwServerFile.prototype.readAllLines = function(path){
-	return ""+Packages.efw.file.FileManager.readAllLines(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
+	return ""+Packages.efw.file.FileManager.readAllLines(fl);
 };
 /**
  * The function to rename a file by relative paths to the storage folder.
@@ -212,7 +236,10 @@ EfwServerFile.prototype.readAllLines = function(path){
  * @returns {String}
  */
 EfwServerFile.prototype.rename = function(orgPath,newName){
-	Packages.efw.file.FileManager.rename(orgPath,newName);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(orgPath)
+			:Packages.efw.file.FileManager.get(orgPath);
+	Packages.efw.file.FileManager.rename(fl,newName);
 };
 /**
  * The function to make an empty file by the relative path to the storage folder.
@@ -220,7 +247,10 @@ EfwServerFile.prototype.rename = function(orgPath,newName){
  *            path: required<br>
  */
 EfwServerFile.prototype.makeFile = function(path) {
-	Packages.efw.file.FileManager.makeFile(path);
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
+	Packages.efw.file.FileManager.makeFile(fl);
 };
 /**
  * The function to write a text file by the relative path to the storage folder.
@@ -232,8 +262,11 @@ EfwServerFile.prototype.makeFile = function(path) {
  *            encoding: optional<br>
  */
 EfwServerFile.prototype.writeAllLines=function(path,content,encoding) {
+	var fl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(path)
+			:Packages.efw.file.FileManager.get(path);
 	if(encoding==null)encoding="UTF-8";
-	Packages.efw.file.FileManager.writeAllLines(path,content,encoding);
+	Packages.efw.file.FileManager.writeAllLines(fl,content,encoding);
 };
 /**
  * The function to duplicate a file by  relative paths to the storage folder.
@@ -243,7 +276,13 @@ EfwServerFile.prototype.writeAllLines=function(path,content,encoding) {
  *            destPath: required<br>
  */
 EfwServerFile.prototype.duplicate=function(srcPath,destPath) {
-	Packages.efw.file.FileManager.duplicate(srcPath,destPath);
+	var srcfl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(srcPath)
+			:Packages.efw.file.FileManager.get(srcPath);
+	var destfl = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(destPath)
+			:Packages.efw.file.FileManager.get(destPath);
+	Packages.efw.file.FileManager.duplicate(srcfl,destfl);
 };
 ///////////////////////////////////////////////////////////////////////////////
 

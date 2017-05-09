@@ -92,10 +92,10 @@ public final class downloadServlet extends HttpServlet {
 			if("true".equals(attr_deleteafterdownload)){
 				if(attr_zip!=null&&!"".equals(attr_zip)){
 					for(int i=0;i<tmp_files.length;i++){
-						FileManager.remove(tmp_files[i]);
+						FileManager.remove(FileManager.get(tmp_files[i]));
 					}
 				}else if(attr_file!=null&&!"".equals(attr_file)){
-					FileManager.remove(attr_file);
+					FileManager.remove(FileManager.get(attr_file));
 				}
 			}
 

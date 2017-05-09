@@ -220,7 +220,7 @@ EfwServerDb.prototype._executeQuery = function(executionParams) {
 		var rsdata = {};
 		var maxColumnCount = meta.getColumnCount();
 		for (var j = 1; j <= maxColumnCount; j++) {
-			var key = meta.getColumnName(j);
+			var key = (""+meta.getColumnName(j)).toLowerCase();
 			rsdata[key] = parseValue(rs.getObject(key));
 		}
 		ret.push(rsdata);

@@ -83,7 +83,7 @@ public final class Excel {
 		//一時ファイルでexcelを開く。
 		//閉じる際、一時ファイルを削除する。
 		File tempFile=File.createTempFile("efw", "");
-		FileManager.duplicateByAbsolutePath(file.getAbsolutePath(), tempFile.getAbsolutePath());
+		FileManager.duplicate(file, tempFile);
 		this.file=tempFile;
 		this.workbook = WorkbookFactory.create(tempFile);
 	}

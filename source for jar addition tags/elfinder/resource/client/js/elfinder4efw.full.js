@@ -7509,18 +7509,18 @@ elFinder.prototype._options = {
 		// toolbar configuration
 		toolbar : [
 			['back', 'forward'],
-			['netmount'],
+			// ['netmount'],
 			// ['reload'],
 			// ['home', 'up'],
 			['mkdir', 'mkfile', 'upload'],
-			['open', 'download', 'getfile'],
+			//['open', 'download', 'getfile'],
 			['info', 'chmod'],
 			['quicklook'],
 			['copy', 'cut', 'paste'],
-			['rm'],
+			['rm'],//it is remove not rename
 			['duplicate', 'rename', 'edit', 'resize'],
-			['extract', 'archive'],
-			['search'],
+			//['extract', 'archive'],
+			//['search'],
 			['view', 'sort'],
 			['help'],
 			['fullscreen'],
@@ -7771,7 +7771,7 @@ elFinder.prototype._options = {
 	 * @type Boolean
 	 * @default  true
 	 */
-	allowShortcuts : true,
+	allowShortcuts : false,
 	
 	/**
 	 * Remeber last opened dir to open it after reload or in next session
@@ -7779,7 +7779,7 @@ elFinder.prototype._options = {
 	 * @type Boolean
 	 * @default  true
 	 */
-	rememberLastDir : true,
+	rememberLastDir : false,
 	
 	/**
 	 * Clear historys(elFinder) on reload(not browser) function
@@ -7796,7 +7796,7 @@ elFinder.prototype._options = {
 	 * @type Boolean
 	 * @default  true
 	 */
-	useBrowserHistory : true,
+	useBrowserHistory : false,
 	
 	/**
 	 * Lazy load config.

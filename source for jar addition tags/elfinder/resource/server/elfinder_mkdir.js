@@ -7,10 +7,11 @@ elfinder_mkdir.fire = function(params) {
 	var target=params["target"];//初回以降はcwdのhashになる。
 	var cwdFolder=target.substring(volumeId.length).base64Decode();
 	var name=params["name"];
-	//var dirs=params["dirs"];
-	if (name!=null){
+	var dirs=params["dirs"];
+	
+	function mkdr(name){
 		file.makeDir(cwdFolder+"/"+name);
-		var files=new Record([file.get(cwdFolder+"/"+name,true)])
+		return new Record([file.get(cwdFolder+"/"+name,true)])
 		.map({
 	         "mime":"mineType",//function(){return "directory";},
 	         "ts":function(data){return data.lastModified.getTime();},
@@ -22,10 +23,17 @@ elfinder_mkdir.fire = function(params) {
 	         "read":function(){return 1;},
 	         "write":function(){if (readonly){return 0;}else{return 1;}},
 	         "locked":function(){if (readonly){return 1;}else{return 0;}},
-		})
-		.getArray();
-		return {"added":files};
+		}).getArray();
+	}
+	
+	if (name!=null){
+		return {"added":mkdr(name)};
 	}else{
-		return {"added":[]};//フォルダアップロードの場合、無視する。アップロード機能によりフォルダを作る。
+		var ret=[];
+		for(var i=0;i<dirs.length;i++){
+			name=dirs[i];
+			ret.concat(mkdr(name));
+		}
+		return {"added":ret};
 	}
 };

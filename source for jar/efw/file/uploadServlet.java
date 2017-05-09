@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -53,6 +54,20 @@ public class uploadServlet extends HttpServlet {
 		InputStream inputStream =null;
 		FileOutputStream outputStream = null;
 		try{
+			ArrayList<String> paths=new ArrayList<String>();
+            for (Part partPath : request.getParts()) {//elfinderのフォルダアップロード対応
+            	for (String cdPath : partPath.getHeader("Content-Disposition").split(";")) {
+            		if (cdPath.trim().startsWith("name=\"upload_path[]\"")) {
+            			inputStream =partPath.getInputStream();
+            			byte[] bPath = new byte[inputStream.available()];
+            			inputStream.read(bPath);
+            			inputStream.close();
+            			paths.add(new String(bPath,RESPONSE_CHAR_SET));
+            			break;
+            		}
+            	}
+            }
+			
 	        for (Part part : request.getParts()) {
 	            String uploadFileName=null;
 	            for (String cd : part.getHeader("Content-Disposition").split(";")) {
@@ -67,7 +82,15 @@ public class uploadServlet extends HttpServlet {
 	                    outputStream.write(b);
 	                    inputStream.close();
 	                    //part.write(fl.getAbsolutePath());//This line cant run at resin4 but ok to tomcat.
-	                    FileManager.keepUploadFile(uploadFileName,fl.getAbsolutePath());
+	                    String uploadPath =null;
+	                    for(int i=0;i<paths.size();i++){
+	                    	if (paths.get(i).indexOf(uploadFileName)>-1){
+	                    		uploadPath=paths.get(i);
+	                    		paths.remove(i);//各パスは１回しか利用しない。
+	                    		break;
+	                    	}
+	                    }
+	                    FileManager.keepUploadFile(uploadPath,uploadFileName,fl.getAbsolutePath());
 	                    break;
 	                }
 	            }

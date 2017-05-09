@@ -37,7 +37,6 @@ public final class FileManager {
      * アップロード情報を格納するセッションキー
      */
     private static final String EFW_UPLOAD="EFW_UPLOAD";    
-    
     /**
      * サーブレットから設定情報を受け取る。
      */
@@ -126,19 +125,13 @@ public final class FileManager {
 	    }
 	    return size;
 	}
-	/**
-	 * 
-	 * @param path
-	 */
-	public static void remove(String path){
-		_delete(get(path));
-	}
-    private static void _delete(File f){
+
+	public static void remove(File f){
         if(!f.exists()) return;	//ファイルまたはディレクトリが存在しない場合は何もしない
         else if(f.isFile()) f.delete();//ファイルの場合は削除する
         else if(f.isDirectory()){//ディレクトリの場合は、すべてのファイルを削除する
             File[] files = f.listFiles();//対象ディレクトリ内のファイルおよびディレクトリの一覧を取得
-            for(int i=0; i<files.length; i++) FileManager._delete( files[i] );//ファイルおよびディレクトリをすべて削除  自身をコールし、再帰的に削除する
+            for(int i=0; i<files.length; i++) FileManager.remove( files[i] );//ファイルおよびディレクトリをすべて削除  自身をコールし、再帰的に削除する
             f.delete();//自ディレクトリを削除する
         }
     }
@@ -194,57 +187,50 @@ public final class FileManager {
 ////////////////////////////////////////////////////////////////
 	/**
 	 * ひとつのアップロードファイルを
-	 * @param path
+	 * @param f
 	 * @throws IOException
 	 */
-	public synchronized static void saveSingleUploadFile(String path) throws IOException{
-		String destPath=storageFolder+"/"+path;
+	public synchronized static void saveSingleUploadFile(File f) throws IOException{
 		@SuppressWarnings("unchecked")
-		HashMap<String, String> map= (HashMap<String, String>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
-		if (map==null){
+		ArrayList<HashMap<String,String>> array= (ArrayList<HashMap<String,String>>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
+		if (array==null){
 			return;
 		}else{
-			for(HashMap.Entry<String, String> entry : map.entrySet()) {
-				String srcPath=entry.getValue();
-				duplicateByAbsolutePath(srcPath,destPath);
+			if (array.size()>0){
+				HashMap<String,String> item=array.get(0);
+				String srcPath=(String)item.get("tempFileAbsolutePath");
+				duplicateByAbsolutePath(srcPath,f.getAbsolutePath());
 		        new File(srcPath).delete();
-		        break;
 			}
 		}
 		efwServlet.getRequest().getSession().removeAttribute(EFW_UPLOAD);
-		
 	}
 	/***
 	 *　アップロードされたファイルを全部相対パスで保存する。
 	 * @param path　スドレジからの相対パス
 	 * @throws IOException 
 	 */
-	public synchronized static void saveUploadFiles(String path) throws IOException{
-		if (path==null||"".equals(path)){
-			path=storageFolder;
-		}else{
-			path=storageFolder+"/"+path;
-		}
-		
+	public synchronized static void saveUploadFiles(File f) throws IOException{
 		@SuppressWarnings("unchecked")
-		HashMap<String, String> map= (HashMap<String, String>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
-		if (map==null){
+		ArrayList<HashMap<String,String>> array= (ArrayList<HashMap<String,String>>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
+		if (array==null){
 			return;
 		}else{
-			for(HashMap.Entry<String, String> entry : map.entrySet()) {
-				String srcPath=entry.getValue();
-				String uploadFileName=entry.getKey();
-				int destFileNamefromIndex=0;
-				if (uploadFileName.lastIndexOf("\\")>-1){
-					destFileNamefromIndex=uploadFileName.lastIndexOf("\\")+1;
-				//}else if(uploadFileName.lastIndexOf("/")>-1){
-				//	destFileNamefromIndex=uploadFileName.lastIndexOf("/")+1;
+			for (int i=0;i<array.size();i++){
+				HashMap<String,String> item=(HashMap<String,String>)array.get(i);
+				String uploadPath=(String)item.get("uploadPath");
+				String uploadFileName=(String)item.get("uploadFileName");
+				String tempFileAbsolutePath=(String)item.get("tempFileAbsolutePath");
+				System.out.println("uploadPath="+uploadPath+" uploadFileName="+uploadFileName+" tempFileAbsolutePath="+tempFileAbsolutePath);
+				if (uploadPath==null){//単独アップロードファイル、フォルダなし
+					if (uploadFileName.indexOf(":")>-1){//もしc:\のIE書き方なら、最後のファイル名のみを取る。
+						uploadFileName=uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
+					}
+					duplicateByAbsolutePath(tempFileAbsolutePath,f.getAbsolutePath()+"/"+uploadFileName);
 				}else{
-					destFileNamefromIndex=0;
+					duplicateByAbsolutePath(tempFileAbsolutePath,f.getAbsolutePath()+"/"+ uploadPath);
 				}
-				String destPath=path+"/"+uploadFileName.substring(destFileNamefromIndex);
-				duplicateByAbsolutePath(srcPath,destPath);
-		        new File(srcPath).delete();
+				new File(tempFileAbsolutePath).delete();
 			}
 		}
 		efwServlet.getRequest().getSession().removeAttribute(EFW_UPLOAD);
@@ -254,12 +240,13 @@ public final class FileManager {
 	 */
 	public synchronized static void removeUploadFiles(){
 		@SuppressWarnings("unchecked")
-		HashMap<String, String> map= (HashMap<String, String>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
-		if (map==null){
+		ArrayList<HashMap<String,String>> array= (ArrayList<HashMap<String,String>>)efwServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
+		if (array==null){
 			return;
 		}else{
-			for(HashMap.Entry<String, String> entry : map.entrySet()) {
-				String srcPath=entry.getValue();
+			for (int i=0;i<array.size();i++){
+				HashMap<String,String> item=array.get(i);
+				String srcPath=(String)item.get("tempFileAbsolutePath");
 		        new File(srcPath).delete();
 			}
 		}
@@ -271,16 +258,18 @@ public final class FileManager {
 	 * @param uploadFileName　アッポロードファイル名（クライアントパスと名称）
 	 * @param tempFileAbsolutePath　一時ファイルパス（サーバ絶対パスと名称）
 	 */
-	public synchronized static void keepUploadFile(String uploadFileName,String tempFileAbsolutePath){
+	public synchronized static void keepUploadFile(String uploadPath,String uploadFileName,String tempFileAbsolutePath){
 		@SuppressWarnings("unchecked")
-		HashMap<String, String> map= (HashMap<String, String>)uploadServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
-		if (map==null){
-			map=new HashMap<String, String>();
-			uploadServlet.getRequest().getSession().setAttribute(EFW_UPLOAD,map);
+		ArrayList<HashMap<String,String>> array= (ArrayList<HashMap<String,String>>)uploadServlet.getRequest().getSession().getAttribute(EFW_UPLOAD);
+		if (array==null){
+			array=new ArrayList<HashMap<String,String>>();
+			uploadServlet.getRequest().getSession().setAttribute(EFW_UPLOAD,array);
 		}
-		String oldTempFileAbsolutePath=map.get(uploadFileName);
-		if (oldTempFileAbsolutePath!=null) new File(oldTempFileAbsolutePath).delete();
-		map.put(uploadFileName, tempFileAbsolutePath);
+		HashMap<String,String> map=new HashMap<String,String>();
+		map.put("uploadPath", uploadPath);
+		map.put("uploadFileName", uploadFileName);
+		map.put("tempFileAbsolutePath", tempFileAbsolutePath);
+		array.add(map);
 	}
 	/**
 	 * ファイルのMimeTypeを取得する。
@@ -305,33 +294,21 @@ public final class FileManager {
 	}
 	/**
 	 * フォルダを作成する
-	 * @param path
+	 * @param p
 	 */
-	public static void makeDir(String path){
-		if (path==null||"".equals(path)){
-			path=storageFolder;
-		}else{
-			path=storageFolder+"/"+path;
-		}
-		File p=new File(path);
+	public static void makeDir(File p){
 		if (!p.exists())p.mkdirs();
 	}
 	/**
 	 * テキストファイルを読み取る。文字コードは自動判断する。
-	 * @param path
+	 * @param f
 	 * @return
 	 * @throws IOException
 	 */
-	public static String readAllLines(String path) throws IOException{
-		if (path==null||"".equals(path)){
-			path=storageFolder;
-		}else{
-			path=storageFolder+"/"+path;
-		}
-		File file=new File(path);
+	public static String readAllLines(File f) throws IOException{
 		UniversalDetector detector = new UniversalDetector(null);
 		String encoding;
-		FileInputStream in=new FileInputStream(file);
+		FileInputStream in=new FileInputStream(f);
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 		byte[] buff = new byte[8000];
 		int bytesRead;
@@ -345,24 +322,19 @@ public final class FileManager {
         encoding = detector.getDetectedCharset();
         detector.reset();
         if(encoding!=null){
-            return new String(Files.readAllBytes(Paths.get(path)), Charset.forName(encoding));
+            return new String(Files.readAllBytes(Paths.get(f.getAbsolutePath())), Charset.forName(encoding));
         }else{
-        	return new String(Files.readAllBytes(Paths.get(path)));
+        	return new String(Files.readAllBytes(Paths.get(f.getAbsolutePath())));
         }
 	}
 	/**
 	 * ファイルまたはフォルダ名を変更する。
-	 * @param orgPath
+	 * @param f
 	 * @param newName
 	 * @throws IOException
 	 */
-	public static void rename(String orgPath,String newName) throws IOException{
-		if (orgPath==null||"".equals(orgPath)){
-			orgPath=storageFolder;
-		}else{
-			orgPath=storageFolder+"/"+orgPath;
-		}
-		Path source = Paths.get(orgPath);
+	public static void rename(File f,String newName) throws IOException{
+		Path source = Paths.get(f.getAbsolutePath());
 		Files.move(source, source.resolveSibling(newName));
 	}
 	/**
@@ -370,57 +342,35 @@ public final class FileManager {
 	 * @param path
 	 * @throws IOException
 	 */
-	public static void makeFile(String path) throws IOException{
-		if (path==null||"".equals(path)){
-			path=storageFolder;
-		}else{
-			path=storageFolder+"/"+path;
-		}
-		File p=new File(path);
-		if (!p.exists())p.createNewFile();
+	public static void makeFile(File f) throws IOException{
+		if (!f.exists())f.createNewFile();
 	}
 	/**
 	 * テキストを書き込む。
-	 * @param path
+	 * @param f
 	 * @param content
 	 * @param encoding
 	 * @throws IOException
 	 */
-	public static void writeAllLines(String path,String content,String encoding) throws IOException{
-		if (path==null||"".equals(path)){
-			path=storageFolder;
-		}else{
-			path=storageFolder+"/"+path;
-		}
-		Files.write(Paths.get(path), content.getBytes(encoding),StandardOpenOption.WRITE);
+	public static void writeAllLines(File f,String content,String encoding) throws IOException{
+		Files.write(Paths.get(f.getAbsolutePath()), content.getBytes(encoding),StandardOpenOption.WRITE);
 	}
 	/**
 	 * ファイルを複製する。
-	 * @param srcPath
-	 * @param destPath
+	 * @param srcf
+	 * @param destf
 	 * @throws IOException
 	 */
-	public static void duplicate(String srcPath,String destPath) throws IOException{
-		String absSrcPath,absDestPath;
-		if (srcPath==null||"".equals(srcPath)){
-			absSrcPath=storageFolder;
-		}else{
-			absSrcPath=storageFolder+"/"+srcPath;
-		}
-		if (destPath==null||"".equals(destPath)){
-			absDestPath=storageFolder;
-		}else{
-			absDestPath=storageFolder+"/"+destPath;
-		}
-		duplicateByAbsolutePath(absSrcPath,absDestPath);
+	public static void duplicate(File srcf,File destf) throws IOException{
+		duplicateByAbsolutePath(srcf.getAbsolutePath(),destf.getAbsolutePath());
 	}
-	public static void duplicateByAbsolutePath(String absSrcPath,String absDestPath) throws IOException{
+	private static void duplicateByAbsolutePath(String absSrcPath,String absDestPath) throws IOException{
 		File fileSrc=new File(absSrcPath);
 		File fileDest=new File(absDestPath);
 		boolean doCopy=false;
 		if (fileSrc.isFile()){
 			doCopy=true;
-			if(fileDest.exists())_delete(fileDest);
+			if(fileDest.exists())remove(fileDest);
 		}else if (!fileDest.exists()){
 			doCopy=true;
 		}

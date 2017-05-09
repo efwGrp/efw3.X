@@ -2,6 +2,7 @@
 package efw.sql;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 /**
@@ -54,12 +55,25 @@ final class SqlText {
 	 * 「:　＋　キーの単語」を「 ? 」に変換する。
 	 * @return　変換後の文字列を戻す。
 	 */
-	protected String getSQL(String paramPrefix){
+	protected String getSQL(String paramPrefix,String dynamicPrefix,Map<String,Object> params){
 		String subsql=text.replaceAll("//.*\\n", "\n");//コメント行を認識するため
 		subsql=subsql.replaceAll("\\-\\-.*\\n", "\n");//コメント行を認識するため
 		subsql=subsql.replaceAll("/\\*/?([^/]|[^*]/)*\\*/", "");//コメント行を認識するため
 		subsql=subsql.replaceAll("(\\"+paramPrefix+"[a-zA-Z_][\\w]*)", " ? ");//20160420 kill bug
+		
+		ArrayList<String> fds=getDynamicKeys(dynamicPrefix);
+		for(int i=0;i<fds.size();i++){
+			String fdKey=fds.get(i);
+			subsql=subsql.replace(dynamicPrefix+fdKey, (String)params.get(fdKey));//1つずつ置換する。
+		}
+		
 		return subsql;
 	}
-	
+	/**
+	 * 代入される動的項目配列を取得する。
+	 * キーは、　「 @ + キーの単語 」で構成する。
+	 */
+	protected ArrayList<String> getDynamicKeys(String replacePrefix){
+		return getParamKeys(replacePrefix);
+	}
 }
