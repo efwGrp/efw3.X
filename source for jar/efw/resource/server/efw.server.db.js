@@ -206,11 +206,16 @@ EfwServerDb.prototype._executeQuery = function(executionParams) {
 				var dt = new Date();
 				dt.setTime(value.getTime());
 				value = dt;
+			} else if (value.getClass().getName() == "oracle.sql.TIMESTAMP"){
+				var dt = new Date();
+				dt.setTime(value.timestampValue().getTime());
+				value = dt;
 			} else {
 				// you should do something if the comment is printed out.
 				Packages.efw.log.LogManager.ErrorDebug("[" + value
 						+ "] is an instance of " + value.getClass().getName()
 						+ " which has not been supported by efw.", "");
+				value=""+value;//change unknown type to string.
 			}
 		}
 		return value;
