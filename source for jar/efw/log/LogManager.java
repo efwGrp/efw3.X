@@ -113,7 +113,7 @@ public final class LogManager {
      * @param value ログ内容。
      */
     public static void CommDebug(String value) {
-        logger.log(Level.INFO, "[EFW.OK]" + value.replaceAll("\n", ""));
+        logger.log(Level.FINE, "[EFW.OK]" + value.replaceAll("\n", ""));
     }
     /**
      * ワーニングログを出力する。
@@ -137,7 +137,7 @@ public final class LogManager {
      * @param value2　ログ内容２。
      */
     public static void CommDebug(String value1,String value2) {
-        logger.log(Level.INFO, "[EFW.OK]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+        logger.log(Level.FINE, "[EFW.OK]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
     }
     /**
      * ワーニングログを出力する。
@@ -152,7 +152,7 @@ public final class LogManager {
      * @param value ログ内容。
      */
     public static void InitCommonDebug(String value) {
-        logger.log(Level.INFO, "[EFW.INI.OK]" + value.replaceAll("\n", ""));
+        logger.log(Level.CONFIG, "[EFW.INI.OK]" + value.replaceAll("\n", ""));
     }
     /**
      * 初期化時のエラーログを出力する。
@@ -168,5 +168,12 @@ public final class LogManager {
      */
     public static void InitErrorDebug(String value1,String value2) {
         logger.log(Level.SEVERE, "[EFW.INI.NG]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+    }
+    /**
+     * アプリのログを出力する。
+     * @param value ログ内容。
+     */
+    public static void log(String value){
+    	logger.log(Level.INFO, value);
     }
 }
