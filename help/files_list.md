@@ -12,7 +12,7 @@ tomcat
         │  └─<a href="../release%20with%20sample/web%20application/META-INF/context.xml">context.xml</a>
         └─WEB-INF
             ├─classes
-            │  └─<a href="properties_file.md">efw.properties</a>
+            │  └─<a href="properties_web.md">efw.properties</a>
             ├─efw
             │  ├─event									//Efw event folder
             │  │  ├─<a href="api_event.md">myEvent.js</a>

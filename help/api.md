@@ -115,4 +115,15 @@
 <td><a href="result.navigate.md">navigate</a></td>
 </tr>
 
+<tr><td>Batch</td>
+<td><a href="batch.new.md">new</a></td>
+<td><a href="batch.concat.md">concat</a></td>
+</tr>
+<tr><td></td>
+<td><a href="batch.log.md">log</a></td>
+<td><a href="batch.echo.md">echo</a></td>
+<td><a href="batch.exit.md">exit</a></td>
+</tr>
+
+
 </table>

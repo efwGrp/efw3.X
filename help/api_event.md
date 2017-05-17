@@ -94,5 +94,7 @@ To reference JQuery about the rules of selectors.
 <H3>Fire Method</H3>
 
 <H3>Event Return</H3>
-The event return must be void or an instance of Result.
+If the event is called by web, the event return must be void or an instance of Result. <br>
+If the event is called by batch, the event return should be an instance of Batch. 
+
 
