@@ -329,21 +329,21 @@ Excel.prototype.isEncircled=function(sheetName,position,checkpointXRate,checkpoi
  * The sheet where the copied shape is.<br> 
  * @param {String} templateShapeName: required<br>
  * The name of the copied shape.
- * @param {Number} shapeCenterXRate: optional, if undefined it is same to the template.<br>
+ * @param {Number} shapeCenterXRate: optional, the default is 0.5 .<br>
  * The rate of the created shape's center to the width of the cell.<br>
- * @param {Number} shapeCenterYRate optional, if undefined it is same to the template.<br>
+ * @param {Number} shapeCenterYRate optional, the default is 0.5 .<br>
  * The rate of the created shape's center to the height of the cell.<br>
- * @param {Number} shapeWidthRate optional, if undefined it is same to the template.<br>
+ * @param {Number} shapeWidthRate optional, the default is 0.5 .<br>
  * The rate of the created shape's width to the width of the cell.<br>
- * @param {Number} shapeHeightRate optional, if undefined it is same to the template<br>
+ * @param {Number} shapeHeightRate optional, the default is 0.5 .<br>
  * The rate of the created shape's height to the height of the cell.<br>
  * @returns {Excel}
  */
 Excel.prototype.encircle= function(sheetName,position,templateSheetName,templateShapeName,shapeCenterXRate,shapeCenterYRate,shapeWidthRate,shapeHeightRate){
-	//if (shapeCenterXRate==null)shapeCenterXRate=0.5;
-	//if (shapeCenterYRate==null)shapeCenterYRate=0.5;
-	//if (shapeWidthRate==null)shapeWidthRate=0.5;
-	//if (shapeHeightRate==null)shapeHeightRate=0.5;
+	if (shapeCenterXRate==null)shapeCenterXRate=0.5;
+	if (shapeCenterYRate==null)shapeCenterYRate=0.5;
+	if (shapeWidthRate==null)shapeWidthRate=0.5;
+	if (shapeHeightRate==null)shapeHeightRate=0.5;
 	this._workbook.encircle(sheetName,position,templateSheetName,templateShapeName,shapeCenterXRate,shapeCenterYRate,shapeWidthRate,shapeHeightRate);
 	return this;
 };
