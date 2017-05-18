@@ -19,7 +19,11 @@ The Client tag will be replaced like the next.
 &lt;head&gt;
 ...
 &lt;link href=&quot;./efw/efw.css&quot; rel=&quot;stylesheet&quot;&gt;
-...
+&lt;link href=&quot;./efw/jquery-ui.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link href=&quot;./efw/jquery-ui.structure.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;link href=&quot;./efw/jquery-ui.theme.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/jquery-min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/jquery-ui.min.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/js.cookie.min.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.client.messages.js&quot;&gt;&lt;/script&gt;
 &lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.client.format.js&quot;&gt;&lt;/script&gt;
@@ -49,6 +53,16 @@ You can get the params in the part jsp by request.getAttribute like the next.
 </pre>
 <hr>
 <H1>Addition Tags</H1>
+To use addition tags, the smallist constitution is the next.<br>
+<pre>
+    webApp
+    ├─yourPage.jsp
+    └─WEB-INF
+        └─lib
+            ├─efw-3.#.###.jar
+            ├─efw-addition-tags-3.#.###.jar
+            └─juniversalchardet-1.0.3.jar
+</pre>
 
 <h2>elFinder Tag</h2>
 ElFinder is a famous file manager for web. We made a customized version from <a href="https://studio-42.github.io/elFinder/">elFinder 2.1</a>,
