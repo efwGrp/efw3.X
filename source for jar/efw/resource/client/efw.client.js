@@ -484,7 +484,13 @@ EfwClient.prototype._showActions = function(actions) {
 		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
 			if(EfwClient_showActions_MsgClosed){
 				window.clearInterval(EfwClient_showActions_Navigate_Handle);
-				if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
+				if (actions.navigate){
+					var url=actions.navigate.url;
+					if (actions.navigate.params!=null){
+						url+=(url.indexOf("?")>-1? "&":"?")+$.param(actions.navigate.params);
+					}
+					window.open(url, "_self");
+				}
 			}
 		}, 100);
 		return;
@@ -539,13 +545,25 @@ EfwClient.prototype._showActions = function(actions) {
 	//-------------------------------------------------------------------------
 	if(EfwClient_showActions_MsgClosed&&EfwClient_showActions_Downloaded&&EfwClient_showActions_Evaled){
 		try{if (actions.focus)$(actions.focus).focus();}catch(e){}
-		if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
+		if (actions.navigate){
+			var url=actions.navigate.url;
+			if (actions.navigate.params!=null){
+				url+=(url.indexOf("?")>-1? "&":"?")+$.param(actions.navigate.params);
+			}
+			window.open(url, "_self");
+		}
 	}else{
 		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
 			if(EfwClient_showActions_MsgClosed&&EfwClient_showActions_Downloaded){
 				window.clearInterval(EfwClient_showActions_Navigate_Handle);
 				try{if (actions.focus)$(actions.focus).focus();}catch(e){}
-				if (actions.navigate)window.open(actions.navigate.url+(actions.navigate.params ? "?"+$.param(actions.navigate.params):""), "_self");
+				if (actions.navigate){
+					var url=actions.navigate.url;
+					if (actions.navigate.params!=null){
+						url+=(url.indexOf("?")>-1? "&":"?")+$.param(actions.navigate.params);
+					}
+					window.open(url, "_self");
+				}
 			}
 		}, 100);
 	}

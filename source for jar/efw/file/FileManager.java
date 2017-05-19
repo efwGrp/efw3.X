@@ -126,13 +126,19 @@ public final class FileManager {
 	    return size;
 	}
 
-	public static void remove(File f){
+	public static void remove(File f) throws IOException{
         if(!f.exists()) return;	//ファイルまたはディレクトリが存在しない場合は何もしない
-        else if(f.isFile()) f.delete();//ファイルの場合は削除する
+        else if(f.isFile()) {//ファイルの場合は削除する
+        	if (!f.delete()){
+            	throw new IOException("FileManager remove false.");
+        	}
+        }
         else if(f.isDirectory()){//ディレクトリの場合は、すべてのファイルを削除する
             File[] files = f.listFiles();//対象ディレクトリ内のファイルおよびディレクトリの一覧を取得
             for(int i=0; i<files.length; i++) FileManager.remove( files[i] );//ファイルおよびディレクトリをすべて削除  自身をコールし、再帰的に削除する
-            f.delete();//自ディレクトリを削除する
+            if(!f.delete()){//自ディレクトリを削除する
+            	throw new IOException("FileManager remove false.");
+            }
         }
     }
     
@@ -295,9 +301,14 @@ public final class FileManager {
 	/**
 	 * フォルダを作成する
 	 * @param p
+	 * @throws Exception 
 	 */
-	public static void makeDir(File p){
-		if (!p.exists())p.mkdirs();
+	public static void makeDir(File p) throws IOException{
+		if (!p.exists()){
+			if (!p.mkdirs()){
+				throw new IOException("FileManager makeDir false.");
+			}
+		}
 	}
 	/**
 	 * テキストファイルを読み取る。文字コードは自動判断する。
