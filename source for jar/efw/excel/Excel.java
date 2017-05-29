@@ -4,23 +4,14 @@ package efw.excel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ddf.EscherComplexProperty;
-import org.apache.poi.ddf.EscherOptRecord;
-import org.apache.poi.ddf.EscherProperties;
-import org.apache.poi.ddf.EscherProperty;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFShape;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFSimpleShape;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.formula.EvaluationWorkbook;
@@ -34,10 +25,13 @@ import org.apache.poi.ss.formula.ptg.RefPtgBase;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.DataValidation;
 import org.apache.poi.ss.usermodel.DataValidationHelper;
 import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Hyperlink;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -45,13 +39,14 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.util.StringUtil;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFEvaluationWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFShape;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFSimpleShape;
+import org.apache.poi.xssf.usermodel.XSSFTextParagraph;
+import org.apache.poi.xssf.usermodel.XSSFTextRun;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import efw.file.FileManager;
@@ -141,7 +136,7 @@ public final class Excel {
 	 * @param position セルの位置　"A0" のように表現する。
 	 * @return
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public Object get(String sheetName, String position) {
 		try {
 			Cell cell=getCell(sheetName,position);
@@ -220,6 +215,29 @@ public final class Excel {
             allSheetNames.add(sheet.getSheetName());
         }
         return allSheetNames;		
+	}
+	/**
+	 * セルにリンクを追加する
+	 * @param sheetName リンクを追加するセルが所属するシート名
+	 * @param position リンクを追加するセル名
+	 * @param linkUrl リンクした先名 "#'シート名'!A1"のように
+	 */
+	public void setLink(String sheetName,String position,String linkUrl){
+		
+		CreationHelper ch = workbook.getCreationHelper();
+		Hyperlink link = null;
+		if(linkUrl.startsWith("mailto:")){
+			link = ch.createHyperlink(HyperlinkType.EMAIL);
+		}else if(linkUrl.startsWith("http:") || linkUrl.startsWith("https:")){
+			link = ch.createHyperlink(HyperlinkType.URL);
+		}else if(linkUrl.startsWith("#'") && linkUrl.indexOf("'!")!=(-1)){
+			link = ch.createHyperlink(HyperlinkType.DOCUMENT);
+		}else{
+			link = ch.createHyperlink(HyperlinkType.FILE);
+		}
+		link.setAddress(linkUrl);
+		Cell cell=this.getCell(sheetName, position);
+		cell.setHyperlink(link);
 	}
 	/**
 	 * シートの順番を設定する。
@@ -358,7 +376,7 @@ public final class Excel {
 	 * @param templateSheetName　参考するシート名。
 	 * @param templatePosition　参考するセルの場所。
 	 */
-	@SuppressWarnings("deprecation")
+	
 	public void setCellFormula(String sheetName, String position, String templateSheetName, String templatePosition){
 		//Style
 		Cell cell=this.getCell(sheetName, position);
@@ -426,30 +444,19 @@ public final class Excel {
 		Cell cell=this.getCell(sheetName, position);
 		int cellrow=cell.getRowIndex();
 		int cellcol=cell.getColumnIndex();
-		if (this.workbook instanceof HSSFWorkbook) {
-	        HSSFSheet sheet = ((HSSFWorkbook) (this.workbook)).getSheet(sheetName);
-	        HSSFPatriarch patriarch=sheet.getDrawingPatriarch();
-			if(patriarch==null) return false;
-	    	int checkPointX =(int)(checkpointXRate * 1023);
-	    	int checkPointY = (int)(checkpointYRate * 255);
-	        List<HSSFShape> shapes=patriarch.getChildren();
-	        for (HSSFShape shape : shapes) {
-	            HSSFClientAnchor a = (HSSFClientAnchor)shape.getAnchor();
-	            if (checkEncircled(cellrow,cellcol,checkPointX,checkPointY,a.getRow1(),a.getCol1(),a.getRow2(),a.getCol2(),a.getDx1(),a.getDy1(),a.getDx2(),a.getDy2())) return true;
-	        }
-		}else{
-			XSSFSheet sheet = ((XSSFWorkbook) (this.workbook)).getSheet(sheetName);
-			XSSFDrawing patriarch = sheet.getDrawingPatriarch();
-			if(patriarch==null) return false;
-	    	int checkPointX =(int)(checkpointXRate * cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * XSSFShape.EMU_PER_PIXEL);
-	    	int checkPointY = (int)(checkpointYRate * cell.getRow().getHeight() / 20.0D * XSSFShape.EMU_PER_POINT);
-	        List<XSSFShape> shapes=patriarch.getShapes();
-	        for (XSSFShape shape : shapes) {
-	            XSSFClientAnchor a = (XSSFClientAnchor)shape.getAnchor();
-	            if (checkEncircled(cellrow,cellcol,checkPointX,checkPointY,a.getRow1(),a.getCol1(),a.getRow2(),a.getCol2(),a.getDx1(),a.getDy1(),a.getDx2(),a.getDy2())) return true;
-	        }
-		}
-		return false;
+
+		XSSFSheet sheet = ((XSSFWorkbook) (this.workbook)).getSheet(sheetName);
+		XSSFDrawing patriarch = sheet.getDrawingPatriarch();
+		if(patriarch==null) return false;
+    	int checkPointX =(int)(checkpointXRate * cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * XSSFShape.EMU_PER_PIXEL);
+    	int checkPointY = (int)(checkpointYRate * cell.getRow().getHeight() / 20.0D * XSSFShape.EMU_PER_POINT);
+        List<XSSFShape> shapes=patriarch.getShapes();
+        for (XSSFShape shape : shapes) {
+            XSSFClientAnchor a = (XSSFClientAnchor)shape.getAnchor();
+            if (checkEncircled(cellrow,cellcol,checkPointX,checkPointY,a.getRow1(),a.getCol1(),a.getRow2(),a.getCol2(),a.getDx1(),a.getDy1(),a.getDx2(),a.getDy2())) return true;
+        }
+
+        return false;
 	}
 	/**
 	 * isEncircledに利用する内部関数。囲まれたかどうか判断する。
@@ -513,114 +520,181 @@ public final class Excel {
 		Cell cell=this.getCell(sheetName, position);
 	    int cellrow=cell.getRowIndex();
 	    int cellcol=cell.getColumnIndex();
-	    if (this.workbook instanceof HSSFWorkbook) {
-			HSSFSheet sheet = (HSSFSheet) this.workbook.getSheet(sheetName);
-			HSSFSheet templateSheet=(HSSFSheet) this.workbook.getSheet(templateSheetName);
-        	List<HSSFShape> templateShapes=((HSSFPatriarch) templateSheet.getDrawingPatriarch()).getChildren();
-			for (HSSFShape templateShape : templateShapes) {
-        		if (templateShape instanceof HSSFSimpleShape && 
-            			templateShapeName.equals(Excel.getShapeName((HSSFSimpleShape) templateShape))) {
-        			
-        			HSSFPatriarch patriarch=(HSSFPatriarch)sheet.getDrawingPatriarch();
-        			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
 
-        			HSSFClientAnchor anchor=(HSSFClientAnchor)(Excel.cloneShape(patriarch,(HSSFSimpleShape) templateShape).getAnchor());
-        			
-        			int cellWidth=1023;
-        		    int cellHeight=255;
-        		    double shapeWidth=cellWidth*shapeWidthRate;
-        		    double shapeHeight=cellHeight*shapeHeightRate;
-        		    
-        			int dx1= (int)(cellWidth*shapeCenterXRate-shapeWidth/2);
-        			int dx2= (int)(dx1+shapeWidth);
-        			int dy1= (int)(cellHeight*shapeCenterYRate-shapeHeight/2);
-        			int dy2= (int)(dy1+shapeHeight);
+    	XSSFSheet sheet = (XSSFSheet) this.workbook.getSheet(sheetName);
+    	XSSFSheet templateSheet=(XSSFSheet) this.workbook.getSheet(templateSheetName);
+    	List<XSSFShape> templateShapes=((XSSFDrawing) templateSheet.getDrawingPatriarch()).getShapes();
+        for (XSSFShape templateShape : templateShapes) {
+    		if (templateShape instanceof XSSFSimpleShape && 
+    				templateShapeName.equals(Excel.getShapeName((XSSFSimpleShape) templateShape))) {
+                XSSFDrawing patriarch=sheet.getDrawingPatriarch();
+    			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
+    			XSSFClientAnchor anchor=(XSSFClientAnchor)(Excel.cloneShape(patriarch,(XSSFSimpleShape) templateShape).getAnchor());
 
-        			anchor.setRow1(cellrow);
-        			anchor.setRow2(cellrow);
-        			anchor.setCol1(cellcol);
-        			anchor.setCol2(cellcol);
-        			anchor.setDx1(dx1);
-        			anchor.setDx2(dx2);
-        			anchor.setDy1(dy1);
-        			anchor.setDy2(dy2);
-        			break;
-                }
-            }
-        } else {
-        	XSSFSheet sheet = (XSSFSheet) this.workbook.getSheet(sheetName);
-        	XSSFSheet templateSheet=(XSSFSheet) this.workbook.getSheet(templateSheetName);
-        	List<XSSFShape> templateShapes=((XSSFDrawing) templateSheet.getDrawingPatriarch()).getShapes();
-            for (XSSFShape templateShape : templateShapes) {
-        		if (templateShape instanceof XSSFSimpleShape && 
-        				templateShapeName.equals(Excel.getShapeName((XSSFSimpleShape) templateShape))) {
-                    XSSFDrawing patriarch=sheet.getDrawingPatriarch();
-        			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
-        			XSSFClientAnchor anchor=(XSSFClientAnchor)(Excel.cloneShape(patriarch,(XSSFSimpleShape) templateShape).getAnchor());
+    			int cellWidth=(int)(cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * XSSFShape.EMU_PER_PIXEL);
+    		    int cellHeight=(int)(cell.getRow().getHeight() / 20.0D * XSSFShape.EMU_PER_POINT);
+    		    double shapeWidth=cellWidth*shapeWidthRate;
+    		    double shapeHeight=cellHeight*shapeHeightRate;
+    		    
+    			int dx1= (int)(cellWidth*shapeCenterXRate-shapeWidth/2);
+    			int dx2= (int)(dx1+shapeWidth);
+    			int dy1= (int)(cellHeight*shapeCenterYRate-shapeHeight/2);
+    			int dy2= (int)(dy1+shapeHeight);
+    			
+    			anchor.setRow1(cellrow);
+    			anchor.setRow2(cellrow);
+    			anchor.setCol1(cellcol);
+    			anchor.setCol2(cellcol);
+    			anchor.setDx1(dx1);
+    			anchor.setDx2(dx2);
+    			anchor.setDy1(dy1);
+    			anchor.setDy2(dy2);
 
-        			int cellWidth=(int)(cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * XSSFShape.EMU_PER_PIXEL);
-        		    int cellHeight=(int)(cell.getRow().getHeight() / 20.0D * XSSFShape.EMU_PER_POINT);
-        		    double shapeWidth=cellWidth*shapeWidthRate;
-        		    double shapeHeight=cellHeight*shapeHeightRate;
-        		    
-        			int dx1= (int)(cellWidth*shapeCenterXRate-shapeWidth/2);
-        			int dx2= (int)(dx1+shapeWidth);
-        			int dy1= (int)(cellHeight*shapeCenterYRate-shapeHeight/2);
-        			int dy2= (int)(dy1+shapeHeight);
-        			
-        			anchor.setRow1(cellrow);
-        			anchor.setRow2(cellrow);
-        			anchor.setCol1(cellcol);
-        			anchor.setCol2(cellcol);
-        			anchor.setDx1(dx1);
-        			anchor.setDx2(dx2);
-        			anchor.setDy1(dy1);
-        			anchor.setDy2(dy2);
-
-        			break;
-    			}
-            }
+    			break;
+			}
         }
-
 	}
 	
 	/**
-	 * HSSFのShapeをコピーする
-	 * @param patriarch
-	 * @param templateShape
-	 * @return 作成されたshape
+	 * 指定sheetの指定セルの指定位置に、図形をコピーして置く。
+	 * @param sheetName シート名。
+	 * @param position セルの場所、"A1"のように。
+	 * @param templateSheetName　参考するシート名。
+	 * @param templateShapeName　参考する図形の名称。
+	 * @param value 新しい図形の内容。
+	 * @param x 新しい図形の左上位置はセルの幅との長さ、デフォルトが参考するシートの図形と同じ。
+	 * @param y 新しい図形の左上位置はセルの高さとの高さ、デフォルトが参考するシートの図形と同じ。　
+	 * @param width 新しい図形の長さ。
+	 * @param height 新しい図形の高さ。
 	 */
-	private static HSSFSimpleShape cloneShape(HSSFPatriarch patriarch,HSSFSimpleShape templateShape){
-		try {
-			Method cloneShape=HSSFShape.class.getDeclaredMethod("cloneShape");
-			cloneShape.setAccessible(true);
-			HSSFShape shape=(HSSFShape)cloneShape.invoke((HSSFShape)templateShape);
-			Method onCreate = HSSFPatriarch.class.getDeclaredMethod("onCreate", HSSFShape.class);
-			onCreate.setAccessible(true);
-			onCreate.invoke(patriarch,shape);
-			patriarch.addShape(shape);
-	        return (HSSFSimpleShape)shape;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-        return null;
-	}
-	/**
-	 * HSSFのShape名を取得する。
-	 * @param shape
-	 * @return shape名
-	 */
-	private static String getShapeName(HSSFSimpleShape shape){
-		EscherOptRecord opt=shape.getOptRecord();
-		List<EscherProperty> prts=opt.getEscherProperties();
-		for(EscherProperty prt:prts){
-			if (EscherProperties.GROUPSHAPE__SHAPENAME==prt.getPropertyNumber()){
-				EscherComplexProperty p=(EscherComplexProperty)prt;
-				return StringUtil.getFromUnicodeLE(p.getComplexData()).trim();
+	public void addShapeInCell(String sheetName,String position,String templateSheetName,String templateShapeName,
+			String value,int x,int y,int width,int height){
+		Cell cell=this.getCell(sheetName, position);
+	    int cellrow=cell.getRowIndex();
+	    int cellcol=cell.getColumnIndex();
+
+    	XSSFSheet sheet = (XSSFSheet) this.workbook.getSheet(sheetName);
+    	XSSFSheet templateSheet=(XSSFSheet) this.workbook.getSheet(templateSheetName);
+    	List<XSSFShape> templateShapes=((XSSFDrawing) templateSheet.getDrawingPatriarch()).getShapes();
+        for (XSSFShape templateShape : templateShapes) {
+    		if (templateShape instanceof XSSFSimpleShape && 
+    				templateShapeName.equals(Excel.getShapeName((XSSFSimpleShape) templateShape))) {
+                XSSFDrawing patriarch=sheet.getDrawingPatriarch();
+    			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
+    			XSSFSimpleShape shape=Excel.cloneShape(patriarch,(XSSFSimpleShape) templateShape);
+    			// 図形の中に文字内容を設定する
+    			if(value!=null){
+					if(shape.getTextParagraphs().size()>0){
+						XSSFTextParagraph paragraph=shape.getTextParagraphs().get(0);
+						if(paragraph.getTextRuns().size()>0){
+							paragraph.getTextRuns().get(0).setText(value);
+						}
+					}
+				}
+    			XSSFClientAnchor anchor=(XSSFClientAnchor)(shape.getAnchor());
+    			int dx1=XSSFShape.EMU_PER_PIXEL*x;
+    			int dy1=XSSFShape.EMU_PER_PIXEL*y;
+    			int dx2=0;
+    			int dy2=0;
+    			width=width*XSSFShape.EMU_PER_PIXEL;
+    			height=height*XSSFShape.EMU_PER_PIXEL;
+    			if(x==0){
+    				dx1=anchor.getDx1();
+    			}
+    			if(y==0){
+    				dy1=anchor.getDy1();
+    			}
+    			if(width==0){
+    				width=anchor.getDx2()-anchor.getDx1();
+    			}
+    			if(height==0){
+    				height=anchor.getDy2()-anchor.getDy1();
+    			}
+    			dx2=width+dx1;
+    			dy2=height+dy1;
+    			anchor.setRow1(cellrow);
+    			anchor.setRow2(cellrow);
+    			anchor.setCol1(cellcol);
+    			anchor.setCol2(cellcol);
+    			anchor.setDx1(dx1);
+    			anchor.setDy1(dy1);
+    			anchor.setDx2(dx2);
+    			anchor.setDy2(dy2);
+    			break;
 			}
-		}
-		return "";
+        }
 	}
+	
+	/**
+	 * 指定sheetの指定セルの指定位置に、図形をコピーして置く。
+	 * @param sheetName シート名。
+	 * @param firstCellPosition セルの場所、"A1"のように。
+	 * @param lastCellPosition セルの場所、"A1"のように。
+	 * @param templateSheetName　参考するシート名。
+	 * @param templateShapeName　参考する図形の名称。
+	 * @param value 新しい図形の内容。
+	 * @param dx1 新しい図形の左上位置はセルの幅との長さ、デフォルトが参考するシートの図形と同じ。
+	 * @param dy1 新しい図形の左上位置はセルの高さとの高さ、デフォルトが参考するシートの図形と同じ。
+	 * @param dx2 新しい図形の右下位置はセルの幅との長さ、デフォルトが参考するシートの図形と同じ。
+	 * @param dy2 新しい図形の右下位置はセルの高さとの高さ、デフォルトが参考するシートの図形と同じ。
+	 */
+	public void addShapeInRange(String sheetName,String firstCellPosition,String lastCellPosition,String templateSheetName,String templateShapeName,
+			String value,int dx1,int dy1,int dx2,int dy2){
+		Cell firstCell=this.getCell(sheetName, firstCellPosition);
+	    int firstCellrow=firstCell.getRowIndex();
+	    int firstCellcol=firstCell.getColumnIndex();
+	    Cell lastCell=this.getCell(sheetName, lastCellPosition);
+	    int lastCellrow=lastCell.getRowIndex();
+	    int lastCellcol=lastCell.getColumnIndex();
+
+    	XSSFSheet sheet = (XSSFSheet) this.workbook.getSheet(sheetName);
+    	XSSFSheet templateSheet=(XSSFSheet) this.workbook.getSheet(templateSheetName);
+    	List<XSSFShape> templateShapes=((XSSFDrawing) templateSheet.getDrawingPatriarch()).getShapes();
+        for (XSSFShape templateShape : templateShapes) {
+    		if (templateShape instanceof XSSFSimpleShape && 
+    				templateShapeName.equals(Excel.getShapeName((XSSFSimpleShape) templateShape))) {
+                XSSFDrawing patriarch=sheet.getDrawingPatriarch();
+    			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
+    			
+    			XSSFSimpleShape shape=Excel.cloneShape(patriarch,(XSSFSimpleShape) templateShape);
+    			// 図形の中に文字内容を設定する
+    			if(value!=null){
+					if(shape.getTextParagraphs().size()>0){
+						XSSFTextParagraph paragraph=shape.getTextParagraphs().get(0);
+						if(paragraph.getTextRuns().size()>0){
+							paragraph.getTextRuns().get(0).setText(value);
+						}
+					}
+				}
+    			XSSFClientAnchor anchor=(XSSFClientAnchor)(shape.getAnchor());
+    			anchor.setRow1(firstCellrow);
+    			anchor.setRow2(lastCellrow);
+    			anchor.setCol1(firstCellcol);
+    			anchor.setCol2(lastCellcol);
+    			dx1=dx1*XSSFShape.EMU_PER_PIXEL;
+    			dy1=dy1*XSSFShape.EMU_PER_PIXEL;
+    			dx2=dx2*XSSFShape.EMU_PER_PIXEL;
+    			dy2=dy2*XSSFShape.EMU_PER_PIXEL;
+    			if(dx1==0){
+    				dx1=anchor.getDx1();
+    			}
+    			if(dy1==0){
+    				dy1=anchor.getDy1();
+    			}
+    			if(dx2==0){
+    				dx2=anchor.getDx2();
+    			}
+    			if(dy2==0){
+    				dy2=anchor.getDy2();
+    			}
+    			anchor.setDx1(dx1);
+    			anchor.setDy1(dy1);
+    			anchor.setDx2(dx2);
+    			anchor.setDy2(dy2);
+    			break;
+			}
+        }
+	}	
 	/**
 	 * XSSFのShapeをコピーする
 	 * @param patriarch
@@ -630,7 +704,26 @@ public final class Excel {
 	private static XSSFSimpleShape cloneShape(XSSFDrawing patriarch,XSSFSimpleShape templateShape){
 		XSSFSimpleShape shape = patriarch.createSimpleShape((XSSFClientAnchor)templateShape.getAnchor());
 		shape.getCTShape().set(templateShape.getCTShape().copy());
-		
+		if(templateShape.getTextParagraphs().size()>0){
+			XSSFTextParagraph tempParagraph=templateShape.getTextParagraphs().get(0);
+			if(tempParagraph.getTextRuns().size()>0){
+				XSSFTextRun tempRun=tempParagraph.getTextRuns().get(0);
+				shape.setText(tempRun.getText());
+				if(shape.getTextParagraphs().size()>0){
+					XSSFTextParagraph paragraph=shape.getTextParagraphs().get(0);
+					if(paragraph.getTextRuns().size()>0){
+						XSSFTextRun textRun= paragraph.getTextRuns().get(0);
+						textRun.setText(tempRun.getText());
+						textRun.setFontSize(tempRun.getFontSize());
+						textRun.setCharacterSpacing(tempRun.getCharacterSpacing());
+						textRun.setFontColor(tempRun.getFontColor());
+						textRun.setFontFamily(tempRun.getFontFamily(), Font.DEFAULT_CHARSET, tempRun.getPitchAndFamily(), false);
+						paragraph.setTextAlign(tempParagraph.getTextAlign());
+						paragraph.setTextFontAlign(tempParagraph.getTextFontAlign());
+					}
+				}
+			}
+		}
 		return shape;
 	}
 	/**

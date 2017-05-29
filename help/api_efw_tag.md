@@ -9,26 +9,17 @@ You can use the Efw Tag to make the importing easy.
 &lt;%@ taglib prefix=&quot;efw&quot; uri=&quot;efw&quot; %&gt;
 &lt;head&gt;
 ...
-&lt;efw:Client/&gt;		//efw:client or efw:CLIENT
+&lt;efw:Client baseurl="/appfolder" /&gt;		//efw:client or efw:CLIENT
 ...
 &lt;/head&gt;
 </pre>
-The Client tag will be replaced like the next.
 
-<pre>
-&lt;head&gt;
-...
-&lt;link href=&quot;./efw/efw.css&quot; rel=&quot;stylesheet&quot;&gt;
-...
-&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/js.cookie.min.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.client.messages.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.client.format.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.client.inputbehavior.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.client.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot; charset=&quot;UTF-8&quot; src=&quot;./efw/efw.js&quot;&gt;&lt;/script&gt;
-...
-&lt;/head&gt;
-</pre>
+<h3>Attributes</h3>
+<table>
+<tr><th>Name</th><th>Required</th><th>Default</th><th>Description</th></tr>
+<tr><td>baseurl</td><td>No</td><td>"."</td><td>The web application base url. If your page is not in the base folder, it is must.</td></tr>
+</table>
+
 
 <h2>Part Tag</h2>
 It will be more easy using Part tag to include a common page part made by JSP in your own JSP.

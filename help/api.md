@@ -57,7 +57,10 @@
 </tr>
 <tr><td></td>
 <td><a href="excel.setCell.md">setCell</a></td>
+<td><a href="excel.setLink.md">setLink</a></td>
 <td><a href="excel.encircle.md">encircle</a></td>
+<td><a href="excel.addShape.md">addShape</a></td>
+<td><a href="excel.addShapeInRange.md">addShapeInRange</a></td>
 </tr>
 <tr><td></td>
 <td><a href="excel.getArray.md">getArray</a></td>

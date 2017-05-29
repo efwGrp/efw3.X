@@ -249,6 +249,17 @@ Excel.prototype.removeSheet = function(sheetName){
 	return this;
 };
 /**
+ * The function to set a link in cell.
+ * @param {String} sheetName : required<br>
+ * @param {String} position : required<br>
+ * @param {String} linkUrl : required<br>
+ * @returns {Excel}
+ */
+Excel.prototype.setLink = function(sheetName,position,linkUrl) {
+	this._workbook.setLink(sheetName,position,linkUrl);
+	return this;
+};
+/**
  * The function to move a sheet's position.
  * @param {String} sheetName: required<br>
  * @param {Number} order: required, start from 1.<br>
@@ -347,4 +358,52 @@ Excel.prototype.encircle= function(sheetName,position,templateSheetName,template
 	this._workbook.encircle(sheetName,position,templateSheetName,templateShapeName,shapeCenterXRate,shapeCenterYRate,shapeWidthRate,shapeHeightRate);
 	return this;
 };
-
+/**
+ * The function to create a shape by coping to encircle a cell.
+ * @param {String} sheetName: required<br>
+ * @param {String} position: required<br>
+ * @param {String} templateSheetName: required<br>
+ * The sheet where the copied shape is.<br> 
+ * @param {String} templateShapeName: required<br>
+ * The name of the copied shape.
+*  @param {String} text optional,the default is same to template'shape.<br>
+ * The created shape's text value.<br>
+ * @param {Number} x: optional, the default is same to template'shape.<br>
+ * The x coordinate of the created shape in the cell.<br>
+ * @param {Number} y optional, the default is same to template'shape.<br>
+ * The y coordinate of the created shape in the cell.<br>
+ * @param {Number} width optional, the default is same to template'shape.<br>
+ * The created shape's width.<br>
+ * @param {Number} height optional,the default is same to template'shape.<br>
+ * The created shape's height.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.addShape= function(sheetName,position,templateSheetName,templateShapeName,text,x,y,width,height){
+	this._workbook.addShapeInCell(sheetName,position,templateSheetName,templateShapeName,text,x,y,width,height);
+	return this;
+};
+/**
+ * The function to create a shape by coping to encircle cell range.
+ * @param {String} sheetName: required<br>
+ * @param {String} firstCellPosition: required<br>
+ * @param {String} lastCellPosition: required<br>
+ * @param {String} templateSheetName: required<br>
+ * The sheet where the copied shape is.<br> 
+ * @param {String} templateShapeName: required<br>
+ * The name of the copied shape.
+ * @param {String} text optional,the default is same to template'shape.<br>
+ * The created shape's text value.<br>
+ * @param {Number} x1: optional, the default is same to template'shape.<br>
+ * The x coordinate within the first cell.<br>
+ * @param {Number} y1 optional, the default is same to template'shape.<br>
+ * The y coordinate within the first cell.<br>
+ * @param {Number} x2 optional, the default is same to template'shape.<br>
+ * The x coordinate within the last cell.<br>
+ * @param {Number} y2 optional,the default is same to template'shape.<br>
+ * The y coordinate within the last cell.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.addShapeInRange= function(sheetName,firstCellPosition,lastCellPosition,templateSheetName,templateShapeName,text,x1,y1,x2,y2){
+	this._workbook.addShapeInRange(sheetName,firstCellPosition,lastCellPosition,templateSheetName,templateShapeName,text,x1,y1,x2,y2);
+	return this;
+};

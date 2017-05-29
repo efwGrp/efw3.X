@@ -25,11 +25,17 @@ EfwClient.prototype.fire = function(eventParams) {
 	$(".efw_input_error").removeClass("efw_input_error");// clear input error
 	EfwClient.prototype._displayLoading();
 	var servletUrl = "efwServlet";
-	if (eventParams.server)
+	if (eventParams.server){
 		servletUrl = eventParams.server + "/" + servletUrl;
+	}else{
+		servletUrl = Efw.prototype.baseurl + "/" + servletUrl;
+	}
 	var uploadUrl = "uploadServlet";
-	if (eventParams.server)
+	if (eventParams.server){
 		uploadUrl = eventParams.server + "/" + uploadUrl;
+	}else{
+		uploadUrl = Efw.prototype.baseurl + "/" + uploadUrl;
+	}
 	$.ajax({
 		url : servletUrl,
 		type : "POST",// post method
@@ -142,7 +148,6 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams, ser
 				})
 			},
 			success : function(result) {
-				Efw.prototype.result=result;
 				EfwClient.prototype._consoleLog(
 						"Second calling result", result);
 				//show values
@@ -503,7 +508,7 @@ EfwClient.prototype._showActions = function(actions) {
 	//-------------------------------------------------------------------------
 	if (actions.download){
 		EfwClient_showActions_Downloaded=false;
-		window.location = "downloadServlet";
+		window.location = Efw.prototype.baseurl+"/downloadServlet";
 		EfwClient_showActions_Download_Handle = window.setInterval(function(){
 			if (Cookies.get("efw_Downloaded")) {
 				Cookies.remove("efw_Downloaded",{path : "/"});
