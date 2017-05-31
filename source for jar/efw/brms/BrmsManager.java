@@ -12,6 +12,9 @@ import com.innoexpert.rulesclient.ResultSet;
 import com.innoexpert.rulesclient.RuleInterface;
 import com.innoexpert.rulesclient.RuleReq;
 import com.innoexpert.rulesclient.RulesException;
+import com.innorules.rrt.InitializerHelper;
+
+import efw.properties.PropertiesManager;
 
 import java.util.Map.Entry;
 
@@ -28,7 +31,7 @@ public class BrmsManager {
 	public static synchronized void initFromBatch() throws Exception{
 		try{
 			// プロパティ ファイルから、codeTypeを取得する。
-//			ModuleInitializer.initialize("innorules");
+			InitializerHelper.initialize(PropertiesManager.prop);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw e;
@@ -38,7 +41,7 @@ public class BrmsManager {
 	 * バッチからルールを実行完了後
 	 */
 	public static synchronized void destroyFromBatch(){
-	//	ModuleInitializer.destroy();
+		InitializerHelper.cleanup();
 	}
 	/**
 	 * IDでルール呼び出し
