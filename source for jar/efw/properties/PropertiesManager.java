@@ -145,6 +145,11 @@ public final class PropertiesManager {
 	 */
 	public static final String EFW_PDF_PDFTK ="efw.pdf.pdftk";
 	/**
+	 * ExcelをPDFに変換するためのOpenOfficeのポート。
+	 * 「efw.openoffice.port」の定数。
+	 */
+	public static final String EFW_OPENOFFICE_PORT = "efw.openoffice.port";  
+	/**
 	 * ログインチェック不要なURLの正規表現文字列
 	 */
 	public static final String EFW_OUTOFLOGIN_URL_PATTERN="efw.outoflogin.url.pattern";

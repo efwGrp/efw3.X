@@ -17,6 +17,16 @@ EfwServerPdf.prototype.create = function(url, savePath) {
 	Packages.efw.pdf.PdfManager.url2Pdf(url, savePath);
 };
 /**
+ * The function to convert a excel object to a pdf,<br> 
+ * and save it as the relative path to the storage folder.
+ * @param {String} excel: required<br>
+ * @param {String} savePath: required<br>
+ * @returns {EfwServerPdf}
+ */
+EfwServerPdf.prototype.convert = function(excel, savePath) {
+	excel._workbook.toPdf(savePath);
+};
+/**
  * The function to merge all pdfs in a relative folder to the storage folder,<br> 
  * and save it as the relative path to the storage folder.
  * @param {String} folder: required<br>
@@ -26,3 +36,4 @@ EfwServerPdf.prototype.create = function(url, savePath) {
 EfwServerPdf.prototype.merge = function(folder, savePath) {
 	Packages.efw.pdf.PdfManager.merge(folder, savePath);
 };
+

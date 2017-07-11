@@ -4,6 +4,8 @@ package efw.excel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,6 +34,7 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Hyperlink;
+import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -49,6 +52,7 @@ import org.apache.poi.xssf.usermodel.XSSFTextParagraph;
 import org.apache.poi.xssf.usermodel.XSSFTextRun;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import efw.efwException;
 import efw.file.FileManager;
 /**
  * Excelオブジェクトを取り扱うクラス。
@@ -130,13 +134,13 @@ public final class Excel {
         }
         return cell;
 	}
+	
 	/**
 	 * セルの値を取得する。
 	 * @param sheetName　シート名
 	 * @param position セルの位置　"A0" のように表現する。
 	 * @return
 	 */
-	
 	public Object get(String sheetName, String position) {
 		try {
 			Cell cell=getCell(sheetName,position);
@@ -183,6 +187,18 @@ public final class Excel {
 		return null;
 	}
 	/**
+	 * シートの印刷範囲を設定。
+	 * @param sheetName　シート名。
+	 * @param startRow　開始行番号。
+	 * @param endRow　終了行番号。
+	 * @param startCol 開始列番号。
+	 * @param endCol 終了列番号。
+	 */
+	public void setPrintArea(String sheetName, int startRow, int endRow, int startCol, int endCol){
+		Sheet sheet = workbook.getSheet(sheetName);
+		workbook.setPrintArea(workbook.getSheetIndex(sheet), startCol, endCol, startRow, endRow);
+	}
+	/**
 	 * シートを作成する。
 	 * @param sheetName　シート名。
 	 * @param templateSheetName　コピー元シート名。
@@ -193,6 +209,18 @@ public final class Excel {
 		}else{
 			Sheet sheet = workbook.cloneSheet(workbook.getSheetIndex(templateSheetName));
 			workbook.setSheetName(workbook.getSheetIndex(sheet.getSheetName()), sheetName);
+			Sheet tempSheet = workbook.getSheet(templateSheetName);
+			PrintSetup tempPrintSetup = tempSheet.getPrintSetup();
+			PrintSetup printSetup = sheet.getPrintSetup();
+			//印刷へーダー
+			sheet.setRepeatingRows(tempSheet.getRepeatingRows());
+			//印刷用紙設定
+            printSetup.setPaperSize(tempPrintSetup.getPaperSize());
+			//印刷方向
+            printSetup.setLandscape(tempPrintSetup.getLandscape());
+			//ページ設定の拡大縮小印刷
+            printSetup.setFitHeight(tempPrintSetup.getFitHeight());
+            printSetup.setFitWidth(tempPrintSetup.getFitWidth());
 		}
 	}
 	/**
@@ -334,11 +362,11 @@ public final class Excel {
 	 * @param templatePosition　参考するセルの場所。
 	 */
 	public void setCellStyle(String sheetName, String position, String templateSheetName, String templatePosition){
-		//Style
 		Cell cell=this.getCell(sheetName, position);
 		Cell templateCell=this.getCell(templateSheetName, templatePosition);
 		cell.setCellStyle(templateCell.getCellStyle());
 	}
+	
 	/**
 	 * セルに入力規則を設定する。
 	 * @param sheetName シート名。
@@ -569,9 +597,9 @@ public final class Excel {
 	 */
 	public void addShapeInCell(String sheetName,String position,String templateSheetName,String templateShapeName,
 			String value,int x,int y,int width,int height){
-		Cell cell=this.getCell(sheetName, position);
-	    int cellrow=cell.getRowIndex();
-	    int cellcol=cell.getColumnIndex();
+		CellReference reference = new CellReference(position);
+	    int cellrow=reference.getRow();
+	    int cellcol=reference.getCol();
 
     	XSSFSheet sheet = (XSSFSheet) this.workbook.getSheet(sheetName);
     	XSSFSheet templateSheet=(XSSFSheet) this.workbook.getSheet(templateSheetName);
@@ -640,12 +668,12 @@ public final class Excel {
 	 */
 	public void addShapeInRange(String sheetName,String firstCellPosition,String lastCellPosition,String templateSheetName,String templateShapeName,
 			String value,int dx1,int dy1,int dx2,int dy2){
-		Cell firstCell=this.getCell(sheetName, firstCellPosition);
-	    int firstCellrow=firstCell.getRowIndex();
-	    int firstCellcol=firstCell.getColumnIndex();
-	    Cell lastCell=this.getCell(sheetName, lastCellPosition);
-	    int lastCellrow=lastCell.getRowIndex();
-	    int lastCellcol=lastCell.getColumnIndex();
+		CellReference reference = new CellReference(firstCellPosition);
+	    int firstCellrow=reference.getRow();
+	    int firstCellcol=reference.getCol();
+		reference = new CellReference(lastCellPosition);
+	    int lastCellrow=reference.getRow();
+	    int lastCellcol=reference.getCol();
 
     	XSSFSheet sheet = (XSSFSheet) this.workbook.getSheet(sheetName);
     	XSSFSheet templateSheet=(XSSFSheet) this.workbook.getSheet(templateSheetName);
@@ -695,6 +723,183 @@ public final class Excel {
 			}
         }
 	}	
+	
+	/**
+	 * 行を追加
+	 * @param sheetName シート名
+	 * @param startRow このインデックスの上に、行を追加 
+	 * @param n 追加する行数
+	 * @return
+	 */
+	public void addRow(String sheetName,int startRow,int n){
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		if(startRow <= sheet.getLastRowNum()) {
+		    sheet.shiftRows(startRow, sheet.getLastRowNum(), n);
+		}
+	}
+	
+	/**
+	 * 行を削除 インデックスは 「0」から 「endRow」の行を含めない
+	 * @param sheetName シート名
+	 * @param startRow 削除する行の開始インデックス from 0
+	 * @param endRow 削除する行の終了インデックス from 0
+	 * @return
+	 */
+	public void delRow(String sheetName,int startRow,int endRow){
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		for(int i=startRow;i<=endRow;i++) {
+			sheet.removeRow(sheet.getRow(i));
+		}
+		sheet.shiftRows(endRow+1, sheet.getLastRowNum(), startRow-endRow+1);
+	}
+	
+	
+	/**
+	 * 列を追加
+	 * @param sheetName シート名
+	 * @param startCol このインデックスの上に、列を追加から
+	 * @param n 追加する列数
+	 * @return
+	 */
+	/*public void addCol(String sheetName,int startCol,int n){
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		Row row = null;
+		for(int i=0;i<=sheet.getLastRowNum();i++){
+			row = sheet.getRow(i);
+			if (this.workbook instanceof HSSFWorkbook) {
+				HSSFRow hrow=(HSSFRow)row;
+			}else{
+				XSSFRow xrow=(XSSFRow)row;
+				
+			}
+			for(int j=row.getLastCellNum()-1;j>=startCol;j--) {
+				copyCell(workbook, row.getCell(j), row.createCell(j + n), true);
+				row.removeCell(row.getCell(j));
+			}
+		}
+
+
+		XSSFRow r;
+		Field x=XSSFRow.class.getField("_cells");
+		x.setAccessible(true);
+		TreeMap _cells=x.get(r);
+		
+		
+		r.createCell(x0)
+		XSSFRowShifter a;
+		
+		a.shiftMergedRegions(startRow, endRow, n)
+		
+	}*/
+	
+	/**
+	 * 列を削除 インデックスは 「0」から
+	 * @param sheetName シート名
+	 * @param startCol 削除する列の開始インデックス
+	 * @param endCol 削除する列の結束インデックス
+	 * @return
+	 */
+	/*public void delCol(String sheetName,int startCol,int endCol) throws efwException{
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		Row row = null;
+		int cellNum = 0;
+		int newCellNum = 0;
+		for(int i=0;i<=sheet.getLastRowNum();i++){
+			row = sheet.getRow(i);
+			cellNum = (int)row.getLastCellNum();
+			newCellNum = row.getLastCellNum() - endCol + startCol;
+			for(int j=endCol;true;j++) {
+				if (row.getCell(j) != null && row.getCell(startCol + j - endCol) != null) {
+					copyCell(workbook, row.getCell(j), row.getCell(startCol + j - endCol), true);
+					sheet.setColumnWidth(startCol + j - endCol, sheet.getColumnWidth(j));
+					if(j > newCellNum){
+						if (row.getCell(j) != null) {
+							row.removeCell(row.getCell(j));
+						}
+					}
+				} else if (row.getCell(j) == null && row.getCell(startCol + j - endCol) != null) {
+					row.removeCell(row.getCell(startCol + j - endCol));
+					if(j > newCellNum){
+						if (row.getCell(j) != null) {
+							row.removeCell(row.getCell(j));
+						}
+					}
+				} else if (row.getCell(j) != null && row.getCell(startCol + j - endCol) == null) {
+					copyCell(workbook, row.getCell(j), row.createCell(startCol + j - endCol), true);
+					sheet.setColumnWidth(startCol + j - endCol, sheet.getColumnWidth(j));
+					if(j > newCellNum){
+						if (row.getCell(j) != null) {
+							row.removeCell(row.getCell(j));
+						}
+					}
+				}
+				if (startCol + j - endCol >= cellNum) {
+					break;
+				}
+				if (startCol + j - endCol >= endCol && j >= cellNum) {
+					// 目標のcellは削除対象ではなく、且つ操作のcellは元のデータ以外の場合
+					break;
+				}
+			}
+		}
+	}*/
+	
+	/**
+	 * 行を非表示になる   インデックスは 「0」から 「endRow」の行を含めない
+	 * @param sheetName シート名
+	 * @param startRow 非表示する行の開始インデックス from 0
+	 * @param endRow 非表示する行の終了インデックス from 0
+	 * @return
+	 */
+	public void hideRow(String sheetName,int startRow,int endRow) throws efwException{
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		for(int i=startRow;i<=endRow;i++) {
+			sheet.getRow(i).setZeroHeight(true);
+		}
+	}
+	
+	/**
+	 * 行を表示になる   行数は 「0」から 「endRow」の行を含めない
+	 * @param sheetName シート名
+	 * @param startRow 表示する行の開始インデックス from 0
+	 * @param endRow 表示する行の終了インデックス from 0
+	 * @return
+	 */
+	public void showRow(String sheetName,int startRow,int endRow) throws efwException{
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		for(int i=startRow;i<=endRow;i++) {
+			sheet.getRow(i).setZeroHeight(false);
+		}
+	}
+	/**
+	 * 列の非表示
+	 * @param sheetName シート名
+	 * @param startCol 非表示する列の開始インデックス from 0
+	 * @param endCol 非表示する列の終了インデックス from 0
+	 * @return
+	 */
+	public void hideCol(String sheetName,int startCol,int endCol){
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		for(int i=startCol;i<=endCol;i++){
+			sheet.setColumnHidden(i, true);
+		}
+	}
+	/**
+	 * 列の表示
+	 * @param sheetName シート名
+	 * @param startCol 表示する列の開始インデックス from 0
+	 * @param endCol 表示する列の終了インデックス from 0
+	 * @return
+	 */
+	public void showCol(String sheetName,int startCol,int endCol){
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		for(int i=startCol;i<=endCol;i++){
+			sheet.setColumnHidden(i, false);
+		}
+	}
+	
+
+	
 	/**
 	 * XSSFのShapeをコピーする
 	 * @param patriarch
@@ -735,6 +940,39 @@ public final class Excel {
 		return shape.getCTShape().getNvSpPr().getCNvPr().getName();
 	}
 	
-	
+	/**
+	 * ExcelをPDFに変更する
+	 * @param path 変更されたパスファイル名。storageからの相対パス
+	 * @throws IOException 
+	 * @throws InvalidFormatException 
+	 * @throws EncryptedDocumentException 
+	 * @throws ClassNotFoundException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void toPdf(String path) throws IOException, EncryptedDocumentException, InvalidFormatException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		File tempFile=File.createTempFile("efw", ".xlsx");
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(tempFile);
+			workbook.write(out);
+			Class op = Class.forName("efw.excel.OpenOffice");
+			Method method = op.getDeclaredMethod("toPdf",File.class,File.class);
+			method.invoke(null,tempFile,FileManager.get(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+				tempFile.delete();
+			} catch (IOException e) {
+				System.out.println(e.toString());
+			}
+		}
+	}
 	
 }

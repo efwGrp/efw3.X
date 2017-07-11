@@ -240,6 +240,19 @@ Excel.prototype.createSheet = function(sheetName,copyFrom) {
 	return this;
 };
 /**
+ * The function to set a sheet's PrintArea.
+ * @param {String} sheetName: required<br>
+ * @param {Number} startRow: required<br>
+ * @param {Number} endRow: required<br>
+ * @param {Number} startCol: required<br>
+ * @param {Number} endCol: required<br>
+ * @returns {Excel}
+ */
+Excel.prototype.setPrintArea = function(sheetName,startRow,endRow,startCol,endCol) {
+		this._workbook.setPrintArea(sheetName,startRow,endRow,startCol,endCol);
+	return this;
+};
+/**
  * The function to remove a sheet.
  * @param {String} sheetName: required<br>
  * @returns {Excel}
@@ -311,6 +324,7 @@ Excel.prototype.setCell = function(sheetName, position, value, templateSheetName
 	}
 	return this;
 };
+
 /**
  * The function to judge whether a point is encircled by a shape or not.
  * @param {String}
@@ -405,5 +419,122 @@ Excel.prototype.addShape= function(sheetName,position,templateSheetName,template
  */
 Excel.prototype.addShapeInRange= function(sheetName,firstCellPosition,lastCellPosition,templateSheetName,templateShapeName,text,x1,y1,x2,y2){
 	this._workbook.addShapeInRange(sheetName,firstCellPosition,lastCellPosition,templateSheetName,templateShapeName,text,x1,y1,x2,y2);
+	return this;
+};
+
+/**
+ * The function to add the row
+ * @param {String} sheetName: required<br>
+ * @param {Number} startRow: required,indexed from 0.<br>
+ * @param {Number} n: optional,the default value is 1.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.addRow = function(sheetName, startRow, n) {
+	if (startRow<0)return this;//if the param is not correct, do nothing.
+	if (n<0)return this;
+	this._workbook.addRow(sheetName, startRow, n);
+	return this;
+};
+
+/**
+ * The function to del the row
+ * @param {String} sheetName: required<br>
+ * @param {Number} startRow: required,indexed from 0.<br>
+ * @param {Number} endRow: required,the default is same to startRow.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.delRow = function(sheetName, startRow, endRow) {
+	if (endRow==null)endRow=startRow;
+	if (startRow>endRow){var c=endRow;endRow=startRow;startRow=c;}
+	if (startRow<0)return this;//if the param is not correct, do nothing.
+	this._workbook.delRow(sheetName, startRow, endRow);
+	return this;
+};
+
+/**
+ * The function to add the column
+ * @param {String} sheetName: required<br>
+ * @param {Number} startCol: required,indexed from 0.<br>
+ * @param {Number} n: optional,the default value is 1.<br>
+ * @returns {Excel}
+ */
+/*Excel.prototype.addCol = function(sheetName, startCol, n) {
+	if (startCol<0)return this;//if the param is not correct, do nothing.
+	if (n<0)return this;
+	this._workbook.addCol(sheetName, startCol, n);
+	return this;
+};*/
+
+/**
+ * The function to del the column
+ * @param {String} sheetName: required<br>
+ * @param {Number} startCol: required,indexed from 0.<br>
+ * @param {Number} endCol: optional,the default is same to startCol.<br>
+ * @returns {Excel}
+ */
+/*Excel.prototype.delCol = function(sheetName, startCol, endCol) {
+	if (endCol==null)endCol=startCol;
+	if (startCol>endCol){var c=endCol;endCol=startCol;startCol=c;}
+	if (startCol<0)return this;//if the param is not correct, do nothing.
+	this._workbook.delCol(sheetName, startCol, endCol);
+	return this;
+};*/
+
+/**
+ * The function to show the row
+ * @param {String} sheetName: required<br>
+ * @param {Number} startRow: required,indexed from 1.<br>
+ * @param {Number} endRow: optional,the default is same to startRow.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.showRow = function(sheetName, startRow, endRow) {
+	if (endRow==null)endRow=startRow;
+	if (startRow>endRow){var c=endRow;endRow=startRow;startRow=c;}
+	if (startRow<0)return this;//if the param is not correct, do nothing.
+	this._workbook.showRow(sheetName, startRow, endRow);
+	return this;
+};
+
+/**
+ * The function to hide the row
+ * @param {String} sheetName: required<br>
+ * @param {Number} startRow: required,indexed from 1.<br>
+ * @param {Number} endRow: optional,the default is same to startRow.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.hideRow = function(sheetName, startRow, endRow) {
+	if (endRow==null)endRow=startRow;
+	if (startRow>endRow){var c=endRow;endRow=startRow;startRow=c;}
+	if (startRow<0)return this;//if the param is not correct, do nothing.
+	this._workbook.hideRow(sheetName, startRow, endRow);
+	return this;
+};
+/**
+ * The function to show the column
+ * @param {String} sheetName: required<br>
+ * @param {Number} startCol: required,indexed from 0.<br>
+ * @param {Number} endCol: optional,the default is same to startCol.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.showCol = function(sheetName, startCol, endCol) {
+	if (endCol==null)endCol=startCol;
+	if (startCol>endCol){var c=endCol;endCol=startCol;startCol=c;}
+	if (startCol<0)return this;//if the param is not correct, do nothing.
+	this._workbook.showCol(sheetName, startCol, endCol);
+	return this;
+};
+
+/**
+ * The function to hide the column
+ * @param {String} sheetName: required<br>
+ * @param {Number} startCol: required,indexed from 0.<br>
+ * @param {Number} endCol: optional,the default is same to startCol.<br>
+ * @returns {Excel}
+ */
+Excel.prototype.hideCol = function(sheetName, startCol, endCol) {
+	if (endCol==null)endCol=startCol;
+	if (startCol>endCol){var c=endCol;endCol=startCol;startCol=c;}
+	if (startCol<0)return this;//if the param is not correct, do nothing.
+	this._workbook.hideCol(sheetName, startCol, endCol);
 	return this;
 };
