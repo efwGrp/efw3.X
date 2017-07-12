@@ -31,7 +31,7 @@
 <tr><td>event</td><td><a href="event.fire.md">fire</a></td></tr>
 <tr><td>db</td><td><a href="db.select.md">select</a></td><td><a href="db.change.md">change</a></td><td><a href="db.master.md">master</a></td></tr>
 <tr><td>mail</td><td><a href="mail.send.md">send</a></td></tr>
-<tr><td>pdf</td><td><a href="pdf.create.md">create</a></td><td><a href="pdf.merge.md">merge</a></td></tr>
+<tr><td>pdf</td><td><a href="pdf.create.md">create</a></td><td><a href="pdf.merge.md">merge</a></td><td><a href="pdf.convert.md">convert</a></td></tr>
 <tr><td>properties</td><td><a href="properties.get.md">get</a></td></tr>
 <tr><td>session</td><td><a href="session.get.md">get</a></td><td><a href="session.set.md">set</a></td><td><a href="session.create.md">create</a></td><td><a href="session.invalidate.md">invalidate</a></td></tr>
 <tr><td>cookie</td><td><a href="cookie.get.md">get</a></td><td><a href="cookie.set.md">set</a></td></tr>
@@ -48,30 +48,52 @@
 <td><a href="excel.new.md">new</a></td>
 <td><a href="excel.save.md">save</a></td>
 <td><a href="excel.close.md">close</a></td>
+<td><a href="excel.getSheetNames.md">getSheetNames</a></td>
 </tr>
 <tr><td></td>
 <td><a href="excel.createSheet.md">createSheet</a></td>
 <td><a href="excel.removeSheet.md">removeSheet</a></td>
 <td><a href="excel.setSheetOrder.md">setSheetOrder</a></td>
 <td><a href="excel.setActiveSheet.md">setActiveSheet</a></td>
+<td><a href="excel.setPrintArea.md">setPrintArea</a></td>
+</tr>
+<tr><td></td>
+<td><a href="excel.addRow.md">addRow</a></td>
+<td><a href="excel.delRow.md">delRow</a></td>
+<td><a href="excel.showRow.md">showRow</a></td>
+<td><a href="excel.hideRow.md">hideRow</a></td>
+</tr>
+<tr><td></td>
+<td><a>addCol</a></td>
+<td><a>delCol</a></td>
+<td><a href="excel.showCol.md">showCol</a></td>
+<td><a href="excel.hideCol.md">hideCol</a></td>
 </tr>
 <tr><td></td>
 <td><a href="excel.setCell.md">setCell</a></td>
 <td><a href="excel.setLink.md">setLink</a></td>
-<td><a href="excel.encircle.md">encircle</a></td>
-<td><a href="excel.addShape.md">addShape</a></td>
-<td><a href="excel.addShapeInRange.md">addShapeInRange</a></td>
 </tr>
 <tr><td></td>
 <td><a href="excel.getArray.md">getArray</a></td>
 <td><a href="excel.getSingle.md">getSingle</a></td>
 <td><a href="excel.getValue.md">getValue</a></td>
 <td><a href="excel.getMaxRow.md">getMaxRow</a></td>
-</tr>
-<tr><td></td>
 <td><a href="excel.getMaxCol.md">getMaxCol</a></td>
+</tr>
+
+
+
+
+
+
+
+<tr><td></td>
+
 <td><a href="excel.isEncircled.md">isEncircled</a></td>
-<td><a href="excel.getSheetNames.md">getSheetNames</a></td>
+<td><a href="excel.encircle.md">encircle</a></td>
+<td><a href="excel.addShape.md">addShape</a></td>
+<td><a href="excel.addShapeInRange.md">addShapeInRange</a></td>
+
 </tr>
 
 <tr><td>Record</td>
