@@ -8,19 +8,7 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<th>Description</th>
 </tr>
 <tr>
-	<th>Run Mode</th>
-	<td>efw.isdebug</td>
-	<td>false</td>
-	<td>If the value is true, any changing to the program will be loaded into memory in real time. </td>
-</tr>
-<tr>
-	<th>Database Resource</th>
-	<td>efw.jdbc.resource</td>
-	<td>jdbc/efw</td>
-	<td>The default jdbc resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]jdbc/efw</td>
-</tr>
-<tr>
-	<th rowspan=4>Folder</th>
+	<th rowspan=3>Folder</th>
 	<td>efw.event.folder</td>
 	<td>/WEB-INF/efw/event</td>
 	<td>The folder for web application events program. It can be set in a relative or absolute path of the web application.</td>
@@ -31,72 +19,31 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The folder for web application outside sql. It can be set in a relative or absolute path of the web application.</td>
 </tr>
 <tr>
-	<td>efw.mail.folder</td>
-	<td>/WEB-INF/efw/mail</td>
-	<td>The folder for web application mail template. It can be set in a relative or absolute path of the web application.</td>
-</tr>
-<tr>
 	<td>efw.storage.folder</td>
 	<td>/WEB-INF/efw/<br>storage</td>
 	<td>The folder for Web application IO. It can be set in a relative or absolute path of the web application.</td>
 </tr>
-<tr>
-	<th rowspan=5>Login Check</th>
-	<td>efw.login.check</td>
-	<td>false</td>
-	<td>The flag indicating whether the web application does the login check.</td>
-</tr>
-<tr>
-	<td>efw.login.key</td>
-	<td>USER_ID</td>
-	<td>The session key for login check. </td>
-</tr>
-<tr>
-	<td>efw.login.url</td>
-	<td>login.jsp</td>
-	<td>The page to login.If any access without logining, this page will be shown.</td>
-</tr>
-<tr>
-	<td>efw.outoflogin.<br>url.pattern</td>
-	<td></td>
-	<td>The regexp to set pages which are out of logining check. </td>
-</tr>
-<tr>
-	<td>efw.outoflogin.<br>eventid.pattern</td>
-	<td></td>
-	<td>The regexp to set events which are out of logining check. </td>
-</tr>
 
 <tr>
-	<th rowspan=6>Auth Check</th>
-	<td>efw.auth.check</td>
-	<td>false</td>
-	<td>The flag indicating whether the web application does the authority check.</td>
-</tr>
-<tr>
-	<td>efw.auth.key</td>
-	<td>USER_AUTH</td>
-	<td>The session key for authority check. </td>
-</tr>
-<tr>
-	<td>efw.system.error.<br>url</td>
-	<td>error.jsp</td>
-	<td>The page to show system error.</td>
-</tr>
-<tr>
-	<td>efw.auth.cases</td>
+	<th rowspan=4>Database Resource</th>
+	<td>efw.jdbc.resource[.n]</td>
 	<td></td>
-	<td>The authority cases splitted by [,] to define sets of authorities and pages. </td>
+	<td>The default jdbc resource name. You can define multi by add [.n] . Example: jdbc/efw</td>
 </tr>
 <tr>
-	<td>####.auth.pattern</td>
+	<td>efw.jdbc.resource.url[.n]</td>
 	<td></td>
-	<td>The authority regexp of the set. </td>
+	<td>Example: jdbc:postgresql://127.0.0.1:5432/efwSample</td>
 </tr>
 <tr>
-	<td>####.url.pattern</td>
+	<td>efw.jdbc.resource.username[.n]</td>
 	<td></td>
-	<td>The page regexp of the set. </td>
+	<td></td>
+</tr>
+<tr>
+	<td>efw.jdbc.resource.password[.n]</td>
+	<td></td>
+	<td></td>
 </tr>
 
 <tr>
@@ -156,13 +103,6 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>efw.pdf.baseurl</td>
 	<td>http://localhost:8080/<br>efw/</td>
 	<td>The url for pdf generating to access the web appication from the web server itself . </td>
-</tr>
-
-<tr>
-	<th>Mail</th>
-	<td>efw.mail.resource</td>
-	<td>mail/efw</td>
-	<td>The default mail resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]mail/efw</td>
 </tr>
 
 

@@ -1,6 +1,5 @@
 <H1>efw3.X</H1>
 <a href="help/step_by_step_web.md">Step by Step(Web)</a><br>
-<a href="help/step_by_step_batch.md">Step by Step(Batch TODO)</a><br>
 <a href="help/hello_world_web.md">Quick Start(Web)</a><br>
 <a href="help/hello_world_batch.md">Quick Start(Batch TODO)</a><br>
 <a href="help/api.md">API</a><br>
