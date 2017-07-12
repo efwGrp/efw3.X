@@ -4,7 +4,7 @@
 <a href="help/hello_world_batch.md">Quick Start(Batch TODO)</a><br>
 <a href="help/api.md">API</a><br>
 <a href="help/properties_web.md">Properties(Web)</a><br>
-<a href="help/properties_batch.md">Properties(Batch TODO)</a><br>
+<a href="help/properties_batch.md">Properties(Batch)</a><br>
 <a href="help/files_list_web.md">Files List(Web)</a><br>
 <a href="help/files_list_batch.md">Files List(Batch TODO)</a><br>
 <a href="help/how_to.md">How to</a><br>
