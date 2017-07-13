@@ -742,15 +742,15 @@ public final class Excel {
 	 * 行を削除 インデックスは 「0」から 「endRow」の行を含めない
 	 * @param sheetName シート名
 	 * @param startRow 削除する行の開始インデックス from 0
-	 * @param endRow 削除する行の終了インデックス from 0
+	 * @param n 削除する行数
 	 * @return
 	 */
-	public void delRow(String sheetName,int startRow,int endRow){
+	public void delRow(String sheetName,int startRow,int n){
 		Sheet sheet = this.workbook.getSheet(sheetName);
-		for(int i=startRow;i<=endRow;i++) {
-			sheet.removeRow(sheet.getRow(i));
+		for(int i=0;i<n;i++) {
+			sheet.removeRow(sheet.getRow(startRow+i));
 		}
-		sheet.shiftRows(endRow+1, sheet.getLastRowNum(), startRow-endRow+1);
+		sheet.shiftRows(startRow+n, sheet.getLastRowNum(), n);
 	}
 	
 	

@@ -431,7 +431,7 @@ Excel.prototype.addShapeInRange= function(sheetName,firstCellPosition,lastCellPo
  */
 Excel.prototype.addRow = function(sheetName, startRow, n) {
 	if (startRow<0)return this;//if the param is not correct, do nothing.
-	if (n<0)return this;
+	if (n==null)n=1;
 	this._workbook.addRow(sheetName, startRow, n);
 	return this;
 };
@@ -440,14 +440,13 @@ Excel.prototype.addRow = function(sheetName, startRow, n) {
  * The function to del the row
  * @param {String} sheetName: required<br>
  * @param {Number} startRow: required,indexed from 0.<br>
- * @param {Number} endRow: required,the default is same to startRow.<br>
+ * @param {Number} n: optional,the default value is 1.<br>
  * @returns {Excel}
  */
-Excel.prototype.delRow = function(sheetName, startRow, endRow) {
-	if (endRow==null)endRow=startRow;
-	if (startRow>endRow){var c=endRow;endRow=startRow;startRow=c;}
+Excel.prototype.delRow = function(sheetName, startRow, n) {
 	if (startRow<0)return this;//if the param is not correct, do nothing.
-	this._workbook.delRow(sheetName, startRow, endRow);
+	if (n==null)n=1;
+	this._workbook.delRow(sheetName, startRow, n);
 	return this;
 };
 
@@ -460,7 +459,7 @@ Excel.prototype.delRow = function(sheetName, startRow, endRow) {
  */
 /*Excel.prototype.addCol = function(sheetName, startCol, n) {
 	if (startCol<0)return this;//if the param is not correct, do nothing.
-	if (n<0)return this;
+	if (n==null)n=1;
 	this._workbook.addCol(sheetName, startCol, n);
 	return this;
 };*/
@@ -469,14 +468,13 @@ Excel.prototype.delRow = function(sheetName, startRow, endRow) {
  * The function to del the column
  * @param {String} sheetName: required<br>
  * @param {Number} startCol: required,indexed from 0.<br>
- * @param {Number} endCol: optional,the default is same to startCol.<br>
+ * @param {Number} n: optional,the default value is 1.<br>
  * @returns {Excel}
  */
-/*Excel.prototype.delCol = function(sheetName, startCol, endCol) {
-	if (endCol==null)endCol=startCol;
-	if (startCol>endCol){var c=endCol;endCol=startCol;startCol=c;}
+/*Excel.prototype.delCol = function(sheetName, startCol, n) {
 	if (startCol<0)return this;//if the param is not correct, do nothing.
-	this._workbook.delCol(sheetName, startCol, endCol);
+	if (n==null)n=1;
+	this._workbook.delCol(sheetName, startCol, n);
 	return this;
 };*/
 
