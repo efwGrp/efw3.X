@@ -897,7 +897,20 @@ public final class Excel {
 			sheet.setColumnHidden(i, false);
 		}
 	}
-	
+	/**
+	 * シートの非表示
+	 * @param sheetName シート名
+	 */
+	public void hideSheet(String sheetName){
+		this.workbook.setSheetHidden(this.workbook.getSheetIndex(sheetName), true);
+	}
+	/**
+	 * シートの表示
+	 * @param sheetName シート名
+	 */
+	public void showSheet(String sheetName){
+		this.workbook.setSheetHidden(this.workbook.getSheetIndex(sheetName), false);
+	}
 
 	
 	/**

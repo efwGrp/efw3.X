@@ -536,3 +536,21 @@ Excel.prototype.hideCol = function(sheetName, startCol, endCol) {
 	this._workbook.hideCol(sheetName, startCol, endCol);
 	return this;
 };
+/**
+ * The function to show the sheet
+ * @param sheetName sheetName: required<br>
+ * @returns {Excel}
+ */
+Excel.prototype.showSheet = function(sheetName) {
+	this._workbook.showSheet(sheetName);
+	return this;
+};
+/**
+ * The function to hide the sheet
+ * @param sheetName sheetName: required<br>
+ * @returns {Excel}
+ */
+Excel.prototype.hideSheet = function(sheetName) {
+	this._workbook.hideSheet(sheetName);
+	return this;
+};

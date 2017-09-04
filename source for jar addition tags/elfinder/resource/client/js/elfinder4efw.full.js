@@ -7771,7 +7771,7 @@ elFinder.prototype._options = {
 	 * @type Boolean
 	 * @default  true
 	 */
-	allowShortcuts : false,
+	allowShortcuts : true,
 	
 	/**
 	 * Remeber last opened dir to open it after reload or in next session
