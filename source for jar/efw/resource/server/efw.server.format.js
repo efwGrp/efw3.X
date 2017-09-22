@@ -21,13 +21,43 @@ function EfwServerFormat() {
  * @returns {String}
  */
 EfwServerFormat.prototype.formatNumber = function(value, formatter, rounder) {
-	value = Number(value);
-	if (isNaN(value))
-		return "";// if it is not number return ""
-	return ""
-			+ Packages.efw.format.FormatManager.formatNumber(value, formatter,
-					rounder);
+	  var isFullWidth =false;
+	  if (formatter.indexOf("０")>-1 || formatter.indexOf("＃")>-1){
+					isFullWidth=true;
+					formatter=formatter
+					.replace(/０/g,"0")
+					.replace(/＃/g,"#")
+					.replace(/，/,",")
+					.replace(/．/,".")
+					.replace(/％/,"%");
+					
+	  }
+	  value = Number(value);
+	  if (isNaN(value))
+					return "";// if it is not number return ""
+	  var ret= ""+Packages.efw.format.FormatManager.formatNumber(value, formatter,
+															  rounder);
+	  if(isFullWidth){
+					ret=ret
+					.replace(/0/g,"０")
+					.replace(/1/g,"１")
+					.replace(/2/g,"２")
+					.replace(/3/g,"３")
+					.replace(/4/g,"４")
+					.replace(/5/g,"５")
+					.replace(/6/g,"６")
+					.replace(/7/g,"７")
+					.replace(/8/g,"８")
+					.replace(/9/g,"９")
+					.replace(/,/g,"，")
+					.replace(/./g,"．")
+					.replace(/-/g,"－")
+					.replace(/%/g,"％")
+					;
+	  }
+	  return ret;
 };
+
 /**
  * The function to parse String to Number.
  * 
@@ -54,13 +84,48 @@ EfwServerFormat.prototype.parseNumber = function(value, formatter) {
  * @returns {String}
  */
 EfwServerFormat.prototype.formatDate = function(value, formatter) {
+	var isFullWidth =false;
+	if (formatter.indexOf("ｙ")>-1 || formatter.indexOf("Ｇ")>-1){
+			isFullWidth=true;
+			formatter=formatter
+			.replace(/Ｇ/g,"G")
+			.replace(/ｙ/g,"y")
+			.replace(/Ｍ/g,"M")
+			.replace(/ｄ/g,"d")
+			.replace(/Ｈ/g,"H")
+			.replace(/ｍ/g,"m")
+			.replace(/ｓ/g,"s")
+			.replace(/Ｓ/g,"S")
+			;	
+	}
 	if (value == null)
 		return "";// it value is not null, return ""
 	if (!value.getTime)
 		return "";// if value is not date, return ""
-	return ""
-			+ Packages.efw.format.FormatManager.formatDate(value.getTime(),
+	
+	
+	var ret = "" + Packages.efw.format.FormatManager.formatDate(value.getTime(),
 					formatter);
+	if(isFullWidth){
+			ret=ret
+			.replace(/0/g,"０")
+			.replace(/1/g,"１")
+			.replace(/2/g,"２")
+			.replace(/3/g,"３")
+			.replace(/4/g,"４")
+			.replace(/5/g,"５")
+			.replace(/6/g,"６")
+			.replace(/7/g,"７")
+			.replace(/8/g,"８")
+			.replace(/9/g,"９")
+			.replace(/M/g,"Ｍ")
+			.replace(/T/g,"Ｔ")
+			.replace(/S/g,"Ｓ")
+			.replace(/H/g,"Ｈ")
+			;
+    }
+	return ret;
+		
 };
 /**
  * The function to parse String to Date.

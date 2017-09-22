@@ -301,6 +301,10 @@ public final class Excel {
 		}
 		FileOutputStream out = null;
         try {
+        	ArrayList<String> nms=this.getSheetNames();
+        	for(int i=0;i<nms.size();i++){
+        		this.workbook.getSheet(nms.get(i)).setForceFormulaRecalculation(true);
+        	}
             out = new FileOutputStream(fileNewExcel);
             workbook.write(out);
         } catch (IOException e) {
@@ -453,8 +457,8 @@ public final class Excel {
 	            }
 	        }
 	        cell.setCellFormula(FormulaRenderer.toFormulaString(rw, ptgs));
-	        //
-	        this.workbook.getSheet(sheetName).setForceFormulaRecalculation(true);
+	        //Set all sheets, when closing.
+	        //this.workbook.getSheet(sheetName).setForceFormulaRecalculation(true);
 		}
 	}
 	
