@@ -304,7 +304,7 @@ Excel.prototype.setActiveSheet = function(sheetName){
  * @returns {Excel}
  */
 Excel.prototype.setCell = function(sheetName, position, value, templateSheetName, templatePosition) {
-	if (value==null){
+    if (value == undefined || value == Infinity || value == -Infinity || value == NaN || value  == null){
 		this._workbook.setCellStringValue(sheetName, position, new java.lang.String(""));
 		if(templateSheetName!=null && templatePosition!=null){
 			this._workbook.setCellFormula(sheetName, position, templateSheetName, templatePosition);
@@ -318,9 +318,13 @@ Excel.prototype.setCell = function(sheetName, position, value, templateSheetName
 	}else if(typeof value == "object"&& value.getTime){
 		this._workbook.setCellDateValue(sheetName, position, new java.util.Date(value.getTime()));
 	}
-	if(templateSheetName!=null && templatePosition!=null){
-		this._workbook.setCellStyle(sheetName, position, templateSheetName, templatePosition);
-		this._workbook.setCellValidations(sheetName, position, templateSheetName, templatePosition);
+	if (sheetName == templateSheetName && position == templatePosition) {
+	}else{
+		if(templateSheetName!=null && templatePosition!=null){
+			this._workbook.setMergedRegion(sheetName, position, templateSheetName, templatePosition);
+			this._workbook.setCellStyle(sheetName, position, templateSheetName, templatePosition);
+			this._workbook.setCellValidations(sheetName, position, templateSheetName, templatePosition);
+		}
 	}
 	return this;
 };
@@ -348,8 +352,6 @@ Excel.prototype.isEncircled=function(sheetName,position,checkpointXRate,checkpoi
  * The function to create a shape by coping to encircle a cell.
  * @param {String} sheetName: required<br>
  * @param {String} position: required<br>
- * @param {String | Number | Date | Boolean | null } value: required<br>
- * If value is null, it will try to set the formula.
  * @param {String} templateSheetName: required<br>
  * The sheet where the copied shape is.<br> 
  * @param {String} templateShapeName: required<br>

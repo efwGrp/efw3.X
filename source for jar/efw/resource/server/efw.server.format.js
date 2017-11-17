@@ -49,10 +49,10 @@ EfwServerFormat.prototype.formatNumber = function(value, formatter, rounder) {
 					.replace(/7/g,"７")
 					.replace(/8/g,"８")
 					.replace(/9/g,"９")
-					.replace(/,/g,"，")
-					.replace(/./g,"．")
-					.replace(/-/g,"－")
-					.replace(/%/g,"％")
+					.replace(/[\,]/g,"，")
+					.replace(/[\.]/g,"．")
+					.replace(/[\-]/g,"－")
+					.replace(/[\%]/g,"％")
 					;
 	  }
 	  return ret;

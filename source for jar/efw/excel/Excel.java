@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.RefPtgBase;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -42,6 +44,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFEvaluationWorkbook;
@@ -134,7 +137,65 @@ public final class Excel {
         }
         return cell;
 	}
+	/**
+	 * セルを取得する。
+	 * @param sheetName　シート名
+	 * @param rowIndex セルの行インデックス
+	 * @param rowIndex セルの列インデックス
+	 * @return セルオブジェクトを戻す
+	 */
+	private Cell getCell(String sheetName, int rowIndex, int colIndex ){
+		Sheet sheet =this.workbook.getSheet(sheetName);
+        Row row = this.workbook.getSheet(sheetName).getRow(rowIndex);
+        Cell cell = null;
+        if (row == null) {
+        	row = sheet.createRow(rowIndex);
+       	}
+        cell = row.getCell(colIndex);
+        if (cell==null){
+        	cell=row.createCell(colIndex);
+        }
+        return cell;
+	}
 	
+	/**
+	 * セルを結合する。
+	 * @param sheetName シート名。
+	 * @param position セルの場所、"A1"のように。
+	 * @param templateSheetName　参考するシート名。
+	 * @param templatePosition　参考するセルの場所。
+	 */
+	@SuppressWarnings("deprecation")
+	public void setMergedRegion(String sheetName, String position, String templateSheetName, String templatePosition){
+		Cell cell = getCell(sheetName,position);
+        int rowIndex = cell.getRowIndex();
+        int columnIndex = cell.getColumnIndex();
+        Cell templateCell = getCell(templateSheetName,templatePosition);
+        int templateRowIndex = templateCell.getRowIndex();
+		int templateColumnIndex = templateCell.getColumnIndex();
+		Sheet sheet = this.workbook.getSheet(sheetName);
+		Sheet templateSheet = this.workbook.getSheet(templateSheetName);
+		int size = templateSheet.getNumMergedRegions();
+		for (int i = 0; i < size; i++) {
+			CellRangeAddress range = templateSheet.getMergedRegion(i);
+			if (range.isInRange(templateRowIndex, templateColumnIndex)) {
+		        Cell lasttemplateCell = getCell(templateSheetName, range.getLastRow(), range.getLastColumn());
+				CellRangeAddress cra =new CellRangeAddress(rowIndex, (rowIndex + range.getLastRow() - range.getFirstRow()), columnIndex, (columnIndex + range.getLastColumn() - range.getFirstColumn()));
+				CellStyle templateCellStyle = templateCell.getCellStyle();
+				CellStyle lasttemplateCellStyle = lasttemplateCell.getCellStyle();
+				RegionUtil.setBorderBottom(templateCellStyle.getBorderBottom(), cra, sheet);
+				RegionUtil.setBorderLeft(templateCellStyle.getBorderLeft(), cra, sheet);
+				RegionUtil.setBorderRight(lasttemplateCellStyle.getBorderRight(), cra, sheet);
+				RegionUtil.setBorderTop(templateCellStyle.getBorderTop(), cra, sheet);
+				RegionUtil.setBottomBorderColor(templateCellStyle.getBottomBorderColor(), cra, sheet);
+				RegionUtil.setLeftBorderColor(templateCellStyle.getLeftBorderColor(), cra, sheet);
+				RegionUtil.setRightBorderColor(lasttemplateCellStyle.getRightBorderColor(), cra, sheet);
+				RegionUtil.setTopBorderColor(templateCellStyle.getTopBorderColor(), cra, sheet);
+				sheet.addMergedRegion(cra);
+				break;
+			}
+		}
+	}
 	/**
 	 * セルの値を取得する。
 	 * @param sheetName　シート名
@@ -301,11 +362,8 @@ public final class Excel {
 		}
 		FileOutputStream out = null;
         try {
-        	ArrayList<String> nms=this.getSheetNames();
-        	for(int i=0;i<nms.size();i++){
-        		this.workbook.getSheet(nms.get(i)).setForceFormulaRecalculation(true);
-        	}
             out = new FileOutputStream(fileNewExcel);
+            workbook.setForceFormulaRecalculation(true);
             workbook.write(out);
         } catch (IOException e) {
             e.printStackTrace();
@@ -457,8 +515,6 @@ public final class Excel {
 	            }
 	        }
 	        cell.setCellFormula(FormulaRenderer.toFormulaString(rw, ptgs));
-	        //Set all sheets, when closing.
-	        //this.workbook.getSheet(sheetName).setForceFormulaRecalculation(true);
 		}
 	}
 	
@@ -737,8 +793,29 @@ public final class Excel {
 	 */
 	public void addRow(String sheetName,int startRow,int n){
 		Sheet sheet = this.workbook.getSheet(sheetName);
+		List<CellRangeAddress> originMerged = sheet.getMergedRegions();
+		HashMap<Integer, Short> originRow = new HashMap<Integer, Short>(); 
+		for (Row row : sheet) {
+			if (row.getRowNum() > startRow) {
+				originRow.put(row.getRowNum(),row.getHeight());
+			}
+		}
 		if(startRow <= sheet.getLastRowNum()) {
 		    sheet.shiftRows(startRow, sheet.getLastRowNum(), n);
+		}
+		for(CellRangeAddress cellRangeAddress : originMerged) {
+            if(cellRangeAddress.getFirstRow() > startRow) {
+                int firstRow = cellRangeAddress.getFirstRow() + n;
+                CellRangeAddress newCellRangeAddress = new CellRangeAddress(firstRow, (firstRow + (cellRangeAddress
+                        .getLastRow() - cellRangeAddress.getFirstRow())), cellRangeAddress.getFirstColumn(),
+                        cellRangeAddress.getLastColumn());
+                sheet.addMergedRegion(newCellRangeAddress);
+            }
+        }
+		for (Row row : sheet) {
+			if (row.getRowNum() > startRow + n) {
+				row.setHeight(originRow.get(row.getRowNum() - n));
+			}
 		}
 	}
 	
@@ -751,10 +828,31 @@ public final class Excel {
 	 */
 	public void delRow(String sheetName,int startRow,int n){
 		Sheet sheet = this.workbook.getSheet(sheetName);
+		List<CellRangeAddress> originMerged = sheet.getMergedRegions();
+		HashMap<Integer, Short> originRow = new HashMap<Integer, Short>(); 
+		for (Row row : sheet) {
+			if (row.getRowNum() > startRow + n) {
+				originRow.put(row.getRowNum(),row.getHeight());
+			}
+		}
 		for(int i=0;i<n;i++) {
 			sheet.removeRow(sheet.getRow(startRow+i));
 		}
-		sheet.shiftRows(startRow+n, sheet.getLastRowNum(), n);
+		sheet.shiftRows(startRow+n, sheet.getLastRowNum(), -n);
+		for(CellRangeAddress cellRangeAddress : originMerged) {
+            if(cellRangeAddress.getFirstRow() > startRow + n -1) {
+                int firstRow = cellRangeAddress.getFirstRow() - n;
+                CellRangeAddress newCellRangeAddress = new CellRangeAddress(firstRow, (firstRow + (cellRangeAddress
+                        .getLastRow() - cellRangeAddress.getFirstRow())), cellRangeAddress.getFirstColumn(),
+                        cellRangeAddress.getLastColumn());
+                sheet.addMergedRegion(newCellRangeAddress);
+            }
+        }
+		for (Row row : sheet) {
+			if (row.getRowNum() > startRow) {
+				row.setHeight(originRow.get(row.getRowNum() + 1));
+			}
+		}
 	}
 	
 	
