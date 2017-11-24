@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -45,6 +46,24 @@ public final class MailManager {
 	 */
     private static String mailResourceName="mail/efw";
     /**
+	 * フレームワークに利用するjavaメールプロトコル。
+	 * <br>propertiesのefw.mail.protocolで設定、
+	 * デフォルトは「smtp」。
+	 */
+    private static String mailProtocol="smtp";
+    /**
+	 * フレームワークに利用するjavaメールポート
+	 * <br>propertiesのefw.mail.portで設定、
+	 * デフォルトは「25」。
+	 */
+    private static int mailPort=25;
+    /**
+	 * フレームワークに利用するjavaメールユーザ検証
+	 * <br>propertiesのefw.mail.authで設定、
+	 * デフォルトは「true」。
+	 */
+    private static boolean mailAuth=true;
+    /**
      * javaメールセッション。
      */
     private static Session mailSession;
@@ -79,6 +98,27 @@ public final class MailManager {
 			e.printStackTrace();
     		throw new efwException(efwException.DataSourceInitFailedException,mailResourceName);
 		}
+	}
+	public static synchronized void initFromBatch(String mailFolder) throws efwException{
+		MailManager.mailFolder=mailFolder;
+    	String username=PropertiesManager.EFW_MAIL_USERNAME;
+    	String password=PropertiesManager.EFW_MAIL_PASSWORD;
+    	String protocol=PropertiesManager.EFW_MAIL_TRANSPORT_PROTOCOL;
+    	String host=PropertiesManager.EFW_MAIL_SMTP_HOST;
+    	String auth=PropertiesManager.EFW_MAIL_SMTP_AUTH;
+    	String port=PropertiesManager.EFW_MAIL_SMTP_PORT;
+		Properties prop = new Properties();
+		String usernameValue=PropertiesManager.getProperty(username, "");
+		String passwordValue=PropertiesManager.getProperty(password, "");
+		String hostValue=PropertiesManager.getProperty(host, "");
+		String protocolValue=PropertiesManager.getProperty(protocol, mailProtocol);
+		boolean authValue=PropertiesManager.getBooleanProperty(auth, mailAuth);
+		int portValue=PropertiesManager.getIntProperty(port, mailPort);
+		prop.put("mail.smtp.host",hostValue);
+		prop.put("mail.transport.protocol",protocolValue);
+		prop.put("mail.smtp.auth",authValue);
+		prop.put("mail.smtp.port",portValue);
+		mailSession=Session.getInstance(prop,new MailAuthenticator(usernameValue,passwordValue));
 	}
 	/**
 	 * メールを送信
@@ -129,7 +169,6 @@ public final class MailManager {
     		throw new efwException(efwException.MailSendFailedExcepton,e.getMessage());
 		}
 	}
-	
 	/**
 	 * ひとつのMailオブジェクトを取得する。 
 	 * デバッグモードの場合、最終更新日時により再ロードするか否か判断する。

@@ -183,11 +183,11 @@ public final class Excel {
 				CellRangeAddress cra =new CellRangeAddress(rowIndex, (rowIndex + range.getLastRow() - range.getFirstRow()), columnIndex, (columnIndex + range.getLastColumn() - range.getFirstColumn()));
 				CellStyle templateCellStyle = templateCell.getCellStyle();
 				CellStyle lasttemplateCellStyle = lasttemplateCell.getCellStyle();
-				RegionUtil.setBorderBottom(templateCellStyle.getBorderBottom(), cra, sheet);
+				RegionUtil.setBorderBottom(lasttemplateCellStyle.getBorderBottom(), cra, sheet);
 				RegionUtil.setBorderLeft(templateCellStyle.getBorderLeft(), cra, sheet);
 				RegionUtil.setBorderRight(lasttemplateCellStyle.getBorderRight(), cra, sheet);
 				RegionUtil.setBorderTop(templateCellStyle.getBorderTop(), cra, sheet);
-				RegionUtil.setBottomBorderColor(templateCellStyle.getBottomBorderColor(), cra, sheet);
+				RegionUtil.setBottomBorderColor(lasttemplateCellStyle.getBottomBorderColor(), cra, sheet);
 				RegionUtil.setLeftBorderColor(templateCellStyle.getLeftBorderColor(), cra, sheet);
 				RegionUtil.setRightBorderColor(lasttemplateCellStyle.getRightBorderColor(), cra, sheet);
 				RegionUtil.setTopBorderColor(templateCellStyle.getTopBorderColor(), cra, sheet);
@@ -791,34 +791,48 @@ public final class Excel {
 	 * @param n 追加する行数
 	 * @return
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void addRow(String sheetName,int startRow,int n){
 		Sheet sheet = this.workbook.getSheet(sheetName);
+		// 行を追加前のシートにすべての結合するセルの範囲情報を取得
 		List<CellRangeAddress> originMerged = sheet.getMergedRegions();
-		HashMap<Integer, Short> originRow = new HashMap<Integer, Short>(); 
+		ArrayList originRow = new ArrayList();
+		// 行を追加前のシートにすべて行のインデックスと行高を取得
 		for (Row row : sheet) {
-			if (row.getRowNum() > startRow) {
-				originRow.put(row.getRowNum(),row.getHeight());
-			}
+			HashMap temp = new HashMap();
+			temp.put("rowNum",row.getRowNum());
+			temp.put("height",row.getHeight());
+			originRow.add(temp);
 		}
-		if(startRow <= sheet.getLastRowNum()) {
+		// すべての結合するセルを削除
+		for (int i=0;i<originMerged.size();i++) {
+			sheet.removeMergedRegion(0);
+        }
+		if (startRow <= sheet.getLastRowNum()) {
 		    sheet.shiftRows(startRow, sheet.getLastRowNum(), n);
 		}
-		for(CellRangeAddress cellRangeAddress : originMerged) {
-            if(cellRangeAddress.getFirstRow() > startRow) {
-                int firstRow = cellRangeAddress.getFirstRow() + n;
-                CellRangeAddress newCellRangeAddress = new CellRangeAddress(firstRow, (firstRow + (cellRangeAddress
-                        .getLastRow() - cellRangeAddress.getFirstRow())), cellRangeAddress.getFirstColumn(),
-                        cellRangeAddress.getLastColumn());
-                sheet.addMergedRegion(newCellRangeAddress);
-            }
-        }
-		for (Row row : sheet) {
-			if (row.getRowNum() > startRow + n) {
-				row.setHeight(originRow.get(row.getRowNum() - n));
+		// 行を追加後のシートにすべての結合するセルの範囲を再設定
+		for (int i=0;i<originMerged.size();i++) {
+			CellRangeAddress range = originMerged.get(i);
+			if(range.getFirstRow() >= startRow) {
+				range.setFirstRow(range.getFirstRow() + n);
+			}
+			if(range.getLastRow() >= startRow){
+				range.setLastRow(range.getLastRow() + n);
+			}
+			sheet.addMergedRegion(range);
+		}
+		// 追加後の行高を再設定
+		for (int i=1;i<originRow.size();i++) {
+			HashMap temp = (HashMap)originRow.get(i);
+			int rowNum = (Integer) temp.get("rowNum");
+			short height = (Short) temp.get("height");
+			if (rowNum >= startRow) {
+				Row row = sheet.getRow(rowNum + n);
+				row.setHeight(height);
 			}
 		}
 	}
-	
 	/**
 	 * 行を削除 インデックスは 「0」から 「endRow」の行を含めない
 	 * @param sheetName シート名
@@ -826,35 +840,57 @@ public final class Excel {
 	 * @param n 削除する行数
 	 * @return
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void delRow(String sheetName,int startRow,int n){
 		Sheet sheet = this.workbook.getSheet(sheetName);
+		// 行を削除前のシートにすべての結合するセルの範囲情報を取得
 		List<CellRangeAddress> originMerged = sheet.getMergedRegions();
-		HashMap<Integer, Short> originRow = new HashMap<Integer, Short>(); 
+		ArrayList originRow = new ArrayList();
+		// 行を削除前のシートにすべて行のインデックスと行高を取得
 		for (Row row : sheet) {
-			if (row.getRowNum() > startRow + n) {
-				originRow.put(row.getRowNum(),row.getHeight());
-			}
+			HashMap temp = new HashMap();
+			temp.put("rowNum",row.getRowNum());
+			temp.put("height",row.getHeight());
+			originRow.add(temp);
 		}
+		// すべての結合するセルを削除
+		for (int i=0;i<originMerged.size();i++) {
+			sheet.removeMergedRegion(0);
+        }
 		for(int i=0;i<n;i++) {
 			sheet.removeRow(sheet.getRow(startRow+i));
 		}
 		sheet.shiftRows(startRow+n, sheet.getLastRowNum(), -n);
-		for(CellRangeAddress cellRangeAddress : originMerged) {
-            if(cellRangeAddress.getFirstRow() > startRow + n -1) {
-                int firstRow = cellRangeAddress.getFirstRow() - n;
-                CellRangeAddress newCellRangeAddress = new CellRangeAddress(firstRow, (firstRow + (cellRangeAddress
-                        .getLastRow() - cellRangeAddress.getFirstRow())), cellRangeAddress.getFirstColumn(),
-                        cellRangeAddress.getLastColumn());
-                sheet.addMergedRegion(newCellRangeAddress);
-            }
-        }
-		for (Row row : sheet) {
-			if (row.getRowNum() > startRow) {
-				row.setHeight(originRow.get(row.getRowNum() + 1));
+		// 行を削除後のシートにすべての結合するセルの範囲を再設定
+		for (int i=0;i<originMerged.size();i++) {
+			CellRangeAddress range = originMerged.get(i);
+			if (range.getFirstRow() < startRow) {
+			}else if(range.getFirstRow() >= startRow && range.getFirstRow() < startRow + n){
+				range.setFirstRow(startRow);
+			}else if(range.getFirstRow() >= startRow + n){
+				range.setFirstRow(range.getFirstRow() - n);
+			}
+			if (range.getLastRow() < startRow) {
+			}else if(range.getLastRow() >= startRow && range.getLastRow() < startRow + n){
+				range.setLastRow(startRow - 1);
+			}else if(range.getLastRow() >= startRow + n){
+				range.setLastRow(range.getLastRow() - n);
+			}
+			if (range.getLastRow() >= range.getFirstRow()) {
+				sheet.addMergedRegion(range);
+			}
+		}
+		// 削除後の行高を再設定
+		for (int i=1;i<originRow.size();i++) {
+			HashMap temp = (HashMap)originRow.get(i);
+			int rowNum = (Integer) temp.get("rowNum");
+			short height =(Short) temp.get("height");
+			if (rowNum >= startRow + n) {
+				Row row = sheet.getRow(rowNum - n);
+				row.setHeight(height);
 			}
 		}
 	}
-	
 	
 	/**
 	 * 列を追加

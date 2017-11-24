@@ -40,6 +40,13 @@ public final class PropertiesManager {
      * 「efw.mail.resource」の定数。
      */
     public static final String EFW_MAIL_RESOURCE ="efw.mail.resource";
+    public static final String EFW_MAIL_USERNAME ="efw.mail.username";
+    public static final String EFW_MAIL_PASSWORD ="efw.mail.password";
+    public static final String EFW_MAIL_TRANSPORT_PROTOCOL ="efw.mail.transport.protocol";
+    public static final String EFW_MAIL_SMTP_HOST ="efw.mail.smtp.host";
+    public static final String EFW_MAIL_SMTP_AUTH ="efw.mail.smtp.auth";
+    public static final String EFW_MAIL_SMTP_PORT ="efw.mail.smtp.port";
+    
     /**
      * 「efw.brms.import」の定数。
      */
