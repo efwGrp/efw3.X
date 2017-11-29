@@ -36,7 +36,8 @@ final class SqlText {
 	 */
 	protected ArrayList<String> getParamKeys(String paramPrefix){
 		ArrayList<String> ret=new ArrayList<String>();
-		Pattern p = Pattern.compile("(\\"+paramPrefix+"[a-zA-Z_][\\w]*)");//20160420 kill bug 
+		//Pattern p = Pattern.compile("(\\"+paramPrefix+"[a-zA-Z_][\\w]*)");//old
+		Pattern p = Pattern.compile("(\\"+paramPrefix+"([a-zA-Z_]|[^\\x00-\\x7F])([^\\x00-\\x7F]|[\\w])*)");//２バイト文字を認識する
 		Matcher m;
 		String tmp;
 		String subsql=text.replaceAll("//.*\\n", "\n");//コメント行を認識するため
@@ -59,7 +60,7 @@ final class SqlText {
 		String subsql=text.replaceAll("//.*\\n", "\n");//コメント行を認識するため
 		subsql=subsql.replaceAll("\\-\\-.*\\n", "\n");//コメント行を認識するため
 		subsql=subsql.replaceAll("/\\*/?([^/]|[^*]/)*\\*/", "");//コメント行を認識するため
-		subsql=subsql.replaceAll("(\\"+paramPrefix+"[a-zA-Z_][\\w]*)", " ? ");//20160420 kill bug
+		subsql=subsql.replaceAll("(\\"+paramPrefix+"([a-zA-Z_]|[^\\x00-\\x7F])([^\\x00-\\x7F]|[\\w])*)", " ? ");//２バイト文字を認識する
 		
 		ArrayList<String> fds=getDynamicKeys(dynamicPrefix);
 		for(int i=0;i<fds.size();i++){
