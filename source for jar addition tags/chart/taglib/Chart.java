@@ -50,6 +50,13 @@ public class Chart extends TagSupport implements DynamicAttributes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//初期値を再設定する。
+		id="chart";
+		type="column";
+		height="400";
+		width="auto";
+		data="";
+		attrs=new HashMap<String, String>();
 		return SKIP_BODY;
 	}
 

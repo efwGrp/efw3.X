@@ -58,6 +58,11 @@ public class Signature extends TagSupport implements DynamicAttributes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//初期値を再設定する。
+		id="signature";
+		height="200";
+		width="400";
+		attrs=new HashMap<String, String>();
 		return SKIP_BODY;
 	}
 

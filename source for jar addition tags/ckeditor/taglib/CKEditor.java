@@ -75,6 +75,13 @@ public class CKEditor extends TagSupport implements DynamicAttributes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//初期値を再設定する。
+		id="ckeditor";
+		readonly=false;
+		lang="";
+		height="400";
+		width="800";
+		pattern="standard";
 		return SKIP_BODY;
 	}
 
