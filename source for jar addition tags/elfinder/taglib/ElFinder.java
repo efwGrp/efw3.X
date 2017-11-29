@@ -18,10 +18,6 @@ import javax.servlet.jsp.tagext.TagSupport;
 @SuppressWarnings("serial")
 public class ElFinder extends TagSupport implements DynamicAttributes {
 	
-	ElFinder(){
-		
-	}
-	
 	/**
 	 */
 	private String id="elFinder";
@@ -92,7 +88,7 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 	public void setDynamicAttribute(String uri, String name, Object value)
 			throws JspException {
 		if(name.equalsIgnoreCase("id")){
-			this.setValue("id", (String) value);
+			id=(String) value;
 		}else if(name.equalsIgnoreCase("home")){
 			home=(String) value;
 		}else if(name.equalsIgnoreCase("lang")){
