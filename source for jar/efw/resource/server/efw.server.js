@@ -14,15 +14,48 @@ function EfwServer() {
 EfwServer.prototype.checkLogin = function(eventId){
 	var needLoginCheck = EfwServerProperties.prototype.get("efw.login.check",false);
 	var outOfLoginEventIdPattern =EfwServerProperties.prototype.get("efw.outoflogin.eventid.pattern","");
-	var loginkey = EfwServerProperties.prototype.get("efw.login.key");
+	var loginkey = EfwServerProperties.prototype.get("efw.login.key","USER_ID");
 	if (needLoginCheck && outOfLoginEventIdPattern!="" && eventId.search(new RegExp(outOfLoginEventIdPattern))==-1) { // the login check
 		var vl = EfwServerSession.prototype.get(loginkey);
 		if (vl == null ||(typeof(vl) == "string" && vl == "")) {
 			var result=(new Result())
 			.alert(EfwServerMessages.prototype.SessionTimeoutException);
-			var loginUrl = EfwServerProperties.prototype.get("efw.login.url","");
-			if (loginUrl != "")result.navigate(loginUrl);
+			var loginUrl = EfwServerProperties.prototype.get("efw.login.url","login.jsp");
+			result.navigate(loginUrl);
 			return result;
+		}
+	}
+	return null;
+};
+/**
+ * The function to check auth.
+ * @param eventId: Event Id.
+ * @returns {null | Result}<br>
+ */
+EfwServer.prototype.checkAuth = function(eventId){
+	var outOfLoginEventIdPattern =EfwServerProperties.prototype.get("efw.outoflogin.eventid.pattern","");
+	if (eventId.search(new RegExp(outOfLoginEventIdPattern)) == -1) {
+		var needAuthCheck = EfwServerProperties.prototype.get("efw.auth.check",false);
+		var authKey = EfwServerProperties.prototype.get("efw.auth.key","USER_AUTH");
+		var authCases = EfwServerProperties.prototype.get("efw.auth.cases","");
+		var authValue = EfwServerSession.prototype.get(authKey);
+		if (needAuthCheck && authValue != null && authValue != ""  && authCases != "") {
+			var hasAuth=false;
+			var authCaseAry  = authCases.split(",");
+			for (var i = 0; i < authCaseAry.length; i++) {
+				var authPattern = EfwServerProperties.prototype.get(authCaseAry[i]+".auth.pattern","");
+				var eventidPattern = EfwServerProperties.prototype.get(authCaseAry[i]+".eventid.pattern","");
+				if (authPattern != "" && eventidPattern != "" && authValue.search(new RegExp(authPattern)) > -1  && eventId.search(new RegExp(eventidPattern)) > -1){
+						hasAuth=true;
+						break;
+				}
+			}
+			if (hasAuth == false) {
+				var result=(new Result())
+				var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","error.jsp");
+				result.navigate(systemErrorUrl);
+				return result;
+			}
 		}
 	}
 	return null;
