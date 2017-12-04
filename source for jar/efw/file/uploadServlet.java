@@ -78,9 +78,12 @@ public class uploadServlet extends HttpServlet {
 	                    inputStream =part.getInputStream();
 	                    byte[] b = new byte[inputStream.available()];
 	                    inputStream.read(b);
+	                    inputStream.close();
+	                    inputStream=null;
 	                    outputStream = new FileOutputStream(fl.getAbsolutePath());
 	                    outputStream.write(b);
-	                    inputStream.close();
+	                    outputStream.close();
+	                    outputStream=null;
 	                    //part.write(fl.getAbsolutePath());//This line cant run at resin4 but ok to tomcat.
 	                    String uploadPath =null;
 	                    for(int i=0;i<paths.size();i++){

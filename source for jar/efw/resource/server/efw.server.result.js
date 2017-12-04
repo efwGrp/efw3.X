@@ -251,6 +251,7 @@ Result.prototype.alert = function(message, params) {
 		this.actions.alert = this.actions.alert.concat(message);
 	} else {
 		for(var key in params){
+			if (key=="debug") continue;// debug function is skipped
 			message=message.replace(new RegExp("{"+key+"}", "g"), params[key]);
 		}
 		this.actions.alert.push(message);
@@ -311,6 +312,7 @@ Result.prototype.error = function(clientMessageId,params) {
 Result.prototype.confirm = function(message, buttons, params) {
 	if (!this.actions.confirm) {
 		for ( var key in params) {
+			if (key=="debug") continue;// debug function is skipped
 			message = message.replace(new RegExp("{" + key + "}", "g"),
 					params[key]);
 		}

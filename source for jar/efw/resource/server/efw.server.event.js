@@ -229,31 +229,30 @@ EfwServerEvent.prototype._getStatistics = function() {
 	Event_lock.lock();
 	var ret = [];
 	try {
-		for ( var eventId in EfwServerEvent.prototype._events) {
-			if (eventId!="debug"){// debug function is skipped
-				var eventInfo = EfwServerEvent.prototype._events[eventId];
-				var statistics = {
-					"eventId" : eventId,
-					"enable" : eventInfo.enable,
-					"eventName" : eventInfo.event.name,
-					"errorCount" : eventInfo["error"].count,
-					"errorSum" : eventInfo["error"].sum,
-					"errorAvg" : eventInfo["error"].avg,
-					"errorMax" : eventInfo["error"].max,
-					"errorMin" : eventInfo["error"].min,
-					"firstCount" : eventInfo["first"].count,
-					"firstSum" : eventInfo["first"].sum,
-					"firstAvg" : eventInfo["first"].avg,
-					"firstMax" : eventInfo["first"].max,
-					"firstMin" : eventInfo["first"].min,
-					"secondCount" : eventInfo["second"].count,
-					"secondSum" : eventInfo["second"].sum,
-					"secondAvg" : eventInfo["second"].avg,
-					"secondMax" : eventInfo["second"].max,
-					"secondMin" : eventInfo["second"].min,
-				};
-				ret.push(statistics);
-			}
+		for ( var key in EfwServerEvent.prototype._events) {
+			if (key=="debug") continue;// debug function is skipped
+			var eventInfo = EfwServerEvent.prototype._events[key];
+			var statistics = {
+				"eventId" : key,
+				"enable" : eventInfo.enable,
+				"eventName" : eventInfo.event.name,
+				"errorCount" : eventInfo["error"].count,
+				"errorSum" : eventInfo["error"].sum,
+				"errorAvg" : eventInfo["error"].avg,
+				"errorMax" : eventInfo["error"].max,
+				"errorMin" : eventInfo["error"].min,
+				"firstCount" : eventInfo["first"].count,
+				"firstSum" : eventInfo["first"].sum,
+				"firstAvg" : eventInfo["first"].avg,
+				"firstMax" : eventInfo["first"].max,
+				"firstMin" : eventInfo["first"].min,
+				"secondCount" : eventInfo["second"].count,
+				"secondSum" : eventInfo["second"].sum,
+				"secondAvg" : eventInfo["second"].avg,
+				"secondMax" : eventInfo["second"].max,
+				"secondMin" : eventInfo["second"].min,
+			};
+			ret.push(statistics);
 		}
 	} finally {
 		Event_lock.unlock();

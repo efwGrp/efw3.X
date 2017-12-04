@@ -8,6 +8,13 @@ elfinder_open.fire = function(params) {
 	var init=params["init"];//初回表示かどうか、1,0
 	var target=params["target"];//初回以降はcwdのhashになる。
 	var saveupload=params["saveupload"];//アップロード後の再表示のため。1,0
+	
+	if (session.get("EFW_ELFINDER_HOME")!=null && session.get("EFW_ELFINDER_HOME")!=home){
+		throw "The elFinder instance is protected.";
+	}
+	if (session.get("EFW_ELFINDER_READONLY")!=null && session.get("EFW_ELFINDER_READONLY")!=""+readonly){
+		throw "The elFinder instance is protected.";
+	}
 	//---------------------------------------------------------------------
 	var options={
          "uploadMaxConn":-1,		//アップロードファイルは分割しない

@@ -51,7 +51,7 @@ EfwServer.prototype.checkAuth = function(eventId){
 				}
 			}
 			if (hasAuth == false) {
-				var result=(new Result())
+				var result=new Result();
 				var systemErrorUrl=EfwServerProperties.prototype.get("efw.system.error.url","error.jsp");
 				result.navigate(systemErrorUrl);
 				return result;

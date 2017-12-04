@@ -172,6 +172,7 @@ function doPost(req) {
 			}
 			// if it is null, return blank array to client as a success
 			if (ret == null) ret=new Result();
+			
 			// change data to string and return it to client
 			return JSON.stringify(ret);
 		}
@@ -183,5 +184,8 @@ function doPost(req) {
 			result.navigate(systemErrorUrl);
 		}
 		return JSON.stringify(result);
+	}finally{
+		//remove all uploaded files when event over
+		Packages.efw.file.FileManager.removeUploadFiles();
 	}
 };

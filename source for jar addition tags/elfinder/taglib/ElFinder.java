@@ -26,6 +26,7 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 	private String lang="";
 	private String height="400";
 	private String width="auto";
+	private boolean _protected=false;
 	private HashMap<String, String> attrs=new HashMap<String, String>();
 
 	/**
@@ -66,6 +67,13 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 				temp+=e.getKey()+"=\""+e.getValue()+"\" ";
 			}
 			out.print("<div "+"id=\""+id+"\" "+temp+"></div>");
+			if(_protected){
+				pageContext.getSession().setAttribute("EFW_ELFINDER_HOME", home);
+				pageContext.getSession().setAttribute("EFW_ELFINDER_READONLY", (readonly?"true":"false"));
+			}else{
+				pageContext.getSession().removeAttribute("EFW_ELFINDER_HOME");
+				pageContext.getSession().removeAttribute("EFW_ELFINDER_READONLY");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -76,6 +84,7 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 		lang="";
 		height="400";
 		width="auto";
+		_protected=false;
 		attrs=new HashMap<String, String>();
 		return SKIP_BODY;
 	}
@@ -100,6 +109,10 @@ public class ElFinder extends TagSupport implements DynamicAttributes {
 		}else if(name.equalsIgnoreCase("readonly")){
 			if(((String) value).equalsIgnoreCase("true")){
 				readonly=true;
+			}
+		}else if(name.equalsIgnoreCase("protected")){
+			if(((String) value).equalsIgnoreCase("true")){
+				_protected=true;
 			}
 		}else{
 			attrs.put(name, (String)value);
