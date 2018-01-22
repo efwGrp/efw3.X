@@ -82,7 +82,7 @@ public final class ScriptManager {
 	/**
 	 * リクエストをサーバーサイトJavaScriptに転送する。
 	 * もしスレッドにスクリプトエンジンが付けられていないなら、スクリプトエンジンを作成し、共通とするefw.server.jsを実行する。
-	 * @param request JQueryがefwサーブレット へ要求したJSON内容を含む HttpServletRequest オブジェクト。
+	 * @param req JQueryがefwサーブレット へ要求したJSON内容を含む HttpServletRequest オブジェクト。
 	 * @return 実行結果のJSON文字列を返す。
 	 * @throws NoSuchMethodException 
 	 * @throws ScriptException スクリプトエラー。
@@ -91,6 +91,19 @@ public final class ScriptManager {
 	public static String doPost(String req) throws Exception {
 		Invocable invocable = (Invocable) se();
 		return (String)invocable.invokeFunction("doPost", req);
+	}
+	/**
+	 * バッチを実行する。
+	 * doPostと比較する場合、HttpServletRequestがないようにすること。
+	 * @param req batchがefw へ要求したJSON内容を含む オブジェクト。
+	 * @return 実行結果のJSON文字列を返す。
+	 * @throws NoSuchMethodException 
+	 * @throws ScriptException スクリプトエラー。
+	 * @throws IOException ファイル操作エラー。
+	 */
+	public static String doBatch(String req) throws Exception {
+		Invocable invocable = (Invocable) se();
+		return (String)invocable.invokeFunction("doBatch", req);
 	}
 
 	/**

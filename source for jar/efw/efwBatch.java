@@ -144,7 +144,7 @@ public class efwBatch {
             LogManager.InitCommonDebug("efwBatch.init");
 
             //call script 
-            String jsonString=ScriptManager.doPost(args[0]);
+            String jsonString=ScriptManager.doBatch(args[0]);
 		
 		    //戻り値をjsonに変換
 		    try{

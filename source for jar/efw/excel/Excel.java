@@ -183,6 +183,7 @@ public final class Excel {
 				CellRangeAddress cra =new CellRangeAddress(rowIndex, (rowIndex + range.getLastRow() - range.getFirstRow()), columnIndex, (columnIndex + range.getLastColumn() - range.getFirstColumn()));
 				CellStyle templateCellStyle = templateCell.getCellStyle();
 				CellStyle lasttemplateCellStyle = lasttemplateCell.getCellStyle();
+				
 				RegionUtil.setBorderBottom(lasttemplateCellStyle.getBorderBottom(), cra, sheet);
 				RegionUtil.setBorderLeft(templateCellStyle.getBorderLeft(), cra, sheet);
 				RegionUtil.setBorderRight(lasttemplateCellStyle.getBorderRight(), cra, sheet);

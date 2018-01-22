@@ -189,3 +189,33 @@ function doPost(req) {
 		Packages.efw.file.FileManager.removeUploadFiles();
 	}
 };
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * The service function<br>
+ * It will be called by efwBatch
+ * 
+ * @param req:
+ *            JSON String from batch
+ * @returns: JSON String to batch
+ */
+function doBatch(req) {
+	var reqJson = JSON.parse(req); // parse request string to json object
+	var eventId = reqJson.eventId; // get eventId from json object
+	var params = reqJson.params; // get params from json object
+	try{
+		var eventInfo=EfwServerEvent.prototype._events[eventId];// to load or get a event
+		if (eventInfo==null||eventInfo.from=="file"){
+			eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
+		}
+		var event=eventInfo.event;
+		var ret = EfwServer.prototype.fire(event, params);
+		// if it is null, return blank array to client as a success
+		if (ret == null) ret=new Result();
+		// change data to string and return it to client
+		return JSON.stringify(ret);
+	}catch(e){
+		var result=(new Result())
+		.error("RuntimeErrorException", {"eventId":eventId,"message":""+e});
+		return JSON.stringify(result);
+	}
+};
