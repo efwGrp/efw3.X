@@ -113,7 +113,7 @@ public final class LogManager {
      * @param value ログ内容。
      */
     public static void CommDebug(String value) {
-        logger.log(Level.FINE, "[EFW.OK]" + value.replaceAll("\n", ""));
+        logger.log(Level.INFO, "[EFW.OK]" + value.replaceAll("\n", ""));
     }
     /**
      * ワーニングログを出力する。
@@ -137,7 +137,7 @@ public final class LogManager {
      * @param value2　ログ内容２。
      */
     public static void CommDebug(String value1,String value2) {
-        logger.log(Level.FINE, "[EFW.OK]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+        logger.log(Level.INFO, "[EFW.OK]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
     }
     /**
      * ワーニングログを出力する。
