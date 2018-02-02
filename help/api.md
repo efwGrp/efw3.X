@@ -31,7 +31,7 @@
 <tr><td>event</td><td><a href="event.fire.md">fire</a></td></tr>
 <tr><td>db</td><td><a href="db.select.md">select</a></td><td><a href="db.change.md">change</a></td><td><a href="db.master.md">master</a></td></tr>
 <tr><td>mail</td><td><a href="mail.send.md">send</a></td></tr>
-<tr><td>pdf</td><td><a href="pdf.create.md">create</a></td><td><a href="pdf.merge.md">merge</a></td><td><a href="pdf.convert.md">convert</a></td></tr>
+<tr><td>pdf</td><td><a href="pdf.create.md">create</a></td><td><a href="pdf.merge.md">merge</a></td><td><a href="pdf.convert.md"><del>convert</del></a></td></tr>
 <tr><td>properties</td><td><a href="properties.get.md">get</a></td></tr>
 <tr><td>session</td><td><a href="session.get.md">get</a></td><td><a href="session.set.md">set</a></td><td><a href="session.create.md">create</a></td><td><a href="session.invalidate.md">invalidate</a></td></tr>
 <tr><td>cookie</td><td><a href="cookie.get.md">get</a></td><td><a href="cookie.set.md">set</a></td></tr>
@@ -72,13 +72,15 @@
 <tr><td></td>
 <td><a href="excel.setCell.md">setCell</a></td>
 <td><a href="excel.setLink.md">setLink</a></td>
+<td><a href="excel.showSheet.md">showSheet</a></td>
+<td><a href="excel.hideSheet.md">hideSheet</a></td>
 </tr>
 <tr><td></td>
 <td><a href="excel.getArray.md">getArray</a></td>
 <td><a href="excel.getSingle.md">getSingle</a></td>
 <td><a href="excel.getValue.md">getValue</a></td>
 <td><a href="excel.getMaxRow.md">getMaxRow</a></td>
-<td><a href="excel.getMaxCol.md">getMaxCol</a></td>
+<td><a>getMaxCol</a></td>
 </tr>
 
 

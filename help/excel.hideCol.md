@@ -5,7 +5,7 @@ The hideCol function is established to hide cols in a sheet.
 <h2>Sample</h2>
 <pre>
 	var excel = new Excel("test.xlsx");
-	.hideCol("mySheet,2,4);
+	excel.hideCol("mySheet,2,4);
 </pre>
 
 <h2>API</h2>
