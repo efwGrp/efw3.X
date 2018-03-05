@@ -85,7 +85,10 @@ EfwServerFormat.prototype.parseNumber = function(value, formatter) {
  */
 EfwServerFormat.prototype.formatDate = function(value, formatter) {
 	var isFullWidth =false;
-	if (formatter.indexOf("ｙ")>-1 || formatter.indexOf("Ｇ")>-1){
+	if (formatter.indexOf("Ｇ")>-1 || formatter.indexOf("ｙ")>-1
+			|| formatter.indexOf("Ｍ")>-1|| formatter.indexOf("ｄ")>-1
+			|| formatter.indexOf("Ｈ")>-1|| formatter.indexOf("ｍ")>-1
+			|| formatter.indexOf("ｓ")>-1|| formatter.indexOf("Ｓ")>-1){
 			isFullWidth=true;
 			formatter=formatter
 			.replace(/Ｇ/g,"G")

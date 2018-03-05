@@ -103,6 +103,7 @@ public final class MailManager {
 		MailManager.mailFolder=mailFolder;
     	String username=PropertiesManager.EFW_MAIL_USERNAME;
     	String password=PropertiesManager.EFW_MAIL_PASSWORD;
+    	String from=PropertiesManager.EFW_MAIL_FROM;
     	String protocol=PropertiesManager.EFW_MAIL_TRANSPORT_PROTOCOL;
     	String host=PropertiesManager.EFW_MAIL_SMTP_HOST;
     	String auth=PropertiesManager.EFW_MAIL_SMTP_AUTH;
@@ -110,10 +111,12 @@ public final class MailManager {
 		Properties prop = new Properties();
 		String usernameValue=PropertiesManager.getProperty(username, "");
 		String passwordValue=PropertiesManager.getProperty(password, "");
+		String fromValue=PropertiesManager.getProperty(from, "");
 		String hostValue=PropertiesManager.getProperty(host, "");
 		String protocolValue=PropertiesManager.getProperty(protocol, mailProtocol);
 		boolean authValue=PropertiesManager.getBooleanProperty(auth, mailAuth);
 		int portValue=PropertiesManager.getIntProperty(port, mailPort);
+		prop.put("mail.from", fromValue);
 		prop.put("mail.smtp.host",hostValue);
 		prop.put("mail.transport.protocol",protocolValue);
 		prop.put("mail.smtp.auth",authValue);

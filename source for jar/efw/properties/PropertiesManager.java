@@ -42,6 +42,7 @@ public final class PropertiesManager {
     public static final String EFW_MAIL_RESOURCE ="efw.mail.resource";
     public static final String EFW_MAIL_USERNAME ="efw.mail.username";
     public static final String EFW_MAIL_PASSWORD ="efw.mail.password";
+    public static final String EFW_MAIL_FROM ="efw.mail.from";
     public static final String EFW_MAIL_TRANSPORT_PROTOCOL ="efw.mail.transport.protocol";
     public static final String EFW_MAIL_SMTP_HOST ="efw.mail.smtp.host";
     public static final String EFW_MAIL_SMTP_AUTH ="efw.mail.smtp.auth";

@@ -993,6 +993,10 @@ public final class Excel {
 	public void hideRow(String sheetName,int startRow,int endRow) throws efwException{
 		Sheet sheet = this.workbook.getSheet(sheetName);
 		for(int i=startRow;i<=endRow;i++) {
+	        Row row = this.workbook.getSheet(sheetName).getRow(i);
+	        if (row == null) {
+	        	row = sheet.createRow(i);
+	       	}
 			sheet.getRow(i).setZeroHeight(true);
 		}
 	}
