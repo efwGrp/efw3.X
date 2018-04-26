@@ -7,6 +7,10 @@
 var EfwClient = function() {
 };
 /**
+ * The object to keep the ajax options for retry.
+ */
+EfwClient.prototype._options=null;
+/**
  * The function to fire event.
  * 
  * @param {Object}
@@ -36,7 +40,7 @@ EfwClient.prototype.fire = function(eventParams) {
 	}else{
 		uploadUrl = Efw.prototype.baseurl + "/" + uploadUrl;
 	}
-	$.ajax({
+	$.ajax(EfwClient.prototype._options={
 		url : servletUrl,
 		type : "POST",// post method
 		cache : false,// don't use cache
@@ -64,7 +68,7 @@ EfwClient.prototype.fire = function(eventParams) {
 				"errorType":errorType,
 				"errorMessage":errorMessage,
 			});
-			EfwClient.prototype._showActions({"error":{"clientMessageId":"CommunicationErrorException","params":{"eventId":eventId}}});
+			EfwClient.prototype._retryAjax();
 		}
 	});
 };
@@ -134,7 +138,7 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams, ser
 	// the second calling
 	// ---------------------------------------------------------------------
 	var callSecondAjax = function() {
-		$.ajax({
+		$.ajax(EfwClient.prototype._options={
 			url : servletUrl,
 			type : "POST",// post method
 			cache : false,// don't use cache
@@ -176,14 +180,14 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams, ser
 					"errorType":errorType,
 					"errorMessage":errorMessage,
 				});
-				EfwClient.prototype._showActions({"error":{"clientMessageId":"CommunicationErrorException","params":{"eventId":eventId}}});
+				EfwClient.prototype._retryAjax();
 			}
 		});
 	};
 	// upload files
 	// ---------------------------------------------------------------------
 	if (EfwClient.prototype._pickupParams_uploadformdata != null) {
-		$.ajax({
+		$.ajax(EfwClient.prototype._options={
 			url : uploadUrl,
 			type : "POST",// post method
 			dataType : "json",// send or get data by json type
@@ -202,7 +206,7 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams, ser
 					"errorType":errorType,
 					"errorMessage":errorMessage,
 				});
-				EfwClient.prototype._showActions({"error":{"clientMessageId":"CommunicationErrorException","params":{"eventId":eventId}}});
+				EfwClient.prototype._retryAjax();
 			}
 		});
 		EfwClient.prototype._pickupParams_uploadformdata = null;// reset it for
@@ -619,3 +623,6 @@ EfwClient.prototype._removeLoading = function() {
 };
 
 
+EfwClient.prototype._retryAjax = function() {
+	EfwClient.prototype.alert(EfwClientMessages.prototype.CommunicationErrorException,{"OK":"$.ajax(EfwClient.prototype._options)","Cancel":""});
+};
