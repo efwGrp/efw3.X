@@ -608,10 +608,10 @@ EfwClient.prototype._consoleLog = function(msg, data) {
  */
 var EfwClient_displayLoading_handle=null;
 EfwClient.prototype._displayLoading = function() {
+	$("#loading").remove();
+	$("body").append("<div id='loading' style='z-index:9999'></div>");
 	EfwClient_displayLoading_handle=window.setTimeout(function(){
-		$("#loading").remove();
-		$("body").append(
-				"<div id='loading' class='ui-widget-overlay ui-front' style='z-index:9999'></div>");
+		 $("#loading").addClass("ui-widget-overlay ui-front");
 	}, 100);
 };
 /**
