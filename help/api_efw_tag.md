@@ -158,7 +158,7 @@ and included them into Efw as a tag. It must be used after the Client tag for jQ
 	&lt;table border=1 id="chart1_data" data-format="#,##0百万円" data-legend="bottom" >
 	&lt;caption>会社業績&lt;/caption>
 		&lt;tr>&lt;th>年度&lt;/th>&lt;th data-color="red">売上高&lt;/th>&lt;th  data-color="green">営業利益&lt;/th>&lt;th data-color="blue">経常利益&lt;/th>&lt;/tr>
-		&lt;tr>&lt;td>2004 年&lt;/td>&lt;td>1,000百万円&lt;/td>&lt;td>400百万円&lt;/td>&lt;td>380百万円百万円&lt;/td>&lt;/tr>
+		&lt;tr>&lt;td>2004 年&lt;/td>&lt;td>1,000百万円&lt;/td>&lt;td>400百万円&lt;/td>&lt;td>380百万円&lt;/td>&lt;/tr>
 	...
 	&lt;/table>
 &lt;/body&gt;
@@ -173,6 +173,11 @@ and included them into Efw as a tag. It must be used after the Client tag for jQ
 <tr><td>type</td><td>Yes</td><td></td><td>The type of the Chart tag. [ column | stackedcolumn | line | pie | donut | bar | stackedbar | area | stackedarea | scatter ]. </td></tr>
 <tr><td>height</td><td>No</td><td>"400"</td><td>The height of Chart tag. The unit is "px".</td></tr>
 <tr><td>width</td><td>No</td><td>"auto"</td><td>The width of Chart tag. The unit is "px". </td></tr>
+
+<tr><td>data-format</td><td>No</td><td></td><td>The format of the data.If it is defined, the tooltip of the data will be formated. </td></tr>
+<tr><td>data-legend</td><td>No</td><td></td><td>The position of the legend.[ none | left | right | top | bottom ] </td></tr>
+<tr><td>data-color</td><td>No</td><td></td><td>The color of the item. To set it with RGB or color name. </td></tr>
+
 </table>
 
 <h3>Methods</h3>
