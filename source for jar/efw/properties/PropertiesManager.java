@@ -166,6 +166,11 @@ public final class PropertiesManager {
 	 */
 	public static final String EFW_OUTOFLOGIN_EVENTID_PATTERN="efw.outoflogin.eventid.pattern";
 	/**
+	 * フォーマット関数のROUNDER
+	 */
+	public static final String EFW_FORMAT_ROUNDER="efw.format.rounder";
+	
+	/**
 	 * プロパティ値を格納するプロパティオブジェクト。
 	 */
 	public static Properties prop = new Properties();

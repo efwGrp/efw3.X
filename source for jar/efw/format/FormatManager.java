@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import efw.properties.PropertiesManager;
+
 /**
  * 数字と日付のフォーマットを管理するクラス。
  * @author Chang Kejun
@@ -28,6 +30,11 @@ public final class FormatManager {
 	 * 初期化時、ja_JP_JPで作成する。
 	 */
 	private static Locale localeJ;
+	/**
+	 * フォーマット関数用Rounder
+	 */
+	private static String formatRounderPro="HALF_EVEN";
+	private static RoundingMode formatRounder=RoundingMode.HALF_EVEN;
 
     /**
      * 数字フォーマット配列。
@@ -46,6 +53,24 @@ public final class FormatManager {
     public static synchronized void init(){
     	FormatManager.locale = Locale.getDefault();
     	FormatManager.localeJ = new Locale("ja","JP","JP");
+    	FormatManager.formatRounderPro = PropertiesManager.getProperty(PropertiesManager.EFW_FORMAT_ROUNDER, FormatManager.formatRounderPro);
+    	if("UP".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.UP;
+    	}else if("DOWN".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.DOWN;
+    	}else if("CEILING".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.CEILING;
+    	}else if("FLOOR".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.FLOOR;
+    	}else if("HALF_UP".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.HALF_UP;
+    	}else if("HALF_DOWN".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.HALF_DOWN;
+    	}else if("HALF_EVEN".equals(FormatManager.formatRounderPro)){
+    		FormatManager.formatRounder=RoundingMode.HALF_EVEN;
+    	}else{
+    		FormatManager.formatRounder=RoundingMode.HALF_EVEN;
+    	}
 	}
     /**
      * 数字を指定フォーマットで文字列に変換する。
@@ -78,7 +103,7 @@ public final class FormatManager {
 	    	}else if("HALF_EVEN".equals(round)){
 		    	df.setRoundingMode(RoundingMode.HALF_EVEN);
 	    	}else{
-	    		df.setRoundingMode(RoundingMode.HALF_EVEN);
+	    		df.setRoundingMode(FormatManager.formatRounder);
 	    	}
 			return df.format(value);
     	}

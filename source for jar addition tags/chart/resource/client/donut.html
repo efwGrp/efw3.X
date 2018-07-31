@@ -8,7 +8,18 @@ var chart;
 var googleChartIsLoaded=false;
 function drawChart(data,options){
 	options.pieHole=0.4;
-	chart.draw(google.visualization.arrayToDataTable(data), options);
+	var gdata=google.visualization.arrayToDataTable(data);
+	if(options.vAxis.format){
+		var formatter = new google.visualization.NumberFormat({
+			pattern: options.vAxis.format
+		});
+		if(data.length>0){
+			for(var i=1;i<data[0].length;i++){
+				formatter.format(gdata, i);
+			}
+		}
+	}
+	chart.draw(gdata, options);
 }
 google.load("visualization", "1", {packages:["corechart"]});
 google.setOnLoadCallback(

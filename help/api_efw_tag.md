@@ -155,10 +155,10 @@ and included them into Efw as a tag. It must be used after the Client tag for jQ
 &lt;body&gt;
 	&lt;efw:Chart id="char1" data="chart1_data" type="column" width="400" height="250" /&gt; //or efw:chart , efw:CHART
 
-	&lt;table border=1 id="chart1_data">
+	&lt;table border=1 id="chart1_data" data-format="#,##0百万円" data-legend="bottom" >
 	&lt;caption>会社業績&lt;/caption>
-		&lt;tr>&lt;th>年度&lt;/th>&lt;th>売上高&lt;/th>&lt;th>営業利益&lt;/th>&lt;th>経常利益&lt;/th>&lt;/tr>
-		&lt;tr>&lt;td>2004 年&lt;/td>&lt;td>1000&lt;/td>&lt;td>400&lt;/td>&lt;td>380&lt;/td>&lt;/tr>
+		&lt;tr>&lt;th>年度&lt;/th>&lt;th data-color="red">売上高&lt;/th>&lt;th  data-color="green">営業利益&lt;/th>&lt;th data-color="blue">経常利益&lt;/th>&lt;/tr>
+		&lt;tr>&lt;td>2004 年&lt;/td>&lt;td>1,000百万円&lt;/td>&lt;td>400百万円&lt;/td>&lt;td>380百万円百万円&lt;/td>&lt;/tr>
 	...
 	&lt;/table>
 &lt;/body&gt;

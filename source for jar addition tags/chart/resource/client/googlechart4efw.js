@@ -34,31 +34,57 @@ EfwClientChart.prototype.options={};
 EfwClientChart.prototype.draw=function(){
 	var d=[];
 	var isFirstTr=true;
+	var formatter=$("#"+this.dataId).attr("data-format");
+	var legender=$("#"+this.dataId).attr("data-legend");
+	var colors=[];
 	$("#"+this.dataId+" tr").each(function(){
 		var row=[];
 		var isFirstTd=true;
 		$("td,th",this).each(function(){
 			var value=$(this).html();
-			if (isFirstTd||isFirstTr){
+			if (isFirstTd||isFirstTr){//the first row is col title, and every first col is item identity.
 				row[row.length]=value;
-				isFirstTd=false;
 			}else{
-				var num=Number.parse(value);
+				var num=Number.parse(value,formatter);
 				if (isNaN(num)){
 					row[row.length]=value;
 				}else{
 					row[row.length]=0+num;
 				}
 			}
+			if (isFirstTr&&!isFirstTd){//get color from the col title cell.
+				if ($(this).attr("data-color")!=null){
+					colors.push($(this).attr("data-color"));
+				}
+			}else if(isFirstTd){
+				if ($(this).attr("data-color")!=null){
+					colors.push($(this).attr("data-color"));
+				}
+			}
+
+			isFirstTd=false;
 		});
 		isFirstTr=false;
 		d[d.length]=row;
 	});
+
 	this.data=d;
+
 	this.options={
-		     title:$("#"+this.dataId+" caption").html(),
-		     hAxis:{title: $("#"+this.dataId+" td,th:eq(0)").html()},
-		 };
+		legend:{position:legender},
+		title:$("#"+this.dataId+" caption").html(),
+		hAxis:{title: $("#"+this.dataId+" td,th:eq(0)").html()},
+		vAxis:{},
+	};
+	if (colors.length>0){
+		this.options.colors=colors;
+	}
+	if (this.type=="bar"||this.type=="stackedbar"){
+		this.options.hAxis.format=formatter;
+	}else{
+		this.options.vAxis.format=formatter;
+	}
+	
 	window.frames["iframe_"+this.chartId].location="chart/"+this.type+".html";
     var _chart=this;
     window.setTimeout(function(){_chart._draw();}, 100);

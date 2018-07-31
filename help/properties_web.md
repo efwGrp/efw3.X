@@ -20,6 +20,12 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 	<td>The default jdbc resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]jdbc/efw</td>
 </tr>
 <tr>
+	<th>Mail</th>
+	<td>efw.mail.resource</td>
+	<td>mail/efw</td>
+	<td>The default mail resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]mail/efw</td>
+</tr>
+<tr>
 	<th rowspan=4>Folder</th>
 	<td>efw.event.folder</td>
 	<td>/WEB-INF/efw/event</td>
@@ -159,10 +165,10 @@ the file /WEB-INF/classes/efw.properties is established to set the framework. If
 </tr>
 
 <tr>
-	<th>Mail</th>
-	<td>efw.mail.resource</td>
-	<td>mail/efw</td>
-	<td>The default mail resource name, which must be defined in /META-INF/context.xml. If your server is not tomcat, you can define it by jndi name. Example: java:xxx/yyy/zzz  or  [java:comp/env/]mail/efw</td>
+	<th>Rounder</th>
+	<td>efw.format.rounder</td>
+	<td>HALF_EVEN</td>
+	<td>The default rounder for format method. UP,DOWN,CEILING,FLOOR,HALF_UP,HALF_DOWN,HALF_EVEN</td>
 </tr>
 
 
