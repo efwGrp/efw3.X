@@ -15,18 +15,23 @@ function EfwServerEvent() {
  *            params: optional<br>
  *            {param1:value1,param2:value2,...}<br>
  * @param {String}
+ *            server: optional<br>
  *            The url of cors connections to another web server application constructed by Efw.<br>
  *            http://127.0.0.1:8080/efw<br>
  * @returns {Result}
  */
+EfwServerEvent.prototype.fire = function(eventId, params, server) {
+	if (server==undefined){
 		if (params==undefined){
 			params={};
 		}else if(typeof(params) == "string"){
+			server=params;
 			params={};
 		}
 	}
 	
 	var result=new Result();
+	if (server==undefined){
 		var beginTime = new Date();
 		var fireFlag = "error";
 		try {
@@ -44,6 +49,7 @@ function EfwServerEvent() {
 	}else{
 		var servletUrl = "efwServlet";
 		var jsonString=""+Packages.efw.event.RemoteEventManager.call(
+				server+"/"+servletUrl,
 				JSON.stringify({eventId:eventId,params:params})
 			);
 		var resultJSON=JSON.parse(jsonString);
