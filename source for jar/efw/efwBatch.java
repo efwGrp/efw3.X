@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import efw.event.RemoteEventManager;
 import efw.file.FileManager;
 import efw.format.FormatManager;
 import efw.log.LogManager;
@@ -139,6 +140,8 @@ public class efwBatch {
     		LogManager.InitCommonDebug("FormatManager.init");
     		PdfManager.init();
     		LogManager.InitCommonDebug("PdfManager.init");
+    		RemoteEventManager.init();
+    		LogManager.InitCommonDebug("RemoteEventManager.init");
     		
     		//init is success
             LogManager.InitCommonDebug("efwBatch.init");

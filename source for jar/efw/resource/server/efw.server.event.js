@@ -12,25 +12,47 @@ function EfwServerEvent() {
  * @param {String}
  *            eventId: required<br>
  * @param {Object}
- *            params: required<br>
+ *            params: optional<br>
  *            {param1:value1,param2:value2,...}<br>
+ * @param {String}
+ *            The url of cors connections to another web server application constructed by Efw.<br>
+ *            http://127.0.0.1:8080/efw<br>
  * @returns {Result}
  */
-EfwServerEvent.prototype.fire = function(eventId, params) {
-	var result=new Result();
-	var beginTime = new Date();
-	var fireFlag = "error";
-	try {
-		var eventInfo=EfwServerEvent.prototype._events[eventId];
-		if (eventInfo==null||eventInfo.from=="file"){
-			eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
+		if (params==undefined){
+			params={};
+		}else if(typeof(params) == "string"){
+			params={};
 		}
-		result=eventInfo.event.fire(params);
-		fireFlag = "second";
-	} finally {
-		var endTime = new Date();
-		EfwServerEvent.prototype._updateStatistics(eventId, fireFlag, beginTime,
-				endTime);
+	}
+	
+	var result=new Result();
+		var beginTime = new Date();
+		var fireFlag = "error";
+		try {
+			var eventInfo=EfwServerEvent.prototype._events[eventId];
+			if (eventInfo==null||eventInfo.from=="file"){
+				eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
+			}
+			result=eventInfo.event.fire(params);
+			fireFlag = "second";
+		} finally {
+			var endTime = new Date();
+			EfwServerEvent.prototype._updateStatistics(eventId, fireFlag, beginTime,
+					endTime);
+		}
+	}else{
+		var servletUrl = "efwServlet";
+		var jsonString=""+Packages.efw.event.RemoteEventManager.call(
+				JSON.stringify({eventId:eventId,params:params})
+			);
+		var resultJSON=JSON.parse(jsonString);
+		if (resultJSON.actions!=null&&resultJSON.values!=null){
+			result.actions=resultJSON.actions;
+			result.values=resultJSON.values;
+		}else{
+			result=resultJSON;
+		}
 	}
 	return result;
 };

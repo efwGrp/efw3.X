@@ -16,6 +16,7 @@ Its return is an instance of the <a href="result.md">Result</a> class.
 <table>
 <tr><th>Calling</th><th>Returning</th></tr>
 <tr><td>event . fire( eventId , params )</td><td><a href="result.md">Result</a></td></tr>
+<tr><td>event . fire( eventId , params , server)</td><td><a href="result.md">Result</a></td></tr>
 </table>
 
 <table>
@@ -24,5 +25,9 @@ Its return is an instance of the <a href="result.md">Result</a> class.
 <tr><td>params</td><td>JSON Object</td>
 <td>To send values to the event. 
 <pre>{"param1":value1,"param2":value2,...}</pre>
+</td></tr>
+<tr><td>server</td><td>String</td>
+<td>To call the event from a remote server. 
+<pre>http://remoteserver/efwapp</pre>
 </td></tr>
 </table>

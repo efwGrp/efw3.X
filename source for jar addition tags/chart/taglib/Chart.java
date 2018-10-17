@@ -10,8 +10,8 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 import javax.servlet.jsp.tagext.TagSupport;
 /**
- * ElFinderタグを処理するクラス。
- * <efw:ElFinder home="" readonly="" lang="" height="" width=""/>
+ * Chartタグを処理するクラス。
+ * <efw:Chart id="" type="" height="" width="" data="" version="" setoptions=""/>
  * @author Chang Kejun
  *
  */
@@ -25,6 +25,8 @@ public class Chart extends TagSupport implements DynamicAttributes {
 	private String height="400";
 	private String width="auto";
 	private String data="";
+	private String version="current";
+	private String setOptions="";
 	private HashMap<String, String> attrs=new HashMap<String, String>();
 
 	/**
@@ -46,7 +48,7 @@ public class Chart extends TagSupport implements DynamicAttributes {
 			out.print("<iframe id=\"iframe_"+id+"\" name=\"iframe_"+id+"\" frameborder=\"0\" style=\"width:"+width+";height:"+height+";\" "+temp+"></iframe>");
 			out.print("<script>"
 					+ "var "+id+";"
-					+ "$(function(){"+id+"=new EfwClientChart(\""+id+"\",\""+data+"\",\""+type+"\");"+id+".draw();});</script>");
+					+ "$(function(){"+id+"=new EfwClientChart(\""+id+"\",\""+data+"\",\""+type+"\",\""+version+"\","+setOptions+");"+id+".draw();});</script>");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -56,6 +58,8 @@ public class Chart extends TagSupport implements DynamicAttributes {
 		height="400";
 		width="auto";
 		data="";
+		version="current";
+		setOptions="";
 		attrs=new HashMap<String, String>();
 		return SKIP_BODY;
 	}
@@ -77,6 +81,10 @@ public class Chart extends TagSupport implements DynamicAttributes {
 			width=(String) value;
 		}else if(name.equalsIgnoreCase("data")){
 			data=(String) value;
+		}else if(name.equalsIgnoreCase("version")){
+			version=(String) value;
+		}else if(name.equalsIgnoreCase("setOptions")){
+			setOptions=(String) value;
 		}else{
 			attrs.put(name, (String)value);
 		}

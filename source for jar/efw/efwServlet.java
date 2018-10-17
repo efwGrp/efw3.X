@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import efw.event.RemoteEventManager;
 import efw.file.FileManager;
 import efw.format.FormatManager;
 import efw.log.LogManager;
@@ -179,6 +180,8 @@ public final class efwServlet extends HttpServlet {
     		LogManager.InitCommonDebug("FormatManager.init");
     		PdfManager.init();
     		LogManager.InitCommonDebug("PdfManager.init");
+    		RemoteEventManager.init();
+    		LogManager.InitCommonDebug("RemoteEventManager.init");
     		
 			try{
 				//Besure jar is existed before calling MailManager, or it is error without exception in jar

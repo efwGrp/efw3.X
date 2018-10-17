@@ -60,7 +60,7 @@ public final class downloadServlet extends HttpServlet {
 		try {
 			if(attr_zip!=null&&!"".equals(attr_zip)){
 				tmp_files=attr_zip.split("\\|");
-				File zipFile=File.createTempFile("tmp", "zip",new File(FileManager.getStorageFolder()));
+				File zipFile=File.createTempFile("efw", "zip",new File(FileManager.getStorageFolder()));
 				tmp_zip=zipFile.getName();
 				attr_file=zipFile.getName();
 				FileManager.zip(tmp_zip, tmp_files, attr_zipBasePath);

@@ -284,6 +284,15 @@ EfwServerFile.prototype.duplicate=function(srcPath,destPath) {
 			:Packages.efw.file.FileManager.get(destPath);
 	Packages.efw.file.FileManager.duplicate(srcfl,destfl);
 };
+/**
+ * The function to get a tempfile name in a folder.
+ * @returns {String}
+ *            the tempfile name
+ */
+EfwServerFile.prototype.getTempFileName=function() {
+	return ""+Packages.efw.file.FileManager.getTempFileName();
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 
 /**

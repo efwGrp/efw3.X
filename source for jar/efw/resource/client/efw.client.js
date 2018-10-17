@@ -490,6 +490,15 @@ EfwClient.prototype._showActions = function(actions) {
 		}
 		EfwClient_showActions_MsgClosed=false;
 		EfwClient.prototype.alert(message);
+		EfwClient.prototype._removeLoading();//to close loading, or the dialog is not touchable.
+		//if the error is occured from client, the loading will be shown after dialog closed.
+		EfwClient_showActions_Eval_Handle=window.setInterval(function(){
+			if(EfwClient_showActions_MsgClosed){
+				window.clearInterval(EfwClient_showActions_Eval_Handle);
+				window.eval("EfwClient.prototype._displayLoading();");
+			}
+		}, 100);
+		//if the error is occured from server, the error jsp will be shown after dialog closed.
 		EfwClient_showActions_Navigate_Handle=window.setInterval(function(){
 			if(EfwClient_showActions_MsgClosed){
 				window.clearInterval(EfwClient_showActions_Navigate_Handle);

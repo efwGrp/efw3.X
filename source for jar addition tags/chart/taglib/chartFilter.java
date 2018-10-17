@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Chang Kejun
  *
  */
-@WebFilter(filterName="chartFilter", urlPatterns={"*.html","*.js"})
+@WebFilter(filterName="chartFilter", urlPatterns={"*.html","*.js","*.css"})
 public class chartFilter implements Filter {
 	/**
 	 * 一周間キャッシュするため
@@ -48,6 +48,9 @@ public class chartFilter implements Filter {
 		}else if ("js".equals(ex)){
 			resourcePath="chart/resource/client/"+filename;
 			response.setContentType("text/javascript"); 
+		}else if ("css".equals(ex)){
+			resourcePath="chart/resource/client/"+filename;
+			response.setContentType("text/css"); 
 		}
 		if (resourcePath==null){
 			chain.doFilter(request, response);

@@ -227,6 +227,18 @@ Result.prototype.attach = function(path,zipBasePath) {
 	return this;
 };
 /**
+ * The function to set the file name for saving .
+ * 
+ * @param {String} filename: required<br>
+ * @returns {Result}
+ */
+Result.prototype.saveas = function(filename) {
+	if (!this.actions.download)this.actions.download={};
+	this.actions.download.saveas=filename;
+	return this;
+};
+
+/**
  * The function to set a flag to delete original files after download.
  * 
  * @returns {Result}

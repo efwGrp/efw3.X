@@ -400,5 +400,16 @@ public final class FileManager {
 			}
 		}
 	}
+	/**
+	 * 一時ファイル名を取る
+	 * @return　ファイル名
+	 * @throws IOException
+	 */
+	public static String getTempFileName() throws IOException{
+		File fl=File.createTempFile("efw", "tmp");
+		String fileName=fl.getName();
+		fl.delete();
+		return fileName;
+	}
 	
 }

@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
 
 var chart;
@@ -21,8 +21,10 @@ function drawChart(data,options){
 	}
 	chart.draw(gdata, options);
 }
-google.load("visualization", "1", {packages:["corechart"]});
-google.setOnLoadCallback(
+var version = "current";
+try{version=(new RegExp("[?&]version(=([^&#]*)|&|#|$)")).exec(window.location)[2].replace(/\+/g, " ");}catch(e){};
+google.charts.load(version, {packages: ["corechart"]});
+google.charts.setOnLoadCallback(
     function() {
     	chart = new google.visualization.BarChart(document.body);
     	googleChartIsLoaded=true;

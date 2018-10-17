@@ -2,11 +2,12 @@
 /**
  * The class is for include google charts.
  */
-function EfwClientChart(chartId,dataId,type,isStacked){
+function EfwClientChart(chartId,dataId,type,version,setOptions){
 	this.chartId=chartId;
 	this.dataId=dataId;
 	this.type=type;
-	this.isStacked=isStacked;
+	this.version=version;
+	this.setOptions=setOptions;
 }
 /**
  * The id to operate the chart.
@@ -20,6 +21,10 @@ EfwClientChart.prototype.dataId=null;
  * The type of the chart.
  */
 EfwClientChart.prototype.type=null;
+/**
+ * The version of the chart.
+ */
+EfwClientChart.prototype.version=null;
 /**
  * The data.
  */
@@ -36,6 +41,7 @@ EfwClientChart.prototype.draw=function(){
 	var isFirstTr=true;
 	var formatter=$("#"+this.dataId).attr("data-format");
 	var legender=$("#"+this.dataId).attr("data-legend");
+	var ticks=$("#"+this.dataId).attr("data-ticks");
 	var colors=[];
 	$("#"+this.dataId+" tr").each(function(){
 		var row=[];
@@ -79,13 +85,25 @@ EfwClientChart.prototype.draw=function(){
 	if (colors.length>0){
 		this.options.colors=colors;
 	}
-	if (this.type=="bar"||this.type=="stackedbar"){
-		this.options.hAxis.format=formatter;
-	}else{
-		this.options.vAxis.format=formatter;
+	if (formatter!=""&&formatter!=null){
+		if (this.type=="bar"||this.type=="stackedbar"){
+			this.options.hAxis.format=formatter;
+		}else{
+			this.options.vAxis.format=formatter;
+		}
+	}
+	if (ticks!=""&&ticks!=null){
+		if (this.type=="bar"||this.type=="stackedbar"){
+			this.options.hAxis.ticks=JSON.parse("["+ticks+"]");
+		}else{
+			this.options.vAxis.ticks=JSON.parse("["+ticks+"]");
+		}
+	}
+	if (this.setOptions!=null){
+		try{this.setOptions(this.options);}catch(e){};
 	}
 	
-	window.frames["iframe_"+this.chartId].location="chart/"+this.type+".html";
+	window.frames["iframe_"+this.chartId].location="chart/"+this.type+".html?version="+this.version;
     var _chart=this;
     window.setTimeout(function(){_chart._draw();}, 100);
 };
