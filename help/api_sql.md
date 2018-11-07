@@ -16,9 +16,11 @@ test.xml
 SELECT field1,field2,field3 FROM table1
 WHERE
 field1= :param1
-&lt;if exists="param2"> param2 &amp;lt; :param2&lt;/if>
-&lt;if notexists="param2"> param2 &amp;lt; 500&lt;/if>
-order by field3
+&lt;if exists="param2"> and field2 &amp;lt; :param2&lt;/if>
+&lt;if notexists="param2"> and field2 &amp;lt; 500&lt;/if>
+&lt;if istrue="param3.substr(0,1)=='x'"> and field3 = :param3 &lt;/if>
+&lt;if isfalse="param3.substr(0,1)=='x'"> and field3 = 'y' &lt;/if>
+order by field3, @param4
 	&lt;/sql>
 	&lt;sql id="sql2">
 	...
@@ -47,7 +49,8 @@ paramPrefix
 dynamicPrefix
 
 <h3>If</h3>
-you can do deffient operation by judging whether a param is existed or not.
+You can do deffient operation by judging whether a param is existed or not, or a javascript formula is true or not.<BR>
+The if tag can be nested.
 
 <h3>Commet</h3>
 You can write comment in several ways.

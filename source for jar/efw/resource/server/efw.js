@@ -136,6 +136,9 @@ function doPost(req) {
 		if (eventInfo==null||eventInfo.from=="file"){
 			eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
 		}
+		if (eventInfo==null){
+			throw EfwServerMessages.prototype.EventIsNotExistsMessage;
+		}
 		if(eventInfo.enable==false){
 			var message=EfwServerMessages.prototype.EventDisableMessage;
 			return JSON.stringify(

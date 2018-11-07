@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Map;
 
+import javax.script.ScriptException;
+
 import efw.efwException;
 import efw.log.LogManager;
 import efw.sql.Sql;
@@ -47,11 +49,11 @@ public final class Database {
      * @throws efwException フレームワークの実行時エラー。
      * @throws SQLException データベースアクセスエラー。
      */
-    public ResultSet executeQuery(String groupId,String sqlId,Map<String,Object> params) throws efwException, SQLException{
+    public ResultSet executeQuery(String groupId,String sqlId,Map<String,Object> params) throws efwException, SQLException, ScriptException{
     	try{
     		Sql sql=SqlManager.get(groupId, sqlId);
     		String sqlString=sql.getSqlString(params);
-    		ArrayList<Object> sqlParams=sql.getSqlParams(params);
+    		ArrayList<Object> sqlParams=sql.getSqlParams();
     		
     	    LogManager.CommDebug("Database.executeQuery sql =" , sqlString);
     	    CallableStatement mStmt = mConn.prepareCall(sqlString);
@@ -63,7 +65,9 @@ public final class Database {
     		throw e;
     	}catch(SQLException e){
     		throw e;
-    	}
+    	} catch (ScriptException e) {
+    		throw e;
+		}
 	}
     /**
      * クエリを閉じる
@@ -95,12 +99,12 @@ public final class Database {
      * @throws efwException フレームワークの実行時エラー。
      * @throws SQLException データベースアクセスエラー。
      */
-    public int executeUpdate(String groupId,String sqlId,Map<String,Object> params) throws efwException, SQLException{
+    public int executeUpdate(String groupId,String sqlId,Map<String,Object> params) throws efwException, SQLException, ScriptException{
     	CallableStatement mStmt=null;
     	try{
         	Sql sql=SqlManager.get(groupId, sqlId);
         	String sqlString=sql.getSqlString(params);
-        	ArrayList<Object> sqlParams=sql.getSqlParams(params);
+        	ArrayList<Object> sqlParams=sql.getSqlParams();
         	
             LogManager.CommDebug("Database.executeUpdate sql =" , sqlString);
             mStmt = mConn.prepareCall(sqlString);
@@ -112,7 +116,9 @@ public final class Database {
     		throw e;
     	}catch(SQLException e){
     		throw e;
-    	}finally{
+    	} catch (ScriptException e) {
+    		throw e;
+		}finally{
     		if(mStmt!=null)mStmt.close();
     	}
     }
@@ -124,12 +130,12 @@ public final class Database {
      * @throws efwException フレームワークの実行時エラー。
      * @throws SQLException データベースアクセスエラー。
      */
-    public void execute(String groupId,String sqlId,Map<String,Object> params) throws efwException, SQLException{
+    public void execute(String groupId,String sqlId,Map<String,Object> params) throws efwException, SQLException, ScriptException{
     	CallableStatement mStmt=null;
     	try{
         	Sql sql=SqlManager.get(groupId, sqlId);
         	String sqlString=sql.getSqlString(params);
-        	ArrayList<Object> sqlParams=sql.getSqlParams(params);
+        	ArrayList<Object> sqlParams=sql.getSqlParams();
             LogManager.CommDebug("Database.execute sql =" , sqlString);
             mStmt = mConn.prepareCall(sqlString);
             setSQLParams(mStmt, sqlParams);
@@ -137,6 +143,8 @@ public final class Database {
     	}catch(efwException e){
     		throw e;
     	}catch(SQLException e){
+    		throw e;
+    	}catch(ScriptException e){
     		throw e;
     	}finally{
     		if(mStmt!=null)mStmt.close();

@@ -20,4 +20,5 @@ EfwServerMessages.prototype = {
 		MaxOverMessage : "{display-name}を{max}以内の{data-type}で入力してください。",
 		NotAcceptMessage : "{display-name}に正しいファイルを選択してください。",
 		EventDisableMessage : "該当イベントは一時無効に設定されました。\n\neventId={eventId}",
+		EventIsNotExistsMessage : "ファイル無しまたはJavaScript語法違反のため、該当イベントをロードできません。",
 	};
