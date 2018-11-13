@@ -92,7 +92,12 @@ EfwServerBRMS.prototype._executeQuery = function(executionParams) {
 		}else if(vl instanceof Array){
 			var aryparams=new java.util.ArrayList();
 			for(var i=0;i<vl.length;i++){
-				aryparams.add(vl[i]);
+				if(typeof(vl[i]) == "number"){
+					aryparams.add(vl[i]*1.0);//change the value to double,because brms only accepts double
+				} else {
+					aryparams.add(vl[i]);
+				}
+				
 			}
 			params.put(key, aryparams);
 		}
