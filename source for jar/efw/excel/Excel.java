@@ -861,7 +861,9 @@ public final class Excel {
 		for(int i=0;i<n;i++) {
 			sheet.removeRow(sheet.getRow(startRow+i));
 		}
-		sheet.shiftRows(startRow+n, sheet.getLastRowNum(), -n);
+		if(sheet.getLastRowNum() >= startRow+n) {
+			sheet.shiftRows(startRow+n, sheet.getLastRowNum(), -n);
+		}
 		// 行を削除後のシートにすべての結合するセルの範囲を再設定
 		for (int i=0;i<originMerged.size();i++) {
 			CellRangeAddress range = originMerged.get(i);
