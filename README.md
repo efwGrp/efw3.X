@@ -1,5 +1,5 @@
 <H1>efw3.X</H1>
-<H2><a href="https://efwgrp.github.io/efw3.X/EFW%E7%B4%B9%E4%BB%8Bv1.2%20(Web)/">EFW紹介v1.2</a></H2>
+<H2><a target="_blank" href="https://efwgrp.github.io/efw3.X/EFW%E7%B4%B9%E4%BB%8Bv1.2%20(Web)/">EFW紹介v1.2</a></H2>
 <a href="help/step_by_step_web.md">Step by Step(Web)</a><br>
 <a href="help/hello_world_web.md">Quick Start(Web)</a><br>
 <a href="help/hello_world_batch.md">Quick Start(Batch TODO)</a><br>
