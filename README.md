@@ -8,24 +8,23 @@
 <H1>API</H1>
 <h2>Properties</h2>
 <a href="help/properties.web.md">efw.properties</a>, <a href="help/properties.batch.md">batch.properties</a>
+<h2>Resources</h2>
+<a href="help/resources.context.md">Context XML(TODO)</a>
 <h2>JSP</h2>
-<li>Efw Tags</li>
 <table>
-<tr><th>Varieties</th><th>tags</th></tr>
+<tr><th>Categories</th><th>Items</th></tr>
 <tr><td>Base Tags</td><td><a href="help/tag.client.md">Client</a></td><td><a href="help/tag.part.md">Part</a></td></tr>
 <tr><td>Additional Tags</td><td><a href="help/tag.elfinder.md">elFinder</a></td><td><a href="help/tag.signature.md">Signature</a></td><td><a href="help/tag.ckeditor.md">CKEditor</a></td><td><a href="help/tag.chart.md">Chart</a></td></tr>
+<tr><td>Functions</td><td><a href="help/api_efw_function.md">Efw</a></td></tr>
+<tr><td>Attributes</td><td><a href="help/api_data_format.md">data-format</a></td><td><a href="help/api_data_shortcut.md">data-shortcut</a></td></tr>
+<tr><td>Barcodes</td><td><a href="help/api_draw_barcode.md">drawServlet</a></td></tr>
 </table>
-<li><a href="help/api_efw_function.md">Efw Function</a></li>
-<li><a href="help/api_data_format.md">data-format Attribute</a></li>
-<li><a href="help/api_data_shortcut.md">data-shortcut Attribute</a></li>
-<li><a href="help/api_draw_barcode.md">To Draw Barcode</a></li>
 <h2>Outside SQL</h2>
-<li><a href="help/api_sql.md">SQL XML</a></li>
+<a href="help/api_sql.md">SQL XML</a>
 <h2>Outside Mail</h2>
-<li><a href="help/api_mail.md">Mail XML</a></li>
+<a href="help/api_mail.md">Mail XML</a>
 <h2>Event JS</h2>
-<li><a href="help/api_event.md">Event Programming</a></li>
-<li><a href="help/api_global.md">About Global Event</a></li>
+<a href="help/api_event.md">Event Programming</a>, <a href="help/api_global.md">About Global Event</a>
 <h3>Global</h3>
 <table>
 <tr><th>Varieties</th><th>Functions</th></tr>
