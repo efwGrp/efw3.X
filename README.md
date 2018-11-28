@@ -20,13 +20,13 @@
 <li><a href="help/api_data_format.md">data-format Attribute</a></li>
 <li><a href="help/api_data_shortcut.md">data-shortcut Attribute</a></li>
 <li><a href="help/api_draw_barcode.md">To Draw Barcode</a></li>
-<h2>Event JS</h2>
-<li><a href="help/api_event.md">Event Programming</a></li>
-<li><a href="help/api_global.md">About Global Event</a></li>
 <h2>Outside SQL</h2>
 <li><a href="help/api_sql.md">SQL XML</a></li>
 <h2>Outside Mail</h2>
 <li><a href="help/api_mail.md">Mail XML</a></li>
+<h2>Event JS</h2>
+<li><a href="help/api_event.md">Event Programming</a></li>
+<li><a href="help/api_global.md">About Global Event</a></li>
 <h3>Global</h3>
 <table>
 <tr><th>Varieties</th><th>Functions</th></tr>
