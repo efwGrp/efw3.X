@@ -1,7 +1,13 @@
 <H1>API</H1>
 
 <h2>JSP</h2>
-<li><a href="api_efw_tag.md">Efw Tags</a></li>
+<li>Efw Tags</li>
+<table>
+<tr><th>Varieties</th><th>tags</th></tr>
+<tr><td>Base Tags</td><td><a href="tag.client.md">Client</a></td><td><a href="tag.part.md">Part</a></td></tr>
+<tr><td>Additional Tags</td><td><a href="tag.elfinder.md">elFinder</a></td><td><a href="tag.signature.md">Signature</a></td><td><a href="tag.ckeditor.md">CKEditor</a></td><td><a href="tag.chart.md">Chart</a></td></tr>
+
+</table>
 <li><a href="api_efw_function.md">Efw Function</a></li>
 <li><a href="api_data_format.md">data-format Attribute</a></li>
 <li><a href="api_data_shortcut.md">data-shortcut Attribute</a></li>
