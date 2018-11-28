@@ -1,5 +1,5 @@
 <H1>Properties File</H1>
-the file /WEB-INF/classes/efw.properties is established to set the framework. If everything is default, it is not needed.
+the file /WEB-INF/classes/batch.properties is established to set the framework.
 <table>
 <tr>
 	<th>Group</th>

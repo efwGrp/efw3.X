@@ -7,7 +7,7 @@
 <a href="help/hello_world_batch.md">Quick Start(Batch TODO)</a>, <a href="help/files_list_batch.md">Files List(Batch TODO)</a>
 <H1>API</H1>
 <h2>Properties</h2>
-<a href="help/properties_web.md">Properties(Web)</a>, <a href="help/properties_batch.md">Properties(Batch)</a>
+<a href="help/properties.web.md">efw.properties</a>, <a href="help/properties.batch.md">batch.properties</a>
 <h2>JSP</h2>
 <li>Efw Tags</li>
 <table>
