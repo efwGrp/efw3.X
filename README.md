@@ -1,46 +1,32 @@
 <H1>efw3.X</H1>
 <h3>Correlation & Function Diagram</h3>
 <img src="./help/framework.png">
-<br>
 <h3>Learn EFW</h3>
-<a href="help/step_by_step_web.md">Step by Step(Web)</a>, <a href="help/hello_world_web.md">Quick Start(Web)</a>, <a href="help/files_list_web.md">Files List(Web)</a><br>
-<a href="https://efwgrp.github.io/efw3.X/EFW%E7%B4%B9%E4%BB%8Bv1.3%20(Web)/">EFW紹介v1.3</a>、<a href="https://efwgrp.github.io/efw3.X/EFW%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0v1.3%20(Web)/">EFWプログラミングv1.3</a><br>
+<a href="help/step_by_step_web.md">Step by Step(Web)</a>, <a href="help/hello_world_web.md">Quick Start(Web)</a>, <a href="help/files_list_web.md">Files List(Web)</a>, <a href="https://efwgrp.github.io/efw3.X/EFW%E7%B4%B9%E4%BB%8Bv1.3%20(Web)/">EFW紹介v1.3</a>, <a href="https://efwgrp.github.io/efw3.X/EFW%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0v1.3%20(Web)/">EFWプログラミングv1.3</a>
 <h3>ToDo</h3>
-<a href="help/hello_world_batch.md">Quick Start(Batch TODO)</a><br>
-<a href="help/files_list_batch.md">Files List(Batch TODO)</a><br>
-
-
-<br>
-
+<a href="help/hello_world_batch.md">Quick Start(Batch TODO)</a>,<a href="help/files_list_batch.md">Files List(Batch TODO)</a>
 <H1>API</H1>
 <h2>Properties</h2>
 <li><a href="help/properties_web.md">Properties(Web)</a></li>
 <li><a href="help/properties_batch.md">Properties(Batch)</a><br></li>
-
 <h2>JSP</h2>
 <li>Efw Tags</li>
 <table>
 <tr><th>Varieties</th><th>tags</th></tr>
 <tr><td>Base Tags</td><td><a href="help/tag.client.md">Client</a></td><td><a href="help/tag.part.md">Part</a></td></tr>
 <tr><td>Additional Tags</td><td><a href="help/tag.elfinder.md">elFinder</a></td><td><a href="help/tag.signature.md">Signature</a></td><td><a href="help/tag.ckeditor.md">CKEditor</a></td><td><a href="help/tag.chart.md">Chart</a></td></tr>
-
 </table>
 <li><a href="help/api_efw_function.md">Efw Function</a></li>
 <li><a href="help/api_data_format.md">data-format Attribute</a></li>
 <li><a href="help/api_data_shortcut.md">data-shortcut Attribute</a></li>
 <li><a href="help/api_draw_barcode.md">To Draw Barcode</a></li>
-
 <h2>Event JS</h2>
 <li><a href="help/api_event.md">Event Programming</a></li>
 <li><a href="help/api_global.md">About Global Event</a></li>
-
-
 <h2>Outside SQL</h2>
 <li><a href="help/api_sql.md">SQL XML</a></li>
 <h2>Outside Mail</h2>
 <li><a href="help/api_mail.md">Mail XML</a></li>
-
-
 <h3>Global</h3>
 <table>
 <tr><th>Varieties</th><th>Functions</th></tr>
@@ -49,7 +35,6 @@
 <tr><td><td><a href="help/file.exists.md">exists</a></td><td><a href="help/file.duplicate.md">duplicate</a></td><td><a href="help/file.rename.md">rename</a></td><td><a href="help/file.remove.md">remove</a></td><td><a href="help/file.makeDir.md">makeDir</a></td></tr>
 <tr><td></td><td><a href="help/file.readAllLines.md">readAllLines</a></td><td><a href="help/file.writeAllLines.md">writeAllLines</a></td><td><a href="help/file.getStorageFolder.md">getStorageFolder</a></td><td><a href="help/file.saveUploadFiles.md">saveUploadFiles</a></td><td><a href="help/file.saveSingleUploadFile.md">saveSingleUploadFile</a></td></tr>
 <tr><td></td><td><a href="help/file.getTempFileName.md">getTempFileName</a></td></tr>
-
 <tr><td>absfile</td><td colspan=5>All APIs are the same as the file object, except that the path param is an absolute one.</td></tr>
 <tr><td>barcode</td><td><a href="help/barcode.decode.md">decode</a></td></tr>
 <tr><td>brms</td><td><a href="help/brms.getRuleById.md">getRuleById</a></td><td><a href="help/brms.getRuleByName.md">getRuleByName</a></td><td><a href="help/brms.getRuleByAlias.md">getRuleByAlias</a></td></tr>
@@ -63,12 +48,10 @@
 <tr><td>{ any }</td><td><a href="help/any.debug.md">debug</a></td><td><a href="help/any.format.md">format</a></td><td><a href="help/any.parse.md">parse</a></td></tr>
 <tr><td>{ Date }</td><td><a href="help/Date.getYears.md">getYears</a></td></tr>
 <tr><td>{ String }</td><td><a href="help/String.base64Encode.md">base64Encode</a></td><td><a href="help/String.base64EncodeURI.md">base64EncodeURI</a></td><td><a href="help/String.base64Decode.md">base64Decode</a></td></tr>
-
 </table>
 <h3>Classes</h3>
 <table>
 <tr><th>Classes</th><th>Functions</th></tr>
-
 <tr><td>Excel</td>
 <td><a href="help/excel.new.md">new</a></td>
 <td><a href="help/excel.save.md">save</a></td>
@@ -107,22 +90,12 @@
 <td><a href="help/excel.getMaxRow.md">getMaxRow</a></td>
 <td><a>getMaxCol</a></td>
 </tr>
-
-
-
-
-
-
-
 <tr><td></td>
-
 <td><a href="help/excel.isEncircled.md">isEncircled</a></td>
 <td><a href="help/excel.encircle.md">encircle</a></td>
 <td><a href="help/excel.addShape.md">addShape</a></td>
 <td><a href="help/excel.addShapeInRange.md">addShapeInRange</a></td>
-
 </tr>
-
 <tr><td>Record</td>
 <td><a href="help/record.new.md">new</a></td>
 </tr>
@@ -169,7 +142,6 @@
 </tr>
 <tr><td></td>
 </tr>
-
 <tr><td>Batch</td>
 <td><a href="help/batch.new.md">new</a></td>
 <td><a href="help/batch.concat.md">concat</a></td>
@@ -179,6 +151,4 @@
 <td><a href="help/batch.echo.md">echo</a></td>
 <td><a href="help/batch.exit.md">exit</a></td>
 </tr>
-
-
 </table>
