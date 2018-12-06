@@ -36,12 +36,13 @@
 <tr><td>event</td><td><a href="help/event.fire.md">fire</a></td></tr>
 <tr><td>db</td><td><a href="help/db.select.md">select</a></td><td><a href="help/db.change.md">change</a></td><td><a href="help/db.master.md">master</a></td></tr>
 <tr><td>mail</td><td><a href="help/mail.send.md">send</a></td></tr>
-<tr><td>pdf</td><td><a href="help/pdf.create.md">create</a></td><td><a href="help/pdf.merge.md">merge</a></td><td><a href="help/pdf.convert.md"><del>convert</del></a></td></tr>
+<tr><td>pdf</td><td><a href="help/pdf.create.md">create</a></td><td><a href="help/pdf.merge.md">merge</a></td></tr>
 <tr><td>properties</td><td><a href="help/properties.get.md">get</a></td></tr>
 <tr><td>session</td><td><a href="help/session.get.md">get</a></td><td><a href="help/session.set.md">set</a></td><td><a href="help/session.create.md">create</a></td><td><a href="help/session.invalidate.md">invalidate</a></td></tr>
 <tr><td>cookie</td><td><a href="help/cookie.get.md">get</a></td><td><a href="help/cookie.set.md">set</a></td></tr>
-<tr><td>{ any }</td><td><a href="help/any.debug.md">debug</a></td><td><a href="help/any.format.md">format</a></td><td><a href="help/any.parse.md">parse</a></td></tr>
-<tr><td>{ Date }</td><td><a href="help/Date.getYears.md">getYears</a></td></tr>
+<tr><td>{ any }</td><td><a href="help/any.debug.md">debug</a></td></tr>
+<tr><td>{ Date }</td><td><a href="help/any.format.md">format</a></td><td><a href="help/any.parse.md">parse</a></td><td><a href="help/Date.getYears.md">getYears</a></td></tr>
+<tr><td>{ Number }</td><td><a href="help/any.format.md">format</a></td><td><a href="help/any.parse.md">parse</a></td></tr>
 <tr><td>{ String }</td><td><a href="help/String.base64Encode.md">base64Encode</a></td><td><a href="help/String.base64EncodeURI.md">base64EncodeURI</a></td><td><a href="help/String.base64Decode.md">base64Decode</a></td></tr>
 </table>
 <h3>Classes</h3>
@@ -67,8 +68,8 @@
 <td><a href="help/excel.hideRow.md">hideRow</a></td>
 </tr>
 <tr><td></td>
-<td><a>addCol</a></td>
-<td><a>delCol</a></td>
+<td></td>
+<td></td>
 <td><a href="help/excel.showCol.md">showCol</a></td>
 <td><a href="help/excel.hideCol.md">hideCol</a></td>
 </tr>
@@ -83,7 +84,6 @@
 <td><a href="help/excel.getSingle.md">getSingle</a></td>
 <td><a href="help/excel.getValue.md">getValue</a></td>
 <td><a href="help/excel.getMaxRow.md">getMaxRow</a></td>
-<td><a>getMaxCol</a></td>
 </tr>
 <tr><td></td>
 <td><a href="help/excel.isEncircled.md">isEncircled</a></td>
@@ -147,3 +147,6 @@
 <td><a href="help/batch.exit.md">exit</a></td>
 </tr>
 </table>
+
+<H3>Javascript API</H3>
+TODO

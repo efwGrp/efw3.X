@@ -36,17 +36,11 @@ It will be called by <a href="db.select.md">db.select</a> or <a href="db.change.
 
 <h3>Param</h3>
 You can define params in SQL just write :param .<br>
-The paramPrefix attribute of sql tag is an option. You can redefine it if ":" is a must char in your sql.
+The <b>paramPrefix</b> attribute of sql tag is an option. You can redefine it if ":" is a must char in your sql.
 
 <h3>Dynamic</h3>
 You can add dynamic sql parts SQL just write @dynamic .<br>
-The dynamicPrefix attribute of sql tag is an option. You can redefine it if "@" is a must char in your sql.
-
-<h3>SQL ID</h3>
-paramPrefix
-
-<h3>SQL ID</h3>
-dynamicPrefix
+The <b>dynamicPrefix</b> attribute of sql tag is an option. You can redefine it if "@" is a must char in your sql.
 
 <h3>If</h3>
 You can do deffient operation by judging whether a param is existed or not, or a javascript formula is true or not.<BR>
