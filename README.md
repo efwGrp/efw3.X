@@ -147,7 +147,7 @@
 <td><a href="help/batch.exit.md">exit</a></td>
 </tr>
 </table>
-<H2>Standard Javascript API ( for reference )</H2>
+<H1>Standard Javascript API ( for reference )</H1>
 Operators<br>
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this">this</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function">function</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new	">new</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void">void</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete">delete</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in">in</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof">instanceof</a><br>
 Statements<br>
