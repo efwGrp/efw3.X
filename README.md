@@ -48,6 +48,17 @@
 <h3>Classes</h3>
 <table>
 <tr><th>Classes</th><th>Functions</th></tr>
+<tr><td>CSVReader</td>
+<td><a href="help/CSVReader.new.md">new</a></td>
+<td><a href="help/CSVReader.readAllLines.md">readAllLines</a></td>
+<td><a href="help/CSVReader.loopAllLines.md">loopAllLines</a></td>
+</tr>
+<tr><td>CSVWriter</td>
+<td><a href="help/CSVReader.new.md">new</a></td>
+<td><a href="help/CSVReader.writeAllLines.md">writeAllLines</a></td>
+<td><a href="help/CSVReader.writeLine.md">writeLine</a></td>
+<td><a href="help/CSVReader.close.md">close</a></td>
+</tr>
 <tr><td>Excel</td>
 <td><a href="help/excel.new.md">new</a></td>
 <td><a href="help/excel.save.md">save</a></td>
