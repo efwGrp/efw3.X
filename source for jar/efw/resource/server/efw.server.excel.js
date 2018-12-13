@@ -26,6 +26,12 @@ Excel.prototype.close = function() {
 	this._workbook.close();
 };
 /**
+ * The inner function to close all handles to free excel files.
+ */
+Excel.prototype._closeAll = function() {
+	Packages.efw.excel.ExcelManager.closeAll();
+};
+/**
  * The inner object to keep the operating workbook.
  */
 Excel.prototype._workbook = null;

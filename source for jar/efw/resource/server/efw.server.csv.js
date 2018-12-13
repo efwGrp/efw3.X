@@ -1,4 +1,4 @@
-/**** efw3.X Copyright 2018 efwGrp ****/
+﻿/**** efw3.X Copyright 2018 efwGrp ****/
 /**
  * The class to read CSV.<br>
  * @param {String}
@@ -68,7 +68,7 @@ CSVReader.prototype.readAllLines = function(){
  * @returns {Array}
  */
 CSVReader.prototype.loopAllLines = function(callback){
-	var br;
+	var br=null;
 	if (callback == null) {return;}
 	try{
 		br = new java.io.BufferedReader(
@@ -195,7 +195,7 @@ CSVReader.prototype._split = function (rowdata) {
 	// submit the last value
 	entry.push(value);value = "";state = 0;
 	return entry;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -216,6 +216,7 @@ function CSVWriter(path, separator, delimiter, encoding) {
 	if (separator != null){this._separator = separator;}
 	if (delimiter != null){this._delimiter = delimiter;}
 	if (encoding != null){this._encoding = encoding;}
+	this._printWriter = Packages.efw.csv.CSVManager.open(path,encoding);
 };
 /**
  * The attr to keep the path.
@@ -241,10 +242,15 @@ CSVWriter.prototype._printWriter = null;
  * The function to close the java writter.
  */
 CSVWriter.prototype.close = function(){
-	if (this._printWriter != null) {
+	try{
 		this._printWriter.close();
-		this._printWriter = null;
-	}
+	}catch(e){}
+};
+/**
+ * The inner function to close the java writter.
+ */
+CSVWriter.prototype._closeAll = function(){
+	Packages.efw.csv.CSVManager.closeAll();
 };
 /**
  * The function to write all lines into the file.
@@ -266,16 +272,6 @@ CSVWriter.prototype.writeAllLines = function(aryLines){
  *            aryLine: required<br>
  */
 CSVWriter.prototype.writeLine = function(aryLine){
-	if (this._printWriter == null) {
-		this._printWriter = new java.io.PrintWriter(
-								new java.io.BufferedWriter(
-									new java.io.OutputStreamWriter(
-										new java.io.FileOutputStream(
-											Packages.efw.file.FileManager.get(this._path),
-											true),
-										this._encoding)));
-	}
-
 	var strLine = this._join(aryLine);
 	this._printWriter.println(strLine);
 };
@@ -289,7 +285,7 @@ CSVWriter.prototype.writeLine = function(aryLine){
 CSVWriter.prototype._join = function(aryLine){
 	var lineValues=[];
 
-	for (i = 0; i < aryLine.length; i++) {
+	for (var i = 0; i < aryLine.length; i++) {
 		var strValue = (aryLine[i] === undefined || aryLine[i] === null) ? '' : aryLine[i].toString();
 
 		if (strValue.indexOf(this._delimiter) > -1) {

@@ -152,3 +152,14 @@ efwClientInputBehavior.prototype.DoFormatBlur = function() {
 		}
 	}
 };
+/**
+ * do behavior not all body but part of it.
+ * @param context
+ */
+efwClientInputBehavior.prototype._do=function(context){
+	$(":text,:password,:radio,:checkbox,select,textarea",context).focus(
+			efwClientInputBehavior.prototype.DoFocus).blur(
+			efwClientInputBehavior.prototype.DoBlur);
+	$("[data-format]",context).focus(efwClientInputBehavior.prototype.DoFormatFocus)
+			.blur(efwClientInputBehavior.prototype.DoFormatBlur);
+};

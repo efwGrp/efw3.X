@@ -290,15 +290,14 @@ EfwServer.prototype.fire = function(event, requestParams) {
 			EfwServerSession.prototype.set("efw.download.saveas", tmpsaveas);
 			EfwServerSession.prototype.set("efw.download.zipBasePath", tmpzipBasePath);
 		}
-		;
 		EfwServerDb.prototype._commitAll();
-		EfwServerDb.prototype._closeAll();
-		Packages.efw.excel.ExcelManager.closeAll();
 		return result;
 	} catch (e) {
 		EfwServerDb.prototype._rollbackAll();
-		EfwServerDb.prototype._closeAll();
-		Packages.efw.excel.ExcelManager.closeAll();
 		throw e;
+	} finally {
+		EfwServerDb.prototype._closeAll();
+		Excel.prototype._closeAll();
+		CSVWriter.prototype._closeAll();
 	}
 };
