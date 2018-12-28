@@ -162,7 +162,13 @@ public final class MailManager {
 			if (body!=null&&!"".equals(body)){
 				message.setContent(body,"text/plain;charset=UTF-8");//text/html;charset=UTF-8
 			}
-			message.setFrom();
+			String from=mail.getFrom(params);
+			if (from!=null&&!"".equals(from)){
+				message.setFrom(new InternetAddress(from));
+			}else{
+				message.setFrom();
+			}
+			
 			Transport.send(message);
 		} catch (AddressException e) {
 			e.printStackTrace();

@@ -182,13 +182,13 @@ CSVReader.prototype._split = function (rowdata) {
 				}
 				// non-compliant data
 				if (m0 === delimiter) {
-					throw new Error('CSVDataError: Illegal Quote]');
+					throw new Error('CSVDataError: Illegal Quote');
 				}
 				// broken parser?
-				throw new Error('CSVDataError: Illegal Data]');
+				throw new Error('CSVDataError: Illegal Data');
 			default:
 				// shenanigans
-				throw new Error('CSVDataError: Unknown State]');
+				throw new Error('CSVDataError: Unknown State');
 		}
 	});
 

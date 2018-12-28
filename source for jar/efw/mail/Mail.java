@@ -51,6 +51,8 @@ public final class Mail {
 					subject= step.getTextContent();
 				}else if (step.getTagName().equals("body")){
 					body= step.getTextContent();
+				}else if (step.getTagName().equals("from")){
+					from= step.getTextContent();
 				}else{
 					String information;
 					try{
@@ -87,7 +89,12 @@ public final class Mail {
 	protected String getBody(Map<String,String> params){
 		return replaceParams(body,params);
 	}
+	private String from;
+	protected String getFrom(Map<String,String> params){
+		return replaceParams(from,params);
+	}
 	private String replaceParams(String data,Map<String,String> params){
+		if (data==null)return null;
 		String temp=data;
 		for(Entry<String, String> e : params.entrySet()) {
 			temp=temp.replaceAll(paramPrefix+e.getKey(), e.getValue());

@@ -95,6 +95,7 @@ loadResource("efw/resource/server/efw.server.barcode.js");
 loadResource("efw/resource/server/efw.server.debug.js");
 loadResource("efw/resource/server/base64.min.js");
 loadResource("efw/resource/server/efw.server.csv.js");
+loadResource("efw/resource/server/efw.server.txt.js");
 /**
  * create instances.
  */
