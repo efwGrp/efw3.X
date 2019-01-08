@@ -103,6 +103,12 @@ public final class PropertiesManager {
 	 */
 	public static final String EFW_LOGIN_CHECK = "efw.login.check";
 	/**
+	 * SSOフラグのプロパティキー。
+	 *  「efw.sso.enable」の定数。
+	 */
+	public static final String EFW_SSO_ENABLE = "efw.sso.enable";
+	
+	/**
 	 * ログインセッション情報のプロパティキー。
 	 *  「efw.login.key」の定数。
 	 */

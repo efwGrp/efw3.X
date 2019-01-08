@@ -19,6 +19,7 @@ import efw.pdf.PdfManager;
 import efw.properties.PropertiesManager;
 import efw.script.ScriptManager;
 import efw.sql.SqlManager;
+import efw.sso.SsoManager;
 
 /**
  * サーブレットアノテーション設定で、起動と同時にフレームワークの初期化を行う。
@@ -182,6 +183,8 @@ public final class efwServlet extends HttpServlet {
     		LogManager.InitCommonDebug("PdfManager.init");
     		RemoteEventManager.init();
     		LogManager.InitCommonDebug("RemoteEventManager.init");
+    		SsoManager.init();
+    		LogManager.InitCommonDebug("SsoManager.init");
     		
 			try{
 				//Besure jar is existed before calling MailManager, or it is error without exception in jar
