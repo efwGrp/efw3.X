@@ -15,8 +15,9 @@ function Excel(path) {
  * @param {String} path: required. <br>
  * The relative path and file name to the storage folder.
  */
-Excel.prototype.save = function(path) {
-	this._workbook.save(path);
+Excel.prototype.save = function(path,password) {
+	if (password==null)password="";
+	this._workbook.save(path,password);
 	return this;
 };
 /**

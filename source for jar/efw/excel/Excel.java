@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,12 @@ import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.openxml4j.opc.PackageAccess;
+import org.apache.poi.poifs.crypt.EncryptionInfo;
+import org.apache.poi.poifs.crypt.EncryptionMode;
+import org.apache.poi.poifs.crypt.Encryptor;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.formula.EvaluationWorkbook;
 import org.apache.poi.ss.formula.FormulaParser;
 import org.apache.poi.ss.formula.FormulaRenderer;
@@ -354,13 +361,20 @@ public final class Excel {
 	/**
 	 * 保存する。
 	 * @param path 保存先のパスファイル名。storageからの相対パス。
+	 * @throws GeneralSecurityException 
+	 * @throws InvalidFormatException 
 	 */
-	public void save(String path){
+	public void save(String path,String password){
 		File fileNewExcel = FileManager.get(path);
 		File filePath=new File(fileNewExcel.getParent());
 		if (!filePath.exists()) {
 			filePath.mkdirs();
 		}
+    	//2003の場合 passwordを設定するやりかた
+    	if (password!=null && !"".equals(password) && this.workbook instanceof HSSFWorkbook){
+    		HSSFWorkbook hwb = (HSSFWorkbook) this.workbook;
+    		hwb.writeProtectWorkbook(password, "");
+    	}
 		FileOutputStream out = null;
         try {
             out = new FileOutputStream(fileNewExcel);
@@ -374,7 +388,44 @@ public final class Excel {
             } catch (IOException e) {
                 System.out.println(e.toString());
             }
-        }		
+        }
+    	//2007の場合
+        if (password!=null && !"".equals(password) && this.workbook instanceof XSSFWorkbook){
+        	POIFSFileSystem pOIFSFileSystem=null;
+        	
+    		FileOutputStream fileOutputStream = null;
+        	try {
+        		pOIFSFileSystem = new POIFSFileSystem();
+            	Encryptor encryptor = (new EncryptionInfo(EncryptionMode.agile)).getEncryptor();
+            	encryptor.confirmPassword(password);
+            	OPCPackage oPCPackage=null;
+            	try{
+                	oPCPackage = OPCPackage.open(fileNewExcel, PackageAccess.READ_WRITE);
+                	oPCPackage.save(encryptor.getDataStream(pOIFSFileSystem));
+            	}finally{
+                	oPCPackage.close();
+            	}
+            	fileOutputStream = new FileOutputStream(fileNewExcel);
+    		    pOIFSFileSystem.writeFilesystem(fileOutputStream);
+        	} catch (InvalidFormatException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (GeneralSecurityException e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+            	try {
+					pOIFSFileSystem.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        }
+    	}
 	}
 	/**
 	 * セルに数字の値を設定する
