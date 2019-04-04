@@ -9,15 +9,37 @@
 /**
 data-format
 <input id="txt_testnumber" type="text" data-format="#,##0.00">
-<input id="txt_testdate" type="text" data-format="yyyy年MM月dd日">
+<input id="txt_testdate" type="text" data-format="yyyy/MM/dd">
 **/
 
 .efw_input_error{
-	background-color:pink;
+	background-color:pink!important;
 }
 .efw_input_focus{
-	background-color:lightcyan;
+	background-color:lightcyan!important;
 }
 .ui-dialog{
 	position:fixed!important;
+}
+
+/**
+To show alert dialog with out title bar for smart phone. 
+**/
+.efw-smartphone-dialog {
+	padding: 0;
+}
+.efw-smartphone-dialog .ui-dialog-titlebar {
+	padding: 0!important;
+	padding-left:5px!important;
+}
+.efw-smartphone-dialog .ui-dialog-titlebar button {
+	display: none;
+}
+.efw-smartphone-dialog .ui-dialog-titlebar {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+.efw-smartphone-dialog .ui-dialog-buttonpane {
+	border-width:0 0 0 0!important;
 }

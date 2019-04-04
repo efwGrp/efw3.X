@@ -349,6 +349,17 @@ public final class FileManager {
 		Files.move(source, source.resolveSibling(newName));
 	}
 	/**
+	 * ファイルまたはフォルダを移動する。
+	 * @param orgFile
+	 * @param newFile
+	 * @throws IOException
+	 */
+	public static void move(File orgFile,File newFile) throws IOException{
+		Path source = Paths.get(orgFile.getAbsolutePath());
+		Path target = Paths.get(newFile.getAbsolutePath());
+		Files.move(source, target);
+	}
+	/**
 	 * からのファイルを作成する。
 	 * @param path
 	 * @throws IOException

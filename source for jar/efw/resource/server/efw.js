@@ -39,18 +39,22 @@ if (typeof this.JSON!="object"){
 /**
  * Add clone function to JSON for deep copy
  */
-JSON.clone = function(obj) {
+JSON.clone = function(obj,execFuncFlag) {
 	if (obj === null || obj === undefined) { // null copy
 		return obj;
 	} else if (typeof obj == "function") { // function executed value
-		return obj();
+		if (execFuncFlag){
+			return obj();
+		}else{
+			return obj;
+		}
 	} else if (typeof obj !== "object") { // simple value copy
 		return obj;
 	}
 	if (obj instanceof Array) { // array deep copy
 		var cloneA = [];
 		for (var i = 0; i < obj.length; i++)
-			cloneA[i] = JSON.clone(obj[i]);
+			cloneA[i] = JSON.clone(obj[i],execFuncFlag);
 		return cloneA;
 	}
 	if (obj instanceof Date) { // date copy
@@ -59,7 +63,7 @@ JSON.clone = function(obj) {
 		var cloneO = {};
 		for ( var key in obj){
 			if (key=="debug") continue;// debug function is skipped
-			cloneO[key] = JSON.clone(obj[key]);
+			cloneO[key] = JSON.clone(obj[key],execFuncFlag);
 		}
 		return cloneO;
 	}
@@ -96,6 +100,7 @@ loadResource("efw/resource/server/efw.server.debug.js");
 loadResource("efw/resource/server/base64.min.js");
 loadResource("efw/resource/server/efw.server.csv.js");
 loadResource("efw/resource/server/efw.server.txt.js");
+loadResource("efw/resource/server/efw.server.threads.js");
 /**
  * create instances.
  */
@@ -150,7 +155,7 @@ function doPost(req) {
 		var event=eventInfo.event;
 		var beginTime = new Date(); // the begin time of event calling
 		if (params == null) {
-			var ret = JSON.stringify(JSON.clone(event.paramsFormat));
+			var ret = JSON.stringify(JSON.clone(event.paramsFormat,true));
 			var endTime = new Date(); // the end time of event first calling
 			EfwServerEvent.prototype._updateStatistics(eventId, "first", beginTime,
 					endTime);

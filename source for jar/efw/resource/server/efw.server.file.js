@@ -242,6 +242,23 @@ EfwServerFile.prototype.rename = function(orgPath,newName){
 	Packages.efw.file.FileManager.rename(fl,newName);
 };
 /**
+ * The function to move a file by relative paths to the storage folder.
+ * @param {String}
+ *            orgPath: required<br>
+ * @param {String}
+ *            newPath: required<br>
+ * @returns {String}
+ */
+EfwServerFile.prototype.move = function(orgPath,newPath){
+	var orgfile = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(orgPath)
+			:Packages.efw.file.FileManager.get(orgPath);
+	var newfile = this.isAbsolutePath
+			?Packages.efw.file.FileManager.getByAbsolutePath(newPath)
+			:Packages.efw.file.FileManager.get(newPath);
+	Packages.efw.file.FileManager.move(orgfile,newfile);
+};
+/**
  * The function to make an empty file by the relative path to the storage folder.
  * @param {String}
  *            path: required<br>

@@ -78,7 +78,16 @@ EfwClient.prototype.fire = function(eventParams) {
  * @param {Function} callback: optional<br>
  */
 EfwClient.prototype.alert = function(message, buttons) {
-	if ($("body").dialog) {
+	var isSmartPhone=false;
+    var ua = navigator.userAgent;
+    if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) {
+    	isSmartPhone=true;//smart phone
+    } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0) {
+    	isSmartPhone=false;//tablet
+    } else {
+        isSmartPhone=false;//pc
+    }
+    if ($("body").dialog) {
 		$("#efw_client_alert").remove();
 		var dialogButtons={};
 		if(buttons){
@@ -99,8 +108,9 @@ EfwClient.prototype.alert = function(message, buttons) {
 		message = message.replace(/\n/g, "<br>");
 		$("#efw_client_alert p").html(message);
 		$("#efw_client_alert").dialog({
+			dialogClass: isSmartPhone?"efw-smartphone-dialog":"",
 			modal : true,
-			width : 500,
+			width : isSmartPhone?"90%":500,
 			title : "Message",
 			buttons : dialogButtons,
 			beforeClose : function(){
@@ -370,29 +380,19 @@ EfwClient.prototype._showValues = function(values) {
 					// you can only set data to the html range of runat
 					// you can not set data both in and out of runat
 					$(withdata_key, $(runat)).each(function() {
-						if ( // set data to value
-						(this.tagName == "INPUT" && this.type == "text")
-								|| (this.tagName == "INPUT" && this.type == "password")
-								|| (this.tagName == "INPUT" && this.type == "button")
-								|| (this.tagName == "INPUT" && this.type == "hidden")
-								|| (this.tagName == "INPUT" && this.type == "file")
-								|| (this.tagName == "TEXTAREA")) {
-							$(this).val(data);
-						} else if (// set data with checked
-						// attribute
-						(this.tagName == "INPUT" && this.type == "checkbox")
-								|| (this.tagName == "INPUT" && this.type == "radio")) {
+						// set data with checked attribute
+						if ((this.tagName == "INPUT" && this.type == "checkbox") || (this.tagName == "INPUT" && this.type == "radio")) {
 							if (withdata[withdata_key] == $(
 									this).val()) {
 								$(this).prop("checked", true);
 							} else {
 								$(this).prop("checked", false);
 							}
-						} else if (this.tagName == "SELECT") {// set
-							// data
-							// with
-							// selected
-							// attribute
+						// set data to value attribute
+						} else if ( this.tagName == "INPUT" || this.tagName == "TEXTAREA") {
+							$(this).val(data);
+						// set data with selected attribute
+						} else if ( this.tagName == "SELECT" ) {
 							var dataAry = ("" + data)
 									.split(",");
 							$("option", $(this)).removeAttr(

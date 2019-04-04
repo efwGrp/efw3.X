@@ -15,29 +15,31 @@ function EfwServerSession() {
  */
 EfwServerSession.prototype.get = function(key) {
 	var value= Packages.efw.efwServlet.getRequest().getSession().getAttribute(key);
-	if (typeof value == "object") {
-		if (value == null) {
-			value = null;
-		} else if (value.getClass().getName() == "java.lang.String") {
-			value = "" + value;
-		} else if (value.getClass().getName() == "java.lang.Boolean") {
-			value = true && value;
-		} else if (value.getClass().getName() == "java.lang.Byte"
-				|| value.getClass().getName() == "java.lang.Short"
-				|| value.getClass().getName() == "java.lang.Integer"
-				|| value.getClass().getName() == "java.lang.Long"
-				|| value.getClass().getName() == "java.lang.Float"
-				|| value.getClass().getName() == "java.lang.Double"
-				|| value.getClass().getName() == "java.math.BigDecimal") {
-			value = 0 + new Number(value);
-		} else if (value.getClass().getName() == "java.sql.Date"
-				|| value.getClass().getName() == "java.sql.Time"
-				|| value.getClass().getName() == "java.sql.Timestamp") {
-			var dt = new Date();
-			dt.setTime(value.getTime());
-			value = dt;
+	try{//if value is javascript object{} or array[],it will be error wthen getclass in 1.7
+		if (typeof value == "object") {
+			if (value == null) {
+				value = null;
+			} else if (value.getClass().getName() == "java.lang.String") {
+				value = "" + value;
+			} else if (value.getClass().getName() == "java.lang.Boolean") {
+				value = true && value;
+			} else if (value.getClass().getName() == "java.lang.Byte"
+					|| value.getClass().getName() == "java.lang.Short"
+					|| value.getClass().getName() == "java.lang.Integer"
+					|| value.getClass().getName() == "java.lang.Long"
+					|| value.getClass().getName() == "java.lang.Float"
+					|| value.getClass().getName() == "java.lang.Double"
+					|| value.getClass().getName() == "java.math.BigDecimal") {
+				value = 0 + new Number(value);
+			} else if (value.getClass().getName() == "java.sql.Date"
+					|| value.getClass().getName() == "java.sql.Time"
+					|| value.getClass().getName() == "java.sql.Timestamp") {
+				var dt = new Date();
+				dt.setTime(value.getTime());
+				value = dt;
+			}
 		}
-	}
+	}catch(e){}
 	return value;
 };
 /**

@@ -80,7 +80,7 @@ CSVReader.prototype.loopAllLines = function(callback){
 		var intNum = 0;
 
 		while ((strLine = br.readLine()) != null) {
-			var aryLine = this._split(strLine);
+			var aryLine = this._split(""+strLine);
 			callback(aryLine, intNum);
 			intNum++;
 		}

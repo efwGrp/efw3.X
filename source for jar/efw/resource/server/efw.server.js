@@ -239,7 +239,7 @@ EfwServer.prototype.checkStyle = function(event, requestParams) {
 	}
 
 	// clone the paramsFormat, if function exists, it will be run.
-	var paramsFormat = JSON.clone(event.paramsFormat);
+	var paramsFormat = JSON.clone(event.paramsFormat,true);
 	var result= _check(requestParams, paramsFormat, "");
 	if (result.actions.alert){
 		return result;
@@ -300,4 +300,150 @@ EfwServer.prototype.fire = function(event, requestParams) {
 		Excel.prototype._closeAll();
 		CSVWriter.prototype._closeAll();
 	}
+};
+
+/**
+ * The function to check a single value.
+ * @param param:
+ * 			The value.
+ * @param paramdef
+ * 			The input check style.
+ * @return error message
+ */
+EfwServer.prototype._checkSingleStyle =function(param,paramdef){
+	function createReturnInfo(param,message,params){
+		if (message!=null){
+			for(var key in params){
+				if (key=="debug") continue;// debug function is skipped
+				message=message.replace(new RegExp("{"+key+"}", "g"), params[key]);
+			}
+			return {
+				value:param,
+				message:message
+			};
+		}else{
+			return {
+				value:param
+			};
+		}
+	}
+
+	// if paramdef is string ,it means validators
+	var validators = {};
+	// split with [;] then split with fist [:] to get
+	var tempAry = paramdef.split(";");
+	for (var i = 0; i < tempAry.length; i++) {
+		var vdtr = tempAry[i];
+		var point = vdtr.indexOf(":");
+		if (point > 0)
+			validators[vdtr.substring(0, point)] = vdtr
+					.substring(point + 1);
+	}
+	// must be inputed
+	var required = validators["required"];
+	// input format for date or number
+	var format = validators["format"];
+	// display name in error message
+	var displayName = validators["display-name"];
+	// input length for string
+	var maxLength = validators["max-length"];
+	var min = validators["min"]; // min value in format define
+	var max = validators["max"]; // max value in format define
+	var accept = validators["accept"]; // file ext name
+	var minv = null; // min value
+	var maxv = null; // max value
+	var value = null; // the value of param
+	if ((param == null || param == "") && required == "true") {
+		// if data is not inputed check required
+		var message = EfwServerMessages.prototype.IsRequiredMessage;
+		return createReturnInfo(param,message,{"display-name":displayName});
+	} else if (param != null && param != "" && format != null
+			&& format != "") {
+		// check format and convert data type
+		var parser = null;
+		var requriedMessage = null;
+		// number #,##0.0
+		if (format.indexOf("#") > -1 || format.indexOf("0") > -1) {
+			parser = EfwServerFormat.prototype.parseNumber;
+			requriedMessage = EfwServerMessages.prototype.NumberIsReuqiredMessage;
+		} else { // date yyyy/MM/dd
+			parser = EfwServerFormat.prototype.parseDate;
+			requriedMessage = EfwServerMessages.prototype.DateIsReuqiredMessage;
+		}
+		try { // check it is number or not
+			value = parser(param, format);
+			param = value;
+			try {
+				minv = parser(min, format);
+			} catch (e) {
+			}
+			try {
+				maxv = parser(max, format);
+			} catch (e) {
+			}
+		} catch (e) {
+			var message = requriedMessage;
+			return createReturnInfo(param,message,{"display-name":displayName});
+		}
+	} else if (param != null && param != "") {
+		// if no format, the data is regraded as string,check maxlength
+		var maxLengthv = new Number(maxLength);
+		if (isNaN(maxLengthv))
+			maxLengthv = null;
+		// check max length
+		if (maxLengthv != null && param.length > maxLengthv) {
+			var message = EfwServerMessages.prototype.MaxLengthOverMessage;
+			return createReturnInfo(param,message,{"display-name":displayName,"max-length":maxLength});
+		}
+		if (accept != null) { // check file ext
+			var exts = accept.split(",");
+			var isAccepted = false;
+			for (var i = 0; i < exts.length; i++) {
+				if (param.substr(param.length - exts[i].length)
+						.toLowerCase() == exts[i].toLowerCase()) {
+					isAccepted = true;
+					break;
+				}
+			}
+			if (!isAccepted) {
+				var message = EfwServerMessages.prototype.NotAcceptMessage;
+				return createReturnInfo(param,message,{"display-name":displayName});
+			}
+		}
+		if (min == null || min == undefined)
+			minv = null;
+		else
+			minv = min;
+		if (max == null || max == undefined)
+			maxv = null;
+		else
+			maxv = max;
+		value = param;
+	}
+
+	if (value != null && value != "") {// check min max
+		var message = null;
+		if (minv != null && maxv != null) {
+			if (value < minv || value > maxv)
+				message = EfwServerMessages.prototype.MinOrMaxOverMessage;
+		} else if (minv != null) {
+			if (value < minv)
+				message = EfwServerMessages.prototype.MinOverMessage;
+		} else if (maxv != null) {
+			if (value > maxv)
+				message = EfwServerMessages.prototype.MaxOverMessage;
+		}
+		if (message != null) {
+			var dataType="";
+			if (value.toFixed){
+				dataType=EfwServerMessages.prototype.NumberType;
+			}else if (value.getTime){
+				dataType=EfwServerMessages.prototype.DateType;
+			}else{
+				dataType=EfwServerMessages.prototype.StringType;
+			}
+			return createReturnInfo(param,message,{"display-name":displayName,"min":min,"max":max,"data-type":dataType});
+		}
+	}
+	return createReturnInfo(param);
 };
