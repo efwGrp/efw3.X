@@ -163,7 +163,7 @@ EfwServerDb.prototype._executeQuery = function(executionParams) {
 		if (null == vl ||(typeof(vl) == "string" && vl == "")){
 			vl = null;
 		}else if (vl.getTime){
-			vl = new java.sql.Date(vl.getTime());
+			vl = new java.sql.Timestamp(vl.getTime());
 		}
 		params.put(key, vl);
 	}
@@ -261,7 +261,7 @@ EfwServerDb.prototype._executeUpdate = function(executionParams) {
 		if (null == vl ||(typeof(vl) == "string" && vl == "")){
 			vl = null;
 		}else if (vl.getTime){
-			vl = new java.sql.Date(vl.getTime());
+			vl = new java.sql.Timestamp(vl.getTime());
 		}
 		params.put(key, vl);
 	}

@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.apache.poi.util.Units.EMU_PER_PIXEL;
+import static org.apache.poi.util.Units.EMU_PER_POINT;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
@@ -588,8 +590,8 @@ public final class Excel {
 		XSSFSheet sheet = ((XSSFWorkbook) (this.workbook)).getSheet(sheetName);
 		XSSFDrawing patriarch = sheet.getDrawingPatriarch();
 		if(patriarch==null) return false;
-    	int checkPointX =(int)(checkpointXRate * cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * XSSFShape.EMU_PER_PIXEL);
-    	int checkPointY = (int)(checkpointYRate * cell.getRow().getHeight() / 20.0D * XSSFShape.EMU_PER_POINT);
+    	int checkPointX =(int)(checkpointXRate * cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * EMU_PER_PIXEL);
+    	int checkPointY = (int)(checkpointYRate * cell.getRow().getHeight() / 20.0D * EMU_PER_POINT);
         List<XSSFShape> shapes=patriarch.getShapes();
         for (XSSFShape shape : shapes) {
             XSSFClientAnchor a = (XSSFClientAnchor)shape.getAnchor();
@@ -671,8 +673,8 @@ public final class Excel {
     			if(patriarch==null) patriarch = sheet.createDrawingPatriarch();
     			XSSFClientAnchor anchor=(XSSFClientAnchor)(Excel.cloneShape(patriarch,(XSSFSimpleShape) templateShape).getAnchor());
 
-    			int cellWidth=(int)(cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * XSSFShape.EMU_PER_PIXEL);
-    		    int cellHeight=(int)(cell.getRow().getHeight() / 20.0D * XSSFShape.EMU_PER_POINT);
+    			int cellWidth=(int)(cell.getSheet().getColumnWidth(cell.getColumnIndex()) / 256 * 8 * EMU_PER_PIXEL);
+    		    int cellHeight=(int)(cell.getRow().getHeight() / 20.0D * EMU_PER_POINT);
     		    double shapeWidth=cellWidth*shapeWidthRate;
     		    double shapeHeight=cellHeight*shapeHeightRate;
     		    
@@ -732,12 +734,12 @@ public final class Excel {
 					}
 				}
     			XSSFClientAnchor anchor=(XSSFClientAnchor)(shape.getAnchor());
-    			int dx1=XSSFShape.EMU_PER_PIXEL*x;
-    			int dy1=XSSFShape.EMU_PER_PIXEL*y;
+    			int dx1=EMU_PER_PIXEL*x;
+    			int dy1=EMU_PER_PIXEL*y;
     			int dx2=0;
     			int dy2=0;
-    			width=width*XSSFShape.EMU_PER_PIXEL;
-    			height=height*XSSFShape.EMU_PER_PIXEL;
+    			width=width*EMU_PER_PIXEL;
+    			height=height*EMU_PER_PIXEL;
     			if(x==0){
     				dx1=anchor.getDx1();
     			}
@@ -811,10 +813,10 @@ public final class Excel {
     			anchor.setRow2(lastCellrow);
     			anchor.setCol1(firstCellcol);
     			anchor.setCol2(lastCellcol);
-    			dx1=dx1*XSSFShape.EMU_PER_PIXEL;
-    			dy1=dy1*XSSFShape.EMU_PER_PIXEL;
-    			dx2=dx2*XSSFShape.EMU_PER_PIXEL;
-    			dy2=dy2*XSSFShape.EMU_PER_PIXEL;
+    			dx1=dx1*EMU_PER_PIXEL;
+    			dy1=dy1*EMU_PER_PIXEL;
+    			dx2=dx2*EMU_PER_PIXEL;
+    			dy2=dy2*EMU_PER_PIXEL;
     			if(dx1==0){
     				dx1=anchor.getDx1();
     			}

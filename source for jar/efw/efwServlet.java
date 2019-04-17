@@ -199,8 +199,8 @@ public final class efwServlet extends HttpServlet {
 				LogManager.InitErrorDebug("MailManager.init");
 				//その他の場合、エラー出力されるので、大丈夫。
 			}
-    		
-    		//init is success
+
+			//init is success
     		initSuccessFlag=true;
             LogManager.InitCommonDebug("efwServlet.init");
 		} catch (efwException e) {

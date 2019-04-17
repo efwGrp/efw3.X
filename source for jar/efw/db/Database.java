@@ -5,8 +5,8 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.Map;
 
 import javax.script.ScriptException;
@@ -217,8 +217,8 @@ public final class Database {
             	if (i>0)bf.append(",");
             	Object vl=prms.get(i);
             	if(vl!=null){
-            		if("java.sql.Date".equals(vl.getClass().getName())){
-                        mStmt.setDate(i+1, (Date)vl);
+            		if("java.sql.Timestamp".equals(vl.getClass().getName())){
+                        mStmt.setTimestamp(i+1, (Timestamp)vl);
             		}else{
                         mStmt.setObject(i+1, vl);
             		}

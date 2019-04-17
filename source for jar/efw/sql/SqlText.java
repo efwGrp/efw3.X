@@ -2,6 +2,8 @@
 package efw.sql;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -63,6 +65,12 @@ final class SqlText {
 		subsql=subsql.replaceAll("(\\"+paramPrefix+"([a-zA-Z_]|[^\\x00-\\x7F])([^\\x00-\\x7F]|[\\w])*)", " ? ");//２バイト文字を認識する
 		
 		ArrayList<String> fds=getDynamicKeys(dynamicPrefix);
+		Collections.sort(fds,new Comparator<String>() {
+		    public int compare(String lhs, String rhs) {
+		        // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		        return lhs.length() > rhs.length() ? -1 : (lhs.length() < rhs.length()) ? 1 : 0;
+		    }});
+
 		for(int i=0;i<fds.size();i++){
 			String fdKey=fds.get(i);
 			subsql=subsql.replace(dynamicPrefix+fdKey, (String)params.get(fdKey));//1つずつ置換する。

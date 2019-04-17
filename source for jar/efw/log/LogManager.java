@@ -19,7 +19,7 @@ public final class LogManager {
 	/**
 	 * ログを作成するオブジェクト。
 	 */
-    private static Logger logger;
+    public static Logger logger;
     /**
      * ログの保存パス。
      * <br>efw.propertiesのefw.logging.pathで設定、
@@ -176,4 +176,5 @@ public final class LogManager {
     public static void log(String value){
     	logger.log(Level.INFO, value);
     }
+    
 }
