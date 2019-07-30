@@ -23,11 +23,11 @@ public final class ExcelManager {
 	 * @throws InvalidFormatException
 	 * @throws IOException
 	 */
-	public static Excel open(String path) throws Exception{
+	public static Excel open(String path,boolean isLarge) throws Exception{
 		if(ExcelManager.excel.get()==null)
 		ExcelManager.excel.set(new HashMap<String,Excel>());
 		try{
-			Excel excel=new Excel(FileManager.get(path));
+			Excel excel=new Excel(FileManager.get(path),isLarge);
 			ExcelManager.excel.get().put(path, excel);
 			return excel;
 		}catch(Exception e){

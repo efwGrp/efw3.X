@@ -7,8 +7,13 @@
  * Even you want to create a new excel file, you must create it from a template file.
  * @author Chang Kejun
  */
-function Excel(path) {
-	this._workbook = Packages.efw.excel.ExcelManager.open(path);
+function Excel(path,isLarge) {
+	if (isLarge){
+		isLarge=true;
+	}else{
+		isLarge=false;
+	}
+	this._workbook = Packages.efw.excel.ExcelManager.open(path,isLarge);
 };
 /**
  * The function to save the excel object to a file.

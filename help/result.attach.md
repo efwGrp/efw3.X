@@ -4,8 +4,12 @@ The attach function is established to download a file or a folder.
 
 <h2>Sample</h2>
 <pre>
-	var result = new Result();
-	result.attach("test.xls");
+	var result1 = (new Result())
+	.attach("test1.xls")
+	.attach("test2.xls");
+	var result2 = (new Result())
+	.attach("temp/test1.xls","temp")
+	.attach("temp/test2.xls","temp");
 </pre>
 
 <h2>API</h2>
@@ -13,10 +17,12 @@ The attach function is established to download a file or a folder.
 <table>
 <tr><th>Calling</th><th>Returning</th></tr>
 <tr><td>Result . attach ( path )</td><td>Result</td></tr>
+<tr><td>Result . attach ( path, zipBasePath )</td><td>Result</td></tr>
 </table>
 
 <table>
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>path</td><td>String</td><td>File or folder path.</td></tr>
+<tr><td>zipBasePath</td><td>String</td><td>The root path of the zip for downloading.</td></tr>
 </table>
 

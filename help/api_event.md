@@ -4,6 +4,12 @@
 //web/WEB-INF/efw/event/myEvent.js
 ////////////////////////////////////////
 var <b>myEvent</b>={};
+myEvent.<b>service</b>={
+	max:10,
+	message:'system is busy,please wait a while',
+	retriable:true,
+	interval:20,
+};
 myEvent.<b>paramsFormat</b> = { 
                                 "#txt_teststring" : "<b>display-name</b>:Test String;<b>max-length</b>:10;",
                                 "#txt_testnumber" : "<b>format</b>:#,##0.00;<b>required</b>:true;<b>display-name</b>:Test Number;<b>min</b>:-10.00;<b>max</b>:1,000.00",
@@ -25,6 +31,44 @@ myEvent.<b>fire</b>         = function ( requestParams ) {
 
 <H3>Event Variable</H3>
 The event variable must be same to the event file name. In the sample, it is "myEvent".
+
+<H3>Service Definition</H3>
+<pre>
+myEvent.service = {
+    max: 10,
+    message:'System busy please wait.',
+    retriable:true,
+    interval:20,
+};
+</pre>
+
+<table>
+<tbody><tr>
+    <th>Parameters</th>
+    <th>Description</th>
+    <th>Attention</th>
+</tr>
+<tr>
+    <td>max</td>
+    <td>The max requests count can be execute at the same time.</td>
+    <td>"max" is requried for events with service definition.</td>
+</tr>
+<tr>
+    <td>message</td>
+    <td>the message when the max requests count is reached.</td>
+    <td>"message" is optional.</td>
+</tr>
+<tr>
+    <td>retriable</td>
+    <td>The event will try to re-execute automatically or not.</td>
+    <td>The default value is false.</td>
+</tr>
+<tr>
+    <td>interval</td>
+    <td>The interval for re-execution.</td>
+    <td>The default value is 30 seconds. "interval" is enable only when "retriable" is true.</td>
+</tr>
+</tbody></table>
 
 <H3>Params Format</H3>
 <pre>myEvent.paramsFormat = {

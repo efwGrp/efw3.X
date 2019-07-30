@@ -43,3 +43,14 @@ To show alert dialog with out title bar for smart phone.
 .efw-smartphone-dialog .ui-dialog-buttonpane {
 	border-width:0 0 0 0!important;
 }
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+#efw_client_wait div {
+	margin-top:20px;
+	color:red;
+	font-size:xx-large;
+	font-weight:bold;
+}

@@ -45,6 +45,8 @@ Threads.prototype.run = function(){
 			try{
 				semaphore.acquire();
 				this._run();
+			}catch(e){
+				java.lang.System.out.println(e);
 			}finally{
 				semaphore.release();
 			}

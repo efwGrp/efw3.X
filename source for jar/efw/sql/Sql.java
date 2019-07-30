@@ -117,13 +117,14 @@ public final class Sql {
 				}
 			}
 		}
-		sqlParams=new ArrayList<Object>();
+		sqlParams.set(new ArrayList<Object>());
+		ArrayList<Object> _sqlParams=sqlParams.get();
         for(int i=0;i<paramKeys.size();i++){
         	String key=paramKeys.get(i);
         	if (params.containsKey(key)){
-        		sqlParams.add(params.get(key));
+        		_sqlParams.add(params.get(key));
         	}else{
-        		sqlParams.add(null);
+        		_sqlParams.add(null);
         	}
         }
 		return bf.toString();		
@@ -133,9 +134,11 @@ public final class Sql {
 	 * もし存在しないパラメータがあったら、nullを代入する。
 	 * @return Sqlパラメータ値の配列。
 	 */
-	private ArrayList<Object> sqlParams;
+	private static ThreadLocal<ArrayList<Object>> sqlParams=new ThreadLocal<ArrayList<Object>>();
 	public ArrayList<Object> getSqlParams(){
-		return sqlParams;
+		ArrayList<Object> ret=sqlParams.get();
+		sqlParams.remove();
+		return ret;
 	}
 	/**
 	 * sqlタグの中に、ifタグにより、分割される部品を格納する。

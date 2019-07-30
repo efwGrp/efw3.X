@@ -15,6 +15,7 @@ import java.util.List;
 
 import static org.apache.poi.util.Units.EMU_PER_PIXEL;
 import static org.apache.poi.util.Units.EMU_PER_POINT;
+
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
@@ -54,6 +55,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFEvaluationWorkbook;
@@ -77,6 +79,10 @@ public final class Excel {
 	 */
 	private File file;
 	/**
+	 * 大きいExcelかどうかのフラグ。
+	 */
+	private boolean isLarge;
+	/**
 	 * ExcelのPOIオブジェクト。
 	 */
 	private Workbook workbook;
@@ -88,7 +94,7 @@ public final class Excel {
 	 * @throws InvalidFormatException 
 	 * @throws EncryptedDocumentException 
 	 */
-	protected Excel(File file) throws EncryptedDocumentException, InvalidFormatException, IOException {
+	protected Excel(File file,boolean isLarge) throws EncryptedDocumentException, InvalidFormatException, IOException {
 		//一時ファイルを作成する。
 		//引数のfileを一時ファイルにコピーする。
 		//一時ファイルでexcelを開く。
@@ -96,7 +102,12 @@ public final class Excel {
 		File tempFile=File.createTempFile("efw", "");
 		FileManager.duplicate(file, tempFile);
 		this.file=tempFile;
-		this.workbook = WorkbookFactory.create(tempFile);
+		this.isLarge=isLarge;
+		if (this.isLarge){
+			this.workbook = new SXSSFWorkbook(new XSSFWorkbook(tempFile));
+		}else{
+			this.workbook = WorkbookFactory.create(tempFile);
+		}
 	}
 	/**
 	 * ExcelのPOIオブジェクトを削除する。

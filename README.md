@@ -163,6 +163,11 @@
 <td><a href="help/batch.echo.md">echo</a></td>
 <td><a href="help/batch.exit.md">exit</a></td>
 </tr>
+<tr><td>Threads</td>
+<td><a href="help/threads.new.md">new</a></td>
+<td><a href="help/threads.add.md">add</a></td>
+<td><a href="help/threads.run.md">run</a></td>
+</tr>
 </table>
 <H1>Standard Javascript API ( for reference )</H1>
 Operators<br>

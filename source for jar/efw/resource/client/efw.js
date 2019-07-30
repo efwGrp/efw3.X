@@ -45,11 +45,10 @@ jQuery.support.cors = true;
  */
 $(function() {
 	window.onhelp = efwClientInputBehavior.prototype.unDohelp;
-	$(document).keydown(efwClientInputBehavior.prototype.DoShortcut);
-	$(":text,:password,:radio,:checkbox,select,textarea").focus(
-			efwClientInputBehavior.prototype.DoFocus).blur(
-			efwClientInputBehavior.prototype.DoBlur);
-	$("[data-format]").focus(efwClientInputBehavior.prototype.DoFormatFocus)
-			.blur(efwClientInputBehavior.prototype.DoFormatBlur);
+	$(document).on("keydown",efwClientInputBehavior.prototype.DoShortcut);
+	$(document).on("focus",":text,:password,:radio,:checkbox,select,textarea",efwClientInputBehavior.prototype.DoFocus);
+	$(document).on("blur",":text,:password,:radio,:checkbox,select,textarea",efwClientInputBehavior.prototype.DoBlur);
+	$(document).on("focus","[data-format]",efwClientInputBehavior.prototype.DoFormatFocus);
+	$(document).on("blur","[data-format]",efwClientInputBehavior.prototype.DoFormatBlur);
 });
 

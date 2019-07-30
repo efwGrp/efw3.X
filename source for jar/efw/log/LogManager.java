@@ -90,7 +90,6 @@ public final class LogManager {
         FileHandler fh;
 		try {
 			fh = new FileHandler(logPath + "/" + logName, logLimit, logNum);
-	        fh.setFormatter(new LogFormatter());
 	        logger.addHandler(fh);
 	        logger.setLevel(level);
 		} catch (SecurityException e) {
@@ -106,21 +105,22 @@ public final class LogManager {
      * @param value ログ内容。
      */
     public static void ErrorDebug(String value) {
-        logger.log(Level.SEVERE, "[EFW.NG]" + value.replaceAll("\n", ""));
+    	//Thread Id is showed for debugging
+        logger.log(Level.SEVERE, "["+ Thread.currentThread().getId()+"][EFW.NG]" + value.replaceAll("\n", ""));
     }
     /**
      * 正常ログを出力する。
      * @param value ログ内容。
      */
     public static void CommDebug(String value) {
-        logger.log(Level.INFO, "[EFW.OK]" + value.replaceAll("\n", ""));
+        logger.log(Level.INFO, "["+ Thread.currentThread().getId()+"][EFW.OK]" + value.replaceAll("\n", ""));
     }
     /**
      * ワーニングログを出力する。
      * @param value ログ内容。
      */
     public static void WarningDebug(String value) {
-        logger.log(Level.WARNING, "[EFW.WARNING]" + value.replaceAll("\n", ""));
+        logger.log(Level.WARNING, "["+ Thread.currentThread().getId()+"][EFW.WARNING]" + value.replaceAll("\n", ""));
     }
     
     /**
@@ -129,7 +129,7 @@ public final class LogManager {
      * @param value2　ログ内容２。
      */
     public static void ErrorDebug(String value1,String value2) {
-        logger.log(Level.SEVERE, "[EFW.NG]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+        logger.log(Level.SEVERE, "["+ Thread.currentThread().getId()+"][EFW.NG]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
     }
     /**
      * 正常ログを出力する。
@@ -137,7 +137,7 @@ public final class LogManager {
      * @param value2　ログ内容２。
      */
     public static void CommDebug(String value1,String value2) {
-        logger.log(Level.INFO, "[EFW.OK]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+        logger.log(Level.INFO, "["+ Thread.currentThread().getId()+"][EFW.OK]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
     }
     /**
      * ワーニングログを出力する。
@@ -145,21 +145,21 @@ public final class LogManager {
      * @param value2　ログ内容２。
      */
     public static void WariningDebug(String value1,String value2) {
-        logger.log(Level.WARNING, "[EFW.WARNING]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+        logger.log(Level.WARNING, "["+ Thread.currentThread().getId()+"][EFW.WARNING]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
     }
     /**
      * 初期化時の正常ログを出力する。
      * @param value ログ内容。
      */
     public static void InitCommonDebug(String value) {
-        logger.log(Level.CONFIG, "[EFW.INI.OK]" + value.replaceAll("\n", ""));
+        logger.log(Level.CONFIG, "["+ Thread.currentThread().getId()+"][EFW.INI.OK]" + value.replaceAll("\n", ""));
     }
     /**
      * 初期化時のエラーログを出力する。
      * @param value ログ内容。
      */
     public static void InitErrorDebug(String value) {
-        logger.log(Level.SEVERE, "[EFW.INI.NG]" + value.replaceAll("\n", ""));
+        logger.log(Level.SEVERE, "["+ Thread.currentThread().getId()+"][EFW.INI.NG]" + value.replaceAll("\n", ""));
     }
     /**
      * 初期化時のエラーログを出力する。
@@ -167,7 +167,7 @@ public final class LogManager {
      * @param value2　ログ内容２。
      */
     public static void InitErrorDebug(String value1,String value2) {
-        logger.log(Level.SEVERE, "[EFW.INI.NG]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
+        logger.log(Level.SEVERE, "["+ Thread.currentThread().getId()+"][EFW.INI.NG]" + value1.replaceAll("\n", "")+" "+value2.replaceAll("\n", ""));
     }
     /**
      * アプリのログを出力する。

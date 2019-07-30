@@ -9,6 +9,7 @@ var EfwClientMessages = function() {
 EfwClientMessages.prototype = {
 	OtherErrorException : "予想外エラーが発生しました。",
 	CommunicationErrorException : "通信エラーが発生しました。リトライしますか。",
+	EventIsBusyException :"該当機能は混雑しています。しばらくお待ちください。",
 	RuntimeErrorException : "実行時エラーが発生しました。\n\neventId={eventId}\nmessage={message}",
 	ParamsFormatErrorException : "イベントのパラメータ定義は正しくありません。\n\neventId={eventId}",
 	ResultValuesErrorException : "描画用のデータは正しくありません。\n\neventId={eventId}",

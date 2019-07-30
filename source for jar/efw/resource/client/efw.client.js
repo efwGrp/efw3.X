@@ -164,6 +164,12 @@ EfwClient.prototype._fire2nd = function(eventId, paramsFormat, manualParams, ser
 			success : function(result) {
 				EfwClient.prototype._consoleLog(
 						"Second calling result", result);
+				//retry when busy
+				if (result.actions.error!=null&&result.actions.error.clientMessageId=="EventIsBusyException"){
+					EfwClient.prototype._removeLoading();
+					EfwClient.prototype._retryAjaxWhenBusy(result.actions.error.params);
+					return;
+				}
 				//show values
 				try {
 					EfwClient.prototype._showValues(result.values);
@@ -631,6 +637,66 @@ EfwClient.prototype._removeLoading = function() {
 	$("#loading").remove();
 };
 
+EfwClient.prototype._retryAjaxWhenBusy = function(service) {
+	var isSmartPhone=false;
+    var ua = navigator.userAgent;
+    if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) {
+    	isSmartPhone=true;//smart phone
+    } else if (ua.indexOf('iPad') > 0 || ua.indexOf('Android') > 0) {
+    	isSmartPhone=false;//tablet
+    } else {
+        isSmartPhone=false;//pc
+    }
+	if (service!=null){
+		if (service.retriable){
+			$("body")
+			.append(
+					"<div id='efw_client_wait' style='display:none;text-align:center'><p></p><div></div></div>");
+		}else{
+			$("body")
+			.append(
+					"<div id='efw_client_wait' style='display:none'><p></p></div>");
+		}
+		if (service.message){
+			$("#efw_client_wait p:eq(0)").html(service.message);
+		}else{
+			$("#efw_client_wait p:eq(0)").html(EfwClientMessages.prototype.EventIsBusyException);	
+		}
+		if (service.retriable){
+			$("#efw_client_wait").dialog({
+				dialogClass: isSmartPhone?"efw-smartphone-dialog no-close":"no-close",
+				modal : true,
+				width : isSmartPhone?"90%":500,
+				title : "Message"
+			});
+			var countdown=30;
+			if (service.interval)countdown=service.interval;
+			$("#efw_client_wait div").html(countdown);
+			var timerhandle=null;
+			timerhandle=window.setInterval(function(){
+				countdown--;
+				$("#efw_client_wait div").html(countdown);
+				if (countdown==0){
+					window.clearInterval(timerhandle);
+					$("#efw_client_wait").dialog("close").remove();
+					EfwClient.prototype._displayLoading();
+					$.ajax(EfwClient.prototype._options);
+				}
+			},1000);
+			
+		}else{
+			$("#efw_client_wait").dialog({
+				dialogClass: isSmartPhone?"efw-smartphone-dialog":"",
+				modal : true,
+				buttons :{
+					"OK":function(){$("#efw_client_wait").dialog("close").remove();}
+				},
+				width : isSmartPhone?"90%":500,
+				title : "Message",
+			});
+		}
+	}
+};
 
 EfwClient.prototype._retryAjax = function() {
 	EfwClient.prototype.alert(EfwClientMessages.prototype.CommunicationErrorException,{"OK":"$.ajax(EfwClient.prototype._options)","Cancel":""});
