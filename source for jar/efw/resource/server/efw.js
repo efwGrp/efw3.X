@@ -19,23 +19,64 @@
  */
 //var _engine;// Mozilla Rhino 1.7 / Oracle Nashorn 1.8
 
-// /////////////////////////////////////////////////////////////////////////////
-// The customization to javax.script
-// /////////////////////////////////////////////////////////////////////////////
 /**
- * To add something into global scope.
+ * The global function to load application javascript file.
+ */
+function loadFile(filename) {
+	if(!Efw.prototype._publicJsFiles.hasOwnProperty(filename)){
+		_engine.eval(Packages.efw.script.ScriptManager.loadFile(filename));
+		Efw.prototype._publicJsFiles[filename]={
+			"from":"file",
+			"filename":filename
+		};
+	}else if (_isdebug){
+		_engine.eval(Packages.efw.script.ScriptManager.loadFile(filename));
+	}
+}
+///////////////////////////////////////////////////////////////////////////////
+//The class of efw
+///////////////////////////////////////////////////////////////////////////////
+/**
+ * The Efw class
+ */
+function Efw() {
+};
+/**
+ * The object to keep files.
+ */
+Efw.prototype._publicJsFiles = {};
+/**
+ * To show global info for debug.
+ */
+Efw.prototype.printGlobal = function(){
+	var g = Function('return this')();
+	for(var i in g){
+		if (i!="debug"){
+			java.lang.System.out.println("GLOBAL."+i);
+		}
+	}
+};
+/**
+ * To add something into global scope from resource
  * The functions for clearing the difference of Nashorn 1.8 and Rhino 1.7 1.6
  */
-function loadResource(filename) {
+Efw.prototype.loadResource = function(filename) {
 	_engine.eval(Packages.efw.script.ScriptManager.loadResource(filename));
-}
-function loadFile(filename) {
-	_engine.eval(Packages.efw.script.ScriptManager.loadFile(filename));
-}
+	Efw.prototype._publicJsFiles[filename]={
+			"from":"resource",
+			"filename":filename
+		};
+};
+///////////////////////////////////////////////////////////////////////////////
+//The classes of the framework
+///////////////////////////////////////////////////////////////////////////////
+/**
+* To add something into global scope from file
+* The functions for clearing the difference of Nashorn 1.8 and Rhino 1.7 1.6
+*/
 if (typeof this.JSON!="object"){
-	loadResource("efw/script/json2.min.js");
+	Efw.prototype.loadResource("efw/script/json2.min.js");
 }
-
 /**
  * Add clone function to JSON for deep copy
  */
@@ -68,42 +109,35 @@ JSON.clone = function(obj,execFuncFlag) {
 		return cloneO;
 	}
 };
-// /////////////////////////////////////////////////////////////////////////////
-// The classes of the framework
-// /////////////////////////////////////////////////////////////////////////////
-/**
- * The Efw class
- */
-function Efw() {
-};
 /**
  * Load all classes
  */
-loadResource("efw/resource/server/efw.server.messages.js");
-loadResource("efw/resource/server/efw.server.js");
-loadResource("efw/resource/server/efw.server.format.js");
-loadResource("efw/resource/server/efw.server.properties.js");
-loadResource("efw/resource/server/efw.server.session.js");
-loadResource("efw/resource/server/efw.server.db.js");
-loadResource("efw/resource/server/efw.server.event.js");
-loadResource("efw/resource/server/efw.server.file.js");
-loadResource("efw/resource/server/efw.server.brms.js");
-loadResource("efw/resource/server/efw.server.pdf.js");
-loadResource("efw/resource/server/efw.server.mail.js");
-loadResource("efw/resource/server/efw.server.record.js");
-loadResource("efw/resource/server/efw.server.result.js");
-loadResource("efw/resource/server/efw.server.excel.js");
-loadResource("efw/resource/server/efw.server.batch.js");
-loadResource("efw/resource/server/efw.server.cookie.js");
-loadResource("efw/resource/server/efw.server.barcode.js");
-loadResource("efw/resource/server/efw.server.debug.js");
-loadResource("efw/resource/server/base64.min.js");
-loadResource("efw/resource/server/efw.server.csv.js");
-loadResource("efw/resource/server/efw.server.txt.js");
-loadResource("efw/resource/server/efw.server.threads.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.messages.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.format.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.properties.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.session.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.db.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.event.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.file.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.brms.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.pdf.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.mail.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.record.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.result.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.excel.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.batch.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.cookie.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.barcode.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.debug.js");
+Efw.prototype.loadResource("efw/resource/server/base64.min.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.csv.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.txt.js");
+Efw.prototype.loadResource("efw/resource/server/efw.server.threads.js");
 /**
  * create instances.
  */
+var efw = new Efw();
 var properties = new EfwServerProperties();
 var session = new EfwServerSession();
 var db = new EfwServerDb();
@@ -124,7 +158,7 @@ var barcode =new EfwServerBarcode();
  * Run global event.
  */
 if (EfwServerEvent.prototype._loadFromFile("global") != null)
-	EfwServer.prototype.fire(EfwServerEvent.prototype._loadFromFile("global").event);
+	EfwServer.prototype.fire(EfwServerEvent.prototype._events["global"].event);
 // /////////////////////////////////////////////////////////////////////////////
 /**
  * The ajax service function<br>
@@ -138,6 +172,8 @@ function doPost(req) {
 	var reqJson = JSON.parse(req); // parse request string to json object
 	var eventId = reqJson.eventId; // get eventId from json object
 	var params = reqJson.params; // get params from json object
+	var semaphore = null;// the semmaphore to control event maxrequests
+	var semaphoreNeedRelease=false;// the flag about semmaphore release
 	try{
 		var eventInfo=EfwServerEvent.prototype._events[eventId];// to load or get a event
 		if (eventInfo==null||eventInfo.from=="file"){
@@ -146,19 +182,12 @@ function doPost(req) {
 		if (eventInfo==null){
 			throw EfwServerMessages.prototype.EventIsNotExistsMessage;
 		}
-		if(eventInfo.enable==false){
-			var message=EfwServerMessages.prototype.EventDisableMessage;
-			return JSON.stringify(
-					(new Result())
-					.alert(message,{"eventId":eventId}));
-		}
 		var event=eventInfo.event;
-		var beginTime = new Date(); // the begin time of event calling
+		var service=eventInfo.service;
+		semaphore=eventInfo.semaphore;
+		semaphoreNeedRelease=false;
 		if (params == null) {
 			var ret = JSON.stringify(JSON.clone(event.paramsFormat,true));
-			var endTime = new Date(); // the end time of event first calling
-			EfwServerEvent.prototype._updateStatistics(eventId, "first", beginTime,
-					endTime);
 			return ret;
 		} else {
 			//login check
@@ -167,16 +196,16 @@ function doPost(req) {
 				// auth check
 				ret = EfwServer.prototype.checkAuth(eventId);
 				if (ret == null){
-					var fireFlag = "error"; // the second calling is error
 					ret = EfwServer.prototype.checkStyle(event, params);
-					try {
-						if (ret == null)
+					if (ret == null){
+						if (semaphore==null){
 							ret = EfwServer.prototype.fire(event, params);
-						fireFlag = "second"; // the second calling is success
-					} finally {
-						var endTime = new Date(); // the end time of event second calling
-						EfwServerEvent.prototype._updateStatistics(eventId, fireFlag,
-								beginTime, endTime);
+						}else if(semaphore.tryAcquire()){
+							semaphoreNeedRelease=true;
+							ret = EfwServer.prototype.fire(event, params);
+						}else{
+							ret=(new Result()).error("EventIsBusyException",service);
+						}
 					}
 				} 
 			}
@@ -195,6 +224,9 @@ function doPost(req) {
 		}
 		return JSON.stringify(result);
 	}finally{
+		if(semaphoreNeedRelease){
+			semaphore.release();
+		}
 		//remove all uploaded files when event over
 		Packages.efw.file.FileManager.removeUploadFiles();
 	}
