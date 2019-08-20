@@ -77,7 +77,7 @@ EfwClient.prototype.fire = function(eventParams) {
  * @param {String} message: required<br>
  * @param {Function} callback: optional<br>
  */
-EfwClient.prototype.alert = function(message, buttons) {
+EfwClient.prototype.alert = function(message, buttons, title) {
 	var isSmartPhone=false;
     var ua = navigator.userAgent;
     if (ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0 && ua.indexOf('Mobile') > 0) {
@@ -111,7 +111,7 @@ EfwClient.prototype.alert = function(message, buttons) {
 			dialogClass: isSmartPhone?"efw-smartphone-dialog":"",
 			modal : true,
 			width : isSmartPhone?"90%":500,
-			title : "Message",
+			title : title==null?"Message":title,
 			buttons : dialogButtons,
 			beforeClose : function(){
 				EfwClient_showActions_MsgClosed=true;
@@ -546,7 +546,7 @@ EfwClient.prototype._showActions = function(actions) {
 		EfwClient.prototype.alert(message, actions.confirm.buttons);
 	}else if (actions.alert){
 		EfwClient_showActions_MsgClosed=false;
-		EfwClient.prototype.alert(actions.alert.join("\n"));
+		EfwClient.prototype.alert(actions.alert.join("\n"),actions.alertTitle);
 	}else{
 		EfwClient_showActions_MsgClosed=true;
 	}

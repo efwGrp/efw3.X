@@ -313,25 +313,27 @@ public final class FileManager {
 	/**
 	 * テキストファイルを読み取る。文字コードは自動判断する。
 	 * @param f
+	 * @param encoding
 	 * @return
 	 * @throws IOException
 	 */
-	public static String readAllLines(File f) throws IOException{
-		UniversalDetector detector = new UniversalDetector(null);
-		String encoding;
-		FileInputStream in=new FileInputStream(f);
-		ByteArrayOutputStream bao = new ByteArrayOutputStream();
-		byte[] buff = new byte[8000];
-		int bytesRead;
-        while ((bytesRead = in.read(buff)) != -1) {
-            bao.write(buff, 0, bytesRead);
-        }
-        in.close();
-        byte[] data = bao.toByteArray();
-        detector.handleData(data, 0, data.length);
-        detector.dataEnd();
-        encoding = detector.getDetectedCharset();
-        detector.reset();
+	public static String readAllLines(File f,String encoding) throws IOException{
+		if (encoding==null){
+			UniversalDetector detector = new UniversalDetector(null);
+			FileInputStream in=new FileInputStream(f);
+			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+			byte[] buff = new byte[8000];
+			int bytesRead;
+	        while ((bytesRead = in.read(buff)) != -1) {
+	            bao.write(buff, 0, bytesRead);
+	        }
+	        in.close();
+	        byte[] data = bao.toByteArray();
+	        detector.handleData(data, 0, data.length);
+	        detector.dataEnd();
+	        encoding = detector.getDetectedCharset();
+	        detector.reset();
+		}
         if(encoding!=null){
             return new String(Files.readAllBytes(Paths.get(f.getAbsolutePath())), Charset.forName(encoding));
         }else{

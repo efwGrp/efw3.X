@@ -252,13 +252,23 @@ Result.prototype.deleteAfterDownload = function() {
  * 
  * @param {String |
  *            Array} message: required<br>
+ * @param {String} title: optional<br>
  * @param {Object}
  *            params: optional<br>
  * @returns {Result}
  */
-Result.prototype.alert = function(message, params) {
+Result.prototype.alert = function(message, title, params) {
 	if (!this.actions.alert)
 		this.actions.alert = [];
+	
+	if (typeof(title)=="object"){
+		params=title;
+		title=null;
+	}
+	
+	if (!this.actions.alertTitle)
+		this.actions.alertTitle = title;
+	
 	if (message instanceof Array) {
 		this.actions.alert = this.actions.alert.concat(message);
 	} else {

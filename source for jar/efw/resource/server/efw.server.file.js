@@ -219,13 +219,16 @@ EfwServerFile.prototype.makeDir = function(path) {
  * The function to read all from a text file with auto charset checking.
  * @param {String}
  *            path: required<br>
+ * @param {String}
+ *            encoding: optional<br>
  * @returns {String}
  */
-EfwServerFile.prototype.readAllLines = function(path){
+EfwServerFile.prototype.readAllLines = function(path, encoding){
 	var fl = this.isAbsolutePath
 			?Packages.efw.file.FileManager.getByAbsolutePath(path)
 			:Packages.efw.file.FileManager.get(path);
-	return ""+Packages.efw.file.FileManager.readAllLines(fl);
+	if (encoding==null||encoding=="")encoding=null;
+	return ""+Packages.efw.file.FileManager.readAllLines(fl,encoding);
 };
 /**
  * The function to rename a file by relative paths to the storage folder.

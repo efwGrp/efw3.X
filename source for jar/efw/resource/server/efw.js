@@ -250,7 +250,10 @@ function doBatch(req) {
 			eventInfo=EfwServerEvent.prototype._loadFromFile(eventId);
 		}
 		var event=eventInfo.event;
-		var ret = EfwServer.prototype.fire(event, params);
+		var ret = EfwServer.prototype.checkStyle(event, params);
+		if (ret == null){
+			ret = EfwServer.prototype.fire(event, params);
+		}
 		// if it is null, return blank array to client as a success
 		if (ret == null) ret=new Result();
 		// change data to string and return it to client

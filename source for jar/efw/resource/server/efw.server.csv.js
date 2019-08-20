@@ -51,7 +51,7 @@ CSVReader.prototype._match = null;
  * @returns {Array}
  */
 CSVReader.prototype.readAllLines = function(){
-	var aryLinesTemp = file.readAllLines(this._path).split("\n");
+	var aryLinesTemp = file.readAllLines(this._path,this._encoding).split("\n");
 	var aryLines = [];
 
 	for (var i = 0; i < aryLinesTemp.length; i++) {

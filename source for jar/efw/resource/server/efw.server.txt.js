@@ -7,12 +7,15 @@
  *			regFieldsDef: required<br>
  * @param {String}
  *			encoding: optional<br>
+ * @param {Number}
+ *			rowSize: optional<br>
  * @author Liu Xinyu
  */
-function TXTReader(path, regFieldsDef, encoding) {
+function TXTReader(path, regFieldsDef, encoding, rowSize) {
 	this._path = path;
 	this._regFieldsDef = regFieldsDef;
 	if (encoding != null){this._encoding = encoding;}
+	if (rowSize != null){this._rowSize = rowSize;}
 };
 /**
  * The attr to keep the path.
@@ -27,18 +30,20 @@ TXTReader.prototype._regFieldsDef = null;
  */
 TXTReader.prototype._encoding = "UTF-8";
 /**
+ * The attr to keep the rowSize.
+ */
+TXTReader.prototype._rowSize = -1;
+/**
  * The function to read all lines into a matrix of arrays.
  * 
  * @returns {Array}
  */
 TXTReader.prototype.readAllLines = function(){
-	var aryLinesTemp = file.readAllLines(this._path).split("\n");
 	var aryLines = [];
-
-	for (var i = 0; i < aryLinesTemp.length; i++) {
-		aryLines.push(this._split(aryLinesTemp[i]));
+	this.loopAllLines(callback);
+	function callback(aryField,intNum){
+		aryLines.push(aryField);
 	}
-
 	return aryLines;
 };
 /**
@@ -52,19 +57,76 @@ TXTReader.prototype.loopAllLines = function(callback){
 	var br=null;
 	if (callback == null) {return;}
 	try{
-		br = new java.io.BufferedReader(
-					new java.io.InputStreamReader(
-						new java.io.FileInputStream(
-							Packages.efw.file.FileManager.get(this._path)),
-							this._encoding));
 		var strLine;
 		var intNum = 0;
-
-		while ((strLine = br.readLine()) != null) {
-			var aryField = this._split(strLine);
-
-			callback(aryField, intNum);
-			intNum++;
+		if (this._rowSize==-1){
+			br = new java.io.BufferedReader(
+						new java.io.InputStreamReader(
+							new java.io.FileInputStream(
+								Packages.efw.file.FileManager.get(this._path)),
+								this._encoding));
+			while ((strLine = br.readLine()) != null) {
+				var aryField = this._split(strLine);
+				callback(aryField, intNum);
+				intNum++;
+			}
+		}else{
+			br = new java.io.FileInputStream(Packages.efw.file.FileManager.get(this._path));
+			var buf=java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, this._rowSize);//ファイルから読み込むバファー
+			var bufs=[];//IBMCp930Cp939用サブバファー
+			var c;
+			while ((c=br.read(buf)) != -1) {
+				strLine="";
+				if (this._encoding=="IBMCp930Cp939"){
+					var fromP=0;
+					for(var i=0;i<c;i++){
+						if (buf[i]==14){//Shift In
+							if (fromP<i){
+								if (bufs[fromP]==null){
+									bufs[fromP]=[];
+								}
+								if(bufs[fromP][i]==null){
+									var temp=java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, i-fromP);
+									bufs[fromP][i]=temp;
+								}
+								java.lang.System.arraycopy(buf, fromP, bufs[fromP][i], 0, i-fromP);
+								strLine+=new java.lang.String(bufs[fromP][i],"Cp930");//英数字と半角カナ
+								fromP=i;
+								
+							}
+						}else if(buf[i]==15){//Shift Out
+							if (bufs[fromP]==null){
+								bufs[fromP]=[];
+							}
+							if(bufs[fromP][i]==null){
+								var temp=java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, i-fromP+1);
+								bufs[fromP][i]=temp;
+							}
+							java.lang.System.arraycopy(buf, fromP, bufs[fromP][i], 0, i-fromP+1);
+							strLine+=new java.lang.String(bufs[fromP][i],"Cp939");//２byte漢字
+							fromP=i+1;
+						}
+					}
+					if (fromP<c){
+						if (bufs[fromP]==null){
+							bufs[fromP]=[];
+						}
+						if(bufs[fromP][c]==null){
+							var temp=java.lang.reflect.Array.newInstance(java.lang.Byte.TYPE, c-fromP);
+							bufs[fromP][c]=temp;
+						}
+						java.lang.System.arraycopy(buf, fromP, bufs[fromP][c], 0, c-fromP);
+						strLine+=new java.lang.String(bufs[fromP][c],"Cp930");//英数字と半角カナ
+						
+					}
+				}else{
+					strLine=""+new java.lang.String(buf,this._encoding);
+				}
+				var aryField = this._split(strLine);
+				callback(aryField, intNum);
+				intNum++;
+			}
+			
 		}
 	}finally{
 		try{

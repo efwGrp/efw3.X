@@ -79,7 +79,7 @@ EfwClientChart.prototype.draw=function(){
 	this.options={
 		legend:{position:legender},
 		title:$("#"+this.dataId+" caption").html(),
-		hAxis:{title: $("#"+this.dataId+" td,th:eq(0)").html()},
+		hAxis:{title: $("td,th",$("#"+this.dataId)).eq(0).html()},
 		vAxis:{},
 	};
 	if (colors.length>0){

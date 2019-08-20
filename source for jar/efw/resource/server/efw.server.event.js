@@ -93,7 +93,7 @@ EfwServerEvent.prototype._loadFromFile = function(eventId) {
 	Event_lock.lock();
 	try {
 		//if the event hasnot be loaded, load it.
-		if(!EfwServerEvent.prototype._events.hasOwnProperty(eventId)){
+		if(EfwServerEvent.prototype._events[eventId]==null){
 			if ("global"==eventId){
 				_engine.eval(Packages.efw.script.ScriptManager.loadFile(_eventfolder + "/" + eventId + ".js"));
 				EfwServerEvent.prototype._events[eventId] = {
