@@ -5,7 +5,7 @@ The setSheetOrder function is established to move a sheet's position.
 <h2>Sample</h2>
 <pre>
 	var excel = new Excel("test.xlsx");
-	excel.createSheet("newSheet").setSheetOrder(1);
+	excel.createSheet("newSheet").setSheetOrder("newSheet", 1);
 </pre>
 
 <h2>API</h2>
