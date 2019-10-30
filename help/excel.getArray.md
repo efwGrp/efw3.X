@@ -42,9 +42,9 @@ The getArray function is established to get several fields as an array from one 
 <table>
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>sheetName</td><td>String</td><td>The sheet name.</td></tr>
-<tr><td>startRow</td><td>Number</td><td>The start row for looping at the sheet.</td></tr>
+<tr><td>startRow</td><td>Number</td><td>The start row for looping at the sheet. Indexed from 1.</td></tr>
 <tr><td>endCondition</td><td>Number | Function</td><td>The end condition for looping at the sheet. 
-It is a number or a function.
+It is a number or a function.  Indexed from 1.
 <pre>function ( row ) {return true;}</pre>
 </td></tr>
 <tr><td>positionRowMaps</td><td>Object | Array</td><td>
