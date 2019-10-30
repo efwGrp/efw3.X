@@ -22,5 +22,5 @@ The addRow function is established to add rows in a sheet.
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>sheetName</td><td>String</td><td>The sheet name.</td></tr>
 <tr><td>startRow</td><td>Number</td><td>The row index where new rows will be added before it.</td></tr>
-<tr><td>n</td><td>String</td><td>The blank row count to be added. The default value is 1.</td></tr>
+<tr><td>n</td><td>Number</td><td>The blank row count to be added. The default value is 1.</td></tr>
 </table>
