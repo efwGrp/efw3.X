@@ -5,7 +5,7 @@ The showRow function is established to show rows in a sheet.
 <h2>Sample</h2>
 <pre>
 	var excel = new Excel("test.xlsx");
-	excel.showRow("mySheet,2,4);
+	excel.showRow("mySheet",2,4);
 </pre>
 
 <h2>API</h2>
