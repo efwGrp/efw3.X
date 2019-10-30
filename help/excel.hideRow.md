@@ -5,7 +5,7 @@ The hideRow function is established to hide rows in a sheet.
 <h2>Sample</h2>
 <pre>
 	var excel = new Excel("test.xlsx");
-	excel.hideRow("mySheet,2,4);
+	excel.hideRow("mySheet",2,4);
 </pre>
 
 <h2>API</h2>
