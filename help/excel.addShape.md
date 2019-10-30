@@ -6,10 +6,10 @@ The addShape function is established to create a shape by coping to encircle a c
 <pre>
 	var excel = new Excel("test.xlsx");
 	excel.createSheet("newSheet")
-	.addShape("newSheet,"A1","templateSheet","shapeName")
-	.addShape("newSheet,"A1","templateSheet","shapeName","text")
-	.addShape("newSheet,"A1","templateSheet","shapeName","text",90,30)
-	.addShape("newSheet,"A1","templateSheet","shapeName","text",90,30,40,40);	// To create a shape not including line by copying templateSheet's
+	.addShape("newSheet","A1","templateSheet","shapeName")
+	.addShape("newSheet","A1","templateSheet","shapeName","text")
+	.addShape("newSheet","A1","templateSheet","shapeName","text",90,30)
+	.addShape("newSheet","A1","templateSheet","shapeName","text",90,30,40,40);	// To create a shape not including line by copying templateSheet's
 </pre>
 
 <h2>API</h2>
