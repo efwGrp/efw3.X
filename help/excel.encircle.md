@@ -1,6 +1,6 @@
 <H1>Excel.encircle</H1>
 
-The encircle function is established to create a shape by coping to encircle a cell.
+The encircle function is established to create a shape by coping to encircle a cell. Only XSSF(xlsx,xlsm).
 
 <h2>Sample</h2>
 <pre>
