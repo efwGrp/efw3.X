@@ -22,5 +22,5 @@ The delRow function is established to delete rows in a sheet.
 <tr><th>Parameters</th><th>Type</th><th>Description</th></tr>
 <tr><td>sheetName</td><td>String</td><td>The sheet name.</td></tr>
 <tr><td>startRow</td><td>Number</td><td>The row index where rows will be deleted from it.</td></tr>
-<tr><td>n</td><td>String</td><td>The row count to be deleted. The default value is 1.</td></tr>
+<tr><td>n</td><td>Number</td><td>The row count to be deleted. The default value is 1.</td></tr>
 </table>
