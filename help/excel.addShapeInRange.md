@@ -1,6 +1,6 @@
 <H1>Excel.addShapeInRange</H1>
 
-The addShapeInRange function is established to create a shape by coping to encircle cell range.
+The addShapeInRange function is established to create a shape by coping to encircle cell range. Only XSSF(xlsx,xlsm).
 
 <h2>Sample</h2>
 <pre>
