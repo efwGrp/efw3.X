@@ -1,6 +1,6 @@
 <H1>Excel.addShape</H1>
 
-The addShape function is established to create a shape by coping to encircle a cell.
+The addShape function is established to create a shape by coping to encircle a cell. Only XSSF(xlsx,xlsm).
 
 <h2>Sample</h2>
 <pre>
