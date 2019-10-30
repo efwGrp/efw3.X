@@ -1,6 +1,6 @@
 <H1>Excel.isEncircled</H1>
 
-The isEncircled function is established to judge whether a point is encircled by a shape or not.
+The isEncircled function is established to judge whether a point is encircled by a shape or not. Only XSSF(xlsx,xlsm).
 
 <h2>Sample</h2>
 <pre>
