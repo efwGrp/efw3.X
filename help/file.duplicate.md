@@ -1,7 +1,7 @@
 <H1>file.duplicate</H1>
 
 The duplicate function is established to make a copy of a file or folder.
-If the destination is existed, it will be overwritted.
+If the destination is existed, it will NOT be overwritted.
 <h2>Sample</h2>
 <pre>
 	file.duplicate("myFile.txt","yourFile.txt");
