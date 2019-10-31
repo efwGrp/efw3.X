@@ -1,6 +1,6 @@
 <H1>file.makeFile</H1>
 
-The makeFile function is established to create a blank file.
+The makeFile function is established to create a blank file. If the file is existed, it will do NOTHING.
 
 <h2>Sample</h2>
 <pre>
