@@ -1,6 +1,6 @@
 <H1>file.makeDir</H1>
 
-The makeDir function is established to create a folder.
+The makeDir function is established to create a folder. If the folder is existed, it will do NOTHING.
 
 <h2>Sample</h2>
 <pre>
